@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
+import { Navbar } from './components';
+import News from './pages/News';
+import Events from './pages/Events';
+import { Header } from './components';
+import './App.css';
+import Companies from './pages/Companies';
+import Investigations from './pages/Investigations';
+import JobBoard from './pages/JobBoard';
+import ResumenBank from './pages/ResumenBank';
+import EducationalOffers from './pages/EducationalOffers';
+import Legislations from './pages/Legislations';
+import Documentations from './pages/Documentations';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="app">
+        <Header toggleMenu={toggleMenu} menuVisible={menuVisible} />
+        <Navbar menuVisible={menuVisible} />
+        <div className="main">
+          <Routes>  
+            <Route path="/news" element={<News />} />
+            <Route path="/events" element={<Events />} /> 
+            <Route path="/investigations" element={<Investigations />} />
+            <Route path="/job-board" element={<JobBoard />} /> 
+            <Route path="/resume-bank" element={<ResumenBank />} />  
+            <Route path="/companies" element={<Companies />} /> 
+            <Route path="/educational-offers" element={<EducationalOffers />} /> 
+            <Route path="/legislations" element={<Legislations />} /> 
+            <Route path="/documentations" element={<Documentations />} /> 
+          </Routes>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </Router>
+  );
+};
 
-export default App
+export default App;
