@@ -1,0 +1,153 @@
+/*========== GOOGLE FONTS ==========*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+/*========== VARIABLES CSS ==========*/
+:root {
+  --header-height: 3.5rem;
+}
+
+
+body {
+  margin: var(--header-height) 0 0 0;
+}
+
+/*========== HEADER ==========*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--container-color);
+  box-shadow: 0 1px 0 rgba(22, 8, 43, 0.1);
+  padding: 0 1rem;
+  z-index: var(--z-fixed);
+}
+
+.header__container {
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+  justify-content: space-between;
+}
+
+.header__img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.header__logo {
+  color: var(--title-color);
+  font-weight: var(--font-medium);
+  display: none;
+}
+
+.header__input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: var(--first-color-light);
+}
+
+.header__input::placeholder {
+  font-family: var(--body-font);
+  color: var(--text-color);
+}
+
+.header__icon, 
+.header__toggle {
+  font-size: 1.2rem;
+}
+
+.header__toggle {
+  color: var(--title-color);
+  cursor: pointer;
+}
+
+
+/*===== Active link =====*/
+.active {
+  color: var(--first-color);
+}
+
+/* ========== MEDIA QUERIES ==========*/
+/* For small devices reduce search*/
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 0 3rem 0 6rem;
+  }
+  .header__container {
+    height: calc(var(--header-height) + .5rem);
+  }
+  .header__toggle {
+    display: none;
+  }
+  .header__logo {
+    display: block;
+  }
+  .header__img {
+    width: 40px;
+    height: 40px;
+    order: 1;
+  }
+}
+
+.right-aligned {
+  display: flex; /* Flexbox para los botones en fila horizontal */
+  margin-left: auto; /* Alinea los botones a la derecha */
+  gap: 1rem; /* Añade separación horizontal entre los botones */
+  align-items: center; /* Asegura que los botones estén alineados verticalmente */
+}
+
+.header__auth-link {
+  display: inline-block;
+}
+
+.login__button {
+  padding: 1rem 2rem; /* Tamaño base de los botones */
+  background-color: var(--first-color);
+  color: #FFF;
+  font-weight: 600;
+  text-align: center;
+  border-radius: .5rem;
+  transition: .3s;
+  width: auto; /* Los botones no ocuparán todo el ancho en pantallas grandes */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño */
+}
+
+.login__button:hover {
+  background-color: #000; /* Cambiar a negro cuando se pase el cursor sobre el botón */
+  color: #FFF; /* Mantener el color del texto blanco */
+}
+/* Separación del botón "Registrarse" a la derecha */
+.header__auth-link:nth-child(2) .login__button {
+  margin-right: 0.5rem; /* Añadir algo de separación a la derecha */
+}
+
+/* Añadir separación superior solo al primer botón */
+.header__auth-link:first-child .login__button {
+  margin-top: 0.5rem; /* Un poco de separación desde la parte superior */
+}
+
+@media (max-width: 1024px) {
+  .login__button {
+    padding: 0.8rem 1.8rem; /* Reducir el tamaño de los botones en pantallas medianas */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
+  }
+}
+
+@media (max-width: 768px) {
+  .login__button {
+    padding: 0.6rem 1.5rem; /* Reducir aún más los botones en pantallas pequeñas */
+    font-size: 12px; /* Reducir más el tamaño de la fuente */
+    margin-bottom: 0.25rem; /* Reducir espacio entre los botones */
+  }
+}
+
+@media (max-width: 480px) {
+  .login__button {
+    padding: 0.5rem 1rem; /* Hacer los botones aún más pequeños en pantallas muy pequeñas */
+    font-size: 12px; /* Mantener el tamaño de la fuente pequeño */
+  }
+}
