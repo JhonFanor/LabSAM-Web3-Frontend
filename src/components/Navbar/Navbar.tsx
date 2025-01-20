@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './Navbar.css'; // Importa los estilos
+import './Navbar.css';
 import { Link } from 'react-router-dom';
-import { menuItems } from '../../constants/MenuItems'; // Asegúrate de que la ruta sea correcta
-import { FaSignOutAlt, FaChevronDown, FaCircle } from 'react-icons/fa'; // Importar íconos necesarios
+import { menuItems } from '../../constants/MenuItems';
+import { FaSignOutAlt, FaChevronDown, FaCircle } from 'react-icons/fa'; 
 
 interface NavbarProps {
-  menuVisible: boolean; // Recibe el estado del menú
+  menuVisible: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {

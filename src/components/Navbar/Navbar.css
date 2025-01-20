@@ -24,10 +24,9 @@
   justify-content: space-between;
   padding-bottom: 3rem;
   overflow: auto;
-  scrollbar-width: none; /* For mozilla */
+  scrollbar-width: none;
 }
 
-/* For Google Chrome and others */
 .nav__container::-webkit-scrollbar {
   display: none;
 }
@@ -77,7 +76,6 @@
   width: 130px;
 }
 
-/* Dropdown */
 .nav__dropdown {
   overflow: hidden;
   max-height: 21px;
@@ -111,12 +109,10 @@
   transition: .4s;
 }
 
-/* Show dropdown collapse */
 .nav__dropdown:hover {
   max-height: 100rem;
 }
 
-/* Rotate icon arrow */
 .nav__dropdown:hover .nav__dropdown-icon {
   transform: rotate(180deg);
 }
@@ -138,7 +134,6 @@
     font-size: 1.3rem;
   }
 
-  /* Element opacity */
   .nav__logo-name, 
   .nav__name, 
   .nav__dropdown-icon {
@@ -147,12 +142,10 @@
   }
   
   
-  /* Navbar expanded */
   .nav:hover {
     width: var(--nav-width);
   }
   
-  /* Visible elements */
   .nav:hover .nav__logo-name {
     opacity: 1;
   }

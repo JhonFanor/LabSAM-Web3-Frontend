@@ -1,7 +1,5 @@
-/*========== GOOGLE FONTS ==========*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-/*========== VARIABLES CSS ==========*/
 :root {
   --header-height: 3.5rem;
 }
@@ -11,7 +9,6 @@ body {
   margin: var(--header-height) 0 0 0;
 }
 
-/*========== HEADER ==========*/
 .header {
   position: fixed;
   top: 0;
@@ -65,13 +62,9 @@ body {
 }
 
 
-/*===== Active link =====*/
 .active {
   color: var(--first-color);
 }
-
-/* ========== MEDIA QUERIES ==========*/
-/* For small devices reduce search*/
 
 @media screen and (min-width: 768px) {
   .header {
@@ -94,10 +87,10 @@ body {
 }
 
 .right-aligned {
-  display: flex; /* Flexbox para los botones en fila horizontal */
-  margin-left: auto; /* Alinea los botones a la derecha */
-  gap: 1rem; /* Añade separación horizontal entre los botones */
-  align-items: center; /* Asegura que los botones estén alineados verticalmente */
+  display: flex; 
+  margin-left: auto;
+  gap: 1rem; 
+  align-items: center;
 }
 
 .header__auth-link {
@@ -105,49 +98,48 @@ body {
 }
 
 .login__button {
-  padding: 1rem 2rem; /* Tamaño base de los botones */
+  padding: 1rem 2rem;
   background-color: var(--first-color);
   color: #FFF;
   font-weight: 600;
   text-align: center;
   border-radius: .5rem;
   transition: .3s;
-  width: auto; /* Los botones no ocuparán todo el ancho en pantallas grandes */
-  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño */
+  width: auto;
+  box-sizing: border-box; 
 }
 
 .login__button:hover {
-  background-color: #000; /* Cambiar a negro cuando se pase el cursor sobre el botón */
-  color: #FFF; /* Mantener el color del texto blanco */
-}
-/* Separación del botón "Registrarse" a la derecha */
-.header__auth-link:nth-child(2) .login__button {
-  margin-right: 0.5rem; /* Añadir algo de separación a la derecha */
+  background-color: #000;
+  color: #FFF;
 }
 
-/* Añadir separación superior solo al primer botón */
+.header__auth-link:nth-child(2) .login__button {
+  margin-right: 0.5rem; 
+}
+
 .header__auth-link:first-child .login__button {
-  margin-top: 0.5rem; /* Un poco de separación desde la parte superior */
+  margin-top: 0.5rem; 
 }
 
 @media (max-width: 1024px) {
   .login__button {
-    padding: 0.8rem 1.8rem; /* Reducir el tamaño de los botones en pantallas medianas */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
+    padding: 0.8rem 1.8rem; 
+    font-size: 14px; 
   }
 }
 
 @media (max-width: 768px) {
   .login__button {
-    padding: 0.6rem 1.5rem; /* Reducir aún más los botones en pantallas pequeñas */
-    font-size: 12px; /* Reducir más el tamaño de la fuente */
-    margin-bottom: 0.25rem; /* Reducir espacio entre los botones */
+    padding: 0.6rem 1.5rem; 
+    font-size: 12px; 
+    margin-bottom: 0.25rem; 
   }
 }
 
 @media (max-width: 480px) {
   .login__button {
-    padding: 0.5rem 1rem; /* Hacer los botones aún más pequeños en pantallas muy pequeñas */
-    font-size: 12px; /* Mantener el tamaño de la fuente pequeño */
+    padding: 0.5rem 1rem; 
+    font-size: 12px;
   }
 }
