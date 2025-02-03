@@ -125,7 +125,7 @@
   .nav {
     left: 0;
     padding: 1.2rem 1.5rem 0;
-    width: 68px; /* Reduced navbar */
+    width: 68px; 
   }
   .nav__items {
     row-gap: 1.7rem;

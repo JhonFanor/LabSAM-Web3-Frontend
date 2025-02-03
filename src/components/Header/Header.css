@@ -4,7 +4,6 @@
   --header-height: 3.5rem;
 }
 
-
 body {
   margin: var(--header-height) 0 0 0;
 }
@@ -93,11 +92,7 @@ body {
   align-items: center;
 }
 
-.header__auth-link {
-  display: inline-block;
-}
-
-.login__button {
+.header__login__button {
   padding: 1rem 2rem;
   background-color: var(--first-color);
   color: #FFF;
@@ -109,28 +104,28 @@ body {
   box-sizing: border-box; 
 }
 
-.login__button:hover {
+.header__login__button:hover {
   background-color: #000;
   color: #FFF;
 }
 
-.header__auth-link:nth-child(2) .login__button {
+.header__login__button {
   margin-right: 0.5rem; 
 }
 
-.header__auth-link:first-child .login__button {
+.header__login__button {
   margin-top: 0.5rem; 
 }
 
 @media (max-width: 1024px) {
-  .login__button {
+  .header__login__button {
     padding: 0.8rem 1.8rem; 
     font-size: 14px; 
   }
 }
 
 @media (max-width: 768px) {
-  .login__button {
+  .header__login__button {
     padding: 0.6rem 1.5rem; 
     font-size: 12px; 
     margin-bottom: 0.25rem; 
@@ -138,7 +133,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  .login__button {
+  .header__login__button {
     padding: 0.5rem 1rem; 
     font-size: 12px;
   }

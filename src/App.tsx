@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
-import { Navbar } from './components';
+import { Navbar, Header } from './components';
+import { Login, Register } from './components'; // Importa los nuevos componentes
 import News from './pages/News';
 import Events from './pages/Events';
-import { Header } from './components';
 import './App.css';
 import Companies from './pages/Companies';
 import Investigations from './pages/Investigations';
@@ -15,15 +15,37 @@ import Documentations from './pages/Documentations';
 
 const App: React.FC = () => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
 
+  const handleLoginClick = () => {
+    setShowLogin(true);
+    setShowRegister(false);
+  };
+
+  const handleRegisterClick = () => {
+    setShowRegister(true);
+    setShowLogin(false);
+  };
+
+  const closeModals = () => {
+    setShowLogin(false);
+    setShowRegister(false);
+  };
+
   return (
     <Router>
       <div className="app">
-        <Header toggleMenu={toggleMenu} menuVisible={menuVisible} />
+        <Header 
+          toggleMenu={toggleMenu} 
+          menuVisible={menuVisible} 
+          onLoginClick={handleLoginClick} 
+          onRegisterClick={handleRegisterClick} 
+        />
         <Navbar menuVisible={menuVisible} />
         <div className="main">
           <Routes>  
@@ -38,6 +60,27 @@ const App: React.FC = () => {
             <Route path="/documentations" element={<Documentations />} /> 
           </Routes>
         </div>
+        {showLogin && (
+          <div className="modal-overlay" onClick={closeModals}>
+            <div onClick={(e) => e.stopPropagation()}> {/* Detener la propagación del evento */}
+              <Login
+                onClose={closeModals}
+                onSwitchToRegister={handleRegisterClick}
+              />
+            </div>
+          </div>
+        )}
+
+        {showRegister && (
+          <div className="modal-overlay" onClick={closeModals}>
+            <div onClick={(e) => e.stopPropagation()}> {/* Detener la propagación del evento */}
+              <Register
+                onClose={closeModals}
+                onSwitchToLogin={handleLoginClick}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </Router>
   );

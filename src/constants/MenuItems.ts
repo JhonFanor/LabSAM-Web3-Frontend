@@ -24,12 +24,12 @@ export interface MenuItem {
 export const menuItems: MenuItem[] = [
   {
     route: '/',
-    label: 'Home',
+    label: 'Inicio',
     icon: FaHome,
   },
   {
     route: '/profile',
-    label: 'Profile',
+    label: 'Perfil',
     icon: FaUser,
     children: [
       { route: '/profile/passwords', label: 'Passwords' },

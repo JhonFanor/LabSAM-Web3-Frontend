@@ -1,0 +1,170 @@
+.register__close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.register__close-button:hover {
+  color: #000;
+}
+
+.register {
+  display: grid;
+  grid-template-columns: 100%;
+  height: 100vh;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.register__content {
+  display: grid;
+}
+
+.register__img {
+  justify-self: center;
+}
+
+.register__img img {
+  width: 310px;
+  margin-top: 1.5rem;
+}
+
+.register__forms {
+  position: relative;
+  height: 368px;
+}
+
+.register__create {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  background-color: rgb(224, 224, 250);
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+  animation-duration: 0.4s;
+  animation-name: animate-register;
+}
+
+@keyframes animate-register {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.1, 1.1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.register__title {
+  font-size: var(--h1-font-size);
+  margin-bottom: 2rem;
+  color:#000;
+}
+
+.register__box {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 0.5rem;
+  padding: 1.125rem 1rem;
+  background-color: #fff;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+}
+
+.register__icon {
+  font-size: 1.5rem;
+  color: var(--first-color);
+}
+
+.register__input {
+  border: none;
+  outline: none;
+  font-size: var(--normal-font-size);
+  font-weight: 700;
+  color: #818181;
+}
+
+.register__input::placeholder {
+  font-size: var(--normal-font-size);
+  font-family: var(--body-font);
+  color: #818181;
+}
+
+.register__button {
+  display: block;
+  padding: 1rem;
+  margin: 2rem 0;
+  background-color: var(--first-color);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+
+.register__button:hover {
+  background-color: var(--first-color-dark);
+}
+
+.register__account, .register__signup {
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+
+.register__account {
+  color: #000;
+}
+
+.register__signup {
+  color: var(--first-color);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 576px) {
+  .register__forms {
+    width: 348px;
+    justify-self: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .register {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .register__content {
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  align-items: center;
+  margin-left: 10rem;
+  }
+
+  .register__img {
+    display: flex;
+    width: 600px;
+    height: 588px;
+    background-color: var(--first-color-lighten);
+    border-radius: 1rem;
+    padding-left: 1rem;
+  }
+
+  .register__img img {
+    width: 390px;
+    margin-top: 0;
+  }
+
+  .register__create {
+    left: -11rem;
+    bottom: -5.5rem;
+  }
+}
