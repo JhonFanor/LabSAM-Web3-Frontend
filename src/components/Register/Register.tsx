@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Register.css';
-import { FaUser, FaEnvelope, FaLock, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import registerImage from '../../assets/img/img-login.svg';
+import { PersonForm } from './Forms/PersonForm';
+import { BusinessForm } from './Forms/BusinessForm';
+import { UniversityForm } from './Forms/UniversityForm';
 
 interface RegisterProps {
   onClose: () => void;
@@ -9,11 +12,13 @@ interface RegisterProps {
 }
 
 export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
+  const [userType, setUserType] = useState<'person' | 'university' | 'company'>('person');
+
   return (
     <div className="register">
       <div className="register__content">
         <div className="register__img">
-          <img src={registerImage} alt="Register" /> 
+          <img src={registerImage} alt="Register" />
         </div>
 
         <div className="register__forms">
@@ -23,20 +28,30 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
             </button>
             <h1 className="register__title">Crear cuenta</h1>
 
-            <div className="register__box">
-              <FaUser className="register__icon" />
-              <input type="text" placeholder="Nombre de Usuario" className="register__input" />
+            <div className="register__type-selector">
+              <button
+                className={`register__type-button ${userType === 'person' ? 'active' : ''}`}
+                onClick={() => setUserType('person')}
+              >
+                Persona
+              </button>
+              <button
+                className={`register__type-button ${userType === 'university' ? 'active' : ''}`}
+                onClick={() => setUserType('university')}
+              >
+                Universidad
+              </button>
+              <button
+                className={`register__type-button ${userType === 'company' ? 'active' : ''}`}
+                onClick={() => setUserType('company')}
+              >
+                Empresa
+              </button>
             </div>
 
-            <div className="register__box">
-              <FaEnvelope className="register__icon" />
-              <input type="text" placeholder="Correo" className="register__input" />
-            </div>
-
-            <div className="register__box">
-              <FaLock className="register__icon" /> 
-              <input type="password" placeholder="Contraseña" className="register__input" />
-            </div>
+            {userType === 'person' && <PersonForm />}
+            {userType === 'university' && <UniversityForm />}
+            {userType === 'company' && <BusinessForm />}
 
             <a href="#" className="register__button">Registrarse</a>
 

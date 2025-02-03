@@ -36,15 +36,14 @@
 
 .register__forms {
   position: relative;
-  height: 368px;
+  height: auto; /* Cambiado para que se ajuste al contenido */
 }
 
 .register__create {
-  position: absolute;
-  bottom: 1rem;
-  width: 100%;
+  position: relative; /* Cambiado para mejor manejo en móviles */
+  width: 110%;
   background-color: rgb(224, 224, 250);
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem; /* Reducido el padding para móviles */
   border-radius: 1rem;
   text-align: center;
   box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
@@ -66,22 +65,22 @@
 
 .register__title {
   font-size: var(--h1-font-size);
-  margin-bottom: 2rem;
-  color:#000;
+  margin-bottom: 1.5rem; /* Reducido el margen para móviles */
+  color: #000;
 }
 
 .register__box {
   display: grid;
   grid-template-columns: max-content 1fr;
   column-gap: 0.5rem;
-  padding: 1.125rem 1rem;
+  padding: 0.75rem 0.5rem; /* Reducido el padding para móviles */
   background-color: #fff;
-  margin-top: 1rem;
+  margin-top: 0.75rem; /* Reducido el margen para móviles */
   border-radius: 0.5rem;
 }
 
 .register__icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem; /* Reducido el tamaño del ícono para móviles */
   color: var(--first-color);
 }
 
@@ -91,6 +90,8 @@
   font-size: var(--normal-font-size);
   font-weight: 700;
   color: #818181;
+  width: 100%; /* Asegura que el input ocupe todo el espacio disponible */
+  max-width: 100%; /* Evita que se desborde */
 }
 
 .register__input::placeholder {
@@ -101,8 +102,8 @@
 
 .register__button {
   display: block;
-  padding: 1rem;
-  margin: 2rem 0;
+  padding: 0.75rem; /* Reducido el padding para móviles */
+  margin: 1.5rem 0; /* Reducido el margen para móviles */
   background-color: var(--first-color);
   color: #fff;
   font-weight: 600;
@@ -115,7 +116,8 @@
   background-color: var(--first-color-dark);
 }
 
-.register__account, .register__signup {
+.register__account,
+.register__signup {
   font-weight: 600;
   font-size: var(--small-font-size);
 }
@@ -127,6 +129,44 @@
 .register__signup {
   color: var(--first-color);
   cursor: pointer;
+}
+
+/* Media queries para pantallas pequeñas */
+@media screen and (max-width: 576px) {
+  .register {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .register__img img {
+    width: 250px; /* Reducir el tamaño de la imagen en móviles */
+  }
+
+  .register__create {
+    padding: 1rem 0.75rem; /* Ajustar el padding para móviles */
+  }
+
+  .register__title {
+    font-size: 1.5rem; /* Reducir el tamaño del título en móviles */
+    margin-bottom: 1rem;
+  }
+
+  .register__box {
+    padding: 0.5rem; /* Reducir el padding de los inputs en móviles */
+  }
+
+  .register__icon {
+    font-size: 1rem; /* Reducir el tamaño del ícono en móviles */
+  }
+
+  .register__input {
+    font-size: 0.9rem; /* Reducir el tamaño de la fuente en móviles */
+  }
+
+  .register__button {
+    padding: 0.5rem; /* Reducir el padding del botón en móviles */
+    margin: 1rem 0; /* Reducir el margen del botón en móviles */
+  }
 }
 
 @media screen and (min-width: 576px) {
@@ -143,10 +183,10 @@
   }
 
   .register__content {
-  grid-template-columns: repeat(2, max-content);
-  justify-content: center;
-  align-items: center;
-  margin-left: 10rem;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    align-items: center;
+    margin-left: 10rem;
   }
 
   .register__img {
@@ -166,5 +206,47 @@
   .register__create {
     left: -11rem;
     bottom: -5.5rem;
+  }
+}
+
+.register__type-selector {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register__type-button {
+  background-color: #fff;
+  border: 2px solid var(--first-color);
+  color: var(--first-color);
+  padding: 0.5rem 1rem;
+  font-size: var(--normal-font-size);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.register__type-button:hover {
+  background-color: var(--first-color-lighten);
+}
+
+.register__type-button.active {
+  background-color: var(--first-color);
+  color: #fff;
+  border-color: var(--first-color-dark);
+}
+
+/* Responsive */
+@media screen and (max-width: 576px) {
+  .register__type-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .register__type-button {
+    width: 100%;
+    text-align: center;
   }
 }
