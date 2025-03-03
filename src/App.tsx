@@ -12,8 +12,10 @@ import ResumenBank from './pages/ResumenBank';
 import EducationalOffers from './pages/EducationalOffers';
 import Legislations from './pages/Legislations';
 import Documentations from './pages/Documentations';
+import { useAuth } from './providers/Auth';
 
 const App: React.FC = () => {
+  const { user } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -60,7 +62,7 @@ const App: React.FC = () => {
             <Route path="/documentations" element={<Documentations />} /> 
           </Routes>
         </div>
-        {showLogin && (
+        {!user && showLogin && (
           <div className="modal-overlay" onClick={closeModals}>
             <div onClick={(e) => e.stopPropagation()}> {/* Detener la propagación del evento */}
               <Login
@@ -70,8 +72,7 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
-
-        {showRegister && (
+        {!user &&showRegister && (
           <div className="modal-overlay" onClick={closeModals}>
             <div onClick={(e) => e.stopPropagation()}> {/* Detener la propagación del evento */}
               <Register

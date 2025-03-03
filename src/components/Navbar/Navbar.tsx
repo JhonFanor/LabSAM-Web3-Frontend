@@ -3,12 +3,14 @@ import './Navbar.css';
 import { Link } from 'react-router-dom';
 import { menuItems } from '../../constants/MenuItems';
 import { FaSignOutAlt, FaChevronDown, FaCircle } from 'react-icons/fa'; 
+import { useAuth } from '../../providers/Auth';
 
 interface NavbarProps {
   menuVisible: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
+  const { isAuthenticated, isLoading, logout } = useAuth(); // Obtener usuario y función logout
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (label: string) => {
@@ -69,10 +71,19 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
 
           </div>
         </div>
-        <Link to="/logout" className="nav__link nav__logout">
-          <FaSignOutAlt className="nav__icon" />
-          <span className="nav__name">Cerrar la sesión</span>
-        </Link>
+        {isAuthenticated && !isLoading &&(
+          <Link
+            to="/"
+            className="nav__link nav__logout" 
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
+          >
+            <FaSignOutAlt className="nav__icon" />
+            <span className="nav__name">Cerrar sesión</span>
+          </Link>
+        )}
       </nav>
     </div>
   );

@@ -112,7 +112,6 @@
 }
 
 .login__button {
-  display: block;
   padding: 0.75rem;
   margin: 1.5rem 0;
   background-color: var(--first-color);
@@ -121,6 +120,7 @@
   text-align: center;
   border-radius: 0.5rem;
   transition: 0.3s;
+  justify-content: center;
 }
 
 .login__button:hover {
@@ -145,10 +145,6 @@
   .login {
     margin-left: 1rem;
     margin-right: 1rem;
-  }
-
-  .login__img img {
-    width: 250px; 
   }
 
   .login__create {
