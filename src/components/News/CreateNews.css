@@ -1,0 +1,204 @@
+/* Fondo oscuro semitransparente para el modal */
+.create-news__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Contenedor principal del formulario con scroll interno */
+.create-news__content {
+    position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 600px; /* Ancho máximo */
+    max-height: 120vh; /* Altura máxima */
+    min-height: 400px; /* Altura mínima */
+    overflow-y: auto; /* Scroll interno */
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+    animation: animate-news 0.4s ease-in-out;
+}
+
+/* Animación de entrada */
+@keyframes animate-news {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.05, 1.05);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+/* Botón de cerrar */
+.create-news__close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.create-news__close-button:hover {
+    color: #000;
+}
+
+/* Título del formulario */
+.create-news__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #000;
+}
+
+/* Contenedor del formulario */
+.create-news__form {
+    display: grid;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Estilos para los inputs y textarea */
+.create-news__form input,
+.create-news__form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #fff;
+    color: #818181;
+}
+
+/* Estilo especial para el textarea */
+.create-news__form textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Botón de enviar */
+.create-news__submit {
+    background: var(--first-color, #007bff);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.create-news__submit:hover {
+    background: var(--first-color-dark, #0056b3);
+}
+
+/* Contenedor de selección de temas y subtemas */
+.create-news__topics {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+/* Dropdown para elegir el tema */
+.create-news__select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: white;
+}
+
+/* Lista de subtemas con scroll */
+.create-news__subtopics-list {
+    margin-top: 0.5rem;
+    max-height: 150px; /* Máximo 150px de alto */
+    overflow-y: auto; /* Scroll interno si hay muchos subtemas */
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Estilos para cada subtema */
+.create-news__subtopic {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    background: #e3e3e3;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Lista de subtemas seleccionados */
+.create-news__selected-subtopics {
+    margin-top: 1rem;
+}
+
+.create-news__selected-subtopics ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.create-news__selected-subtopics li {
+    background: #d1ecf1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+
+/* Botón para eliminar subtemas */
+.create-news__selected-subtopics button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 1rem;
+}
+
+/* Ajustes para pantallas medianas */
+@media screen and (min-width: 576px) {
+    .create-news__content {
+        padding: 2rem;
+    }
+
+    .create-news__title {
+        font-size: 1.75rem;
+    }
+
+    .create-news__submit {
+        padding: 0.85rem;
+    }
+}
+
+/* Ajustes para pantallas grandes */
+@media screen and (min-width: 1024px) {
+    .create-news__content {
+        max-width: 700px;
+        max-height: 100vh; /* Ajuste para pantallas grandes */
+    }
+}
