@@ -1,3 +1,4 @@
+/* ======= BOTÓN DE CIERRE ======= */
 .register__close-button {
   position: absolute;
   top: 10px;
@@ -13,96 +14,114 @@
   color: #000;
 }
 
+/* ======= CONTENEDOR PRINCIPAL ======= */
 .register {
-  display: grid;
-  grid-template-columns: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
+  padding: 1.5rem;
 }
 
+/* ======= CONTENEDOR DEL CONTENIDO ======= */
 .register__content {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 900px;
+  width: 100%;
+  margin: auto;
 }
 
+/* ======= IMAGEN ======= */
 .register__img {
-  justify-self: center;
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
 }
 
 .register__img img {
-  width: 310px;
+  width: 100%;
+  max-width: 310px;
   margin-top: 1.5rem;
 }
 
+/* ======= FORMULARIO ======= */
 .register__forms {
+  flex: 1;
+  max-width: 400px;
+  width: 100%;
   position: relative;
-  height: auto; /* Cambiado para que se ajuste al contenido */
+  height: auto;
 }
 
+/* ======= CAJA DE REGISTRO ======= */
 .register__create {
-  position: relative; /* Cambiado para mejor manejo en móviles */
-  width: 110%;
+  width: 100%;
   background-color: rgb(224, 224, 250);
-  padding: 1.5rem 1rem; /* Reducido el padding para móviles */
+  padding: 2rem;
   border-radius: 1rem;
   text-align: center;
   box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-  animation-duration: 0.4s;
-  animation-name: animate-register;
+  animation: animate-register 0.4s ease-in-out;
 }
 
 @keyframes animate-register {
   0% {
-    transform: scale(1, 1);
+    transform: scale(1);
   }
   50% {
-    transform: scale(1.1, 1.1);
+    transform: scale(1.05);
   }
   100% {
-    transform: scale(1, 1);
+    transform: scale(1);
   }
 }
 
+/* ======= TÍTULO ======= */
 .register__title {
-  font-size: var(--h1-font-size);
-  margin-bottom: 1.5rem; /* Reducido el margen para móviles */
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
   color: #000;
 }
 
+/* ======= CAMPOS DE ENTRADA ======= */
 .register__box {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 0.5rem;
-  padding: 0.75rem 0.5rem; /* Reducido el padding para móviles */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
   background-color: #fff;
-  margin-top: 0.75rem; /* Reducido el margen para móviles */
+  margin-top: 0.75rem;
   border-radius: 0.5rem;
 }
 
 .register__icon {
-  font-size: 1.25rem; /* Reducido el tamaño del ícono para móviles */
+  font-size: 1.25rem;
   color: var(--first-color);
 }
 
 .register__input {
   border: none;
   outline: none;
-  font-size: var(--normal-font-size);
+  font-size: 1rem;
   font-weight: 700;
   color: #818181;
-  width: 100%; /* Asegura que el input ocupe todo el espacio disponible */
-  max-width: 100%; /* Evita que se desborde */
+  width: 100%;
 }
 
 .register__input::placeholder {
-  font-size: var(--normal-font-size);
-  font-family: var(--body-font);
+  font-size: 1rem;
   color: #818181;
 }
 
+/* ======= BOTÓN DE REGISTRO ======= */
 .register__button {
-  padding: 0.75rem; /* Reducido el padding para móviles */
-  margin: 1.5rem 0; /* Reducido el margen para móviles */
+  padding: 0.75rem;
+  margin: 1.5rem 0;
   background-color: var(--first-color);
   color: #fff;
   font-weight: 600;
@@ -115,10 +134,11 @@
   background-color: var(--first-color-dark);
 }
 
+/* ======= ENLACES ======= */
 .register__account,
 .register__signup {
   font-weight: 600;
-  font-size: var(--small-font-size);
+  font-size: 0.9rem;
 }
 
 .register__account {
@@ -130,84 +150,7 @@
   cursor: pointer;
 }
 
-/* Media queries para pantallas pequeñas */
-@media screen and (max-width: 576px) {
-  .register {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  .register__img img {
-    width: 250px; /* Reducir el tamaño de la imagen en móviles */
-  }
-
-  .register__create {
-    padding: 1rem 0.75rem; /* Ajustar el padding para móviles */
-  }
-
-  .register__title {
-    font-size: 1.5rem; /* Reducir el tamaño del título en móviles */
-    margin-bottom: 1rem;
-  }
-
-  .register__box {
-    padding: 0.5rem; /* Reducir el padding de los inputs en móviles */
-  }
-
-  .register__icon {
-    font-size: 1rem; /* Reducir el tamaño del ícono en móviles */
-  }
-
-  .register__input {
-    font-size: 0.9rem; /* Reducir el tamaño de la fuente en móviles */
-  }
-
-  .register__button {
-    padding: 0.5rem; /* Reducir el padding del botón en móviles */
-    margin: 1rem 0; /* Reducir el margen del botón en móviles */
-  }
-}
-
-@media screen and (min-width: 576px) {
-  .register__forms {
-    width: 348px;
-    justify-self: center;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .register {
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .register__content {
-    grid-template-columns: repeat(2, max-content);
-    justify-content: center;
-    align-items: center;
-    margin-left: 10rem;
-  }
-
-  .register__img {
-    display: flex;
-    width: 600px;
-    height: 588px;
-    background-color: var(--first-color-lighten);
-    border-radius: 1rem;
-    padding-left: 1rem;
-  }
-
-  .register__img img {
-    width: 390px;
-    margin-top: 0;
-  }
-
-  .register__create {
-    left: -11rem;
-    bottom: -5.5rem;
-  }
-}
-
+/* ======= SELECCIÓN DE TIPO DE REGISTRO ======= */
 .register__type-selector {
   display: flex;
   justify-content: center;
@@ -220,7 +163,7 @@
   border: 2px solid var(--first-color);
   color: var(--first-color);
   padding: 0.5rem 1rem;
-  font-size: var(--normal-font-size);
+  font-size: 1rem;
   font-weight: 600;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -237,8 +180,46 @@
   border-color: var(--first-color-dark);
 }
 
-/* Responsive */
+/* ======= RESPONSIVE ======= */
 @media screen and (max-width: 576px) {
+  .register {
+    padding: 1rem;
+  }
+
+  .register__content {
+    flex-direction: column;
+  }
+
+  .register__img img {
+    max-width: 250px;
+  }
+
+  .register__create {
+    padding: 1rem;
+  }
+
+  .register__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .register__box {
+    padding: 0.5rem;
+  }
+
+  .register__icon {
+    font-size: 1rem;
+  }
+
+  .register__input {
+    font-size: 0.9rem;
+  }
+
+  .register__button {
+    padding: 0.5rem;
+    margin: 1rem 0;
+  }
+
   .register__type-selector {
     flex-direction: column;
     align-items: center;
@@ -247,5 +228,22 @@
   .register__type-button {
     width: 100%;
     text-align: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .register__content {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .register__img {
+    width: 400px;
+  }
+
+  .register__img img {
+    width: 100%;
   }
 }

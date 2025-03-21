@@ -1,3 +1,144 @@
+
+/* Contenedor del contenido */
+.login__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Para mejor ajuste en pantallas pequeñas */
+  gap: 2rem; /* Espaciado entre la imagen y el formulario */
+  max-width: 900px; /* Limitar el ancho máximo */
+  margin: auto;
+}
+
+/* Imagen de login */
+.login__img {
+  flex: 1;
+  max-width: 400px; /* Limitar su tamaño */
+}
+
+.login__img img {
+  width: 100%;
+  max-width: 310px;
+  margin-top: 1.5rem;
+}
+
+/* Contenedor de los formularios */
+.login__forms {
+  flex: 1;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  height: auto;
+}
+
+/* Caja de inicio de sesión */
+.login__registre {
+  width: 100%;
+  max-width: 400px; /* Limitar su tamaño */
+  background-color: rgb(224, 224, 250);
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+  animation-duration: 0.4s;
+  animation-name: animate-login;
+}
+
+@keyframes animate-login {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.05, 1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* Título del formulario */
+.login__title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #000;
+}
+
+/* Inputs */
+.login__box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background-color: #fff;
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.login__icon {
+  font-size: 1.5rem;
+  color: #6923D0; /* Color principal */
+}
+
+.login__input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #818181;
+  flex: 1;
+}
+
+.login__input::placeholder {
+  font-size: 1rem;
+  color: #818181;
+}
+
+/* Enlace de recuperación de contraseña */
+.login__forgot {
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+}
+
+/* Botón de inicio de sesión */
+.login__button {
+  padding: 0.75rem;
+  margin: 1.5rem 0;
+  background-color: #6923D0; /* Color principal */
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+}
+
+.login__button:hover {
+  background-color: #4a1a96; /* Color oscuro para hover */
+}
+
+/* Sección de registro */
+.login__account, .login__signin {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.login__account {
+  color: #000;
+}
+
+.login__signin {
+  color: #6923D0;
+  cursor: pointer;
+}
+
+/* Botón de cierre */
 .login__close-button {
   position: absolute;
   top: 10px;
@@ -13,166 +154,31 @@
   color: #000;
 }
 
-.login {
-  display: grid;
-  grid-template-columns: 100%;
-  height: 100vh;
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-}
-
-.login__content {
-  display: grid;
-}
-
-.login__img {
-  justify-self: center;
-}
-
-.login__img img {
-  width: 310px;
-  margin-top: 1.5rem;
-}
-
-.login__forms {
-  position: relative;
-  height: auto;
-}
-
-.login__registre {
-  position: relative;
-  bottom: 1rem;
-  width: 100%;
-  background-color: rgb(224, 224, 250);
-  padding: 1.5rem 1rem;
-  border-radius: 1rem;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-  animation-duration: 0.4s;
-  animation-name: animate-login;
-}
-
-@keyframes animate-login {
-  0% {
-    transform: scale(1, 1);
-  }
-  50% {
-    transform: scale(1.1, 1.1);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
-
-.login__title {
-  font-size: var(--h1-font-size);
-  margin-bottom: 1.5rem;
-  color:#000;
-}
-
-.login__box {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 0.5rem;
-  padding: 0.75rem 0.5rem;
-  background-color: #fff;
-  margin-top: 0.75rem;
-  border-radius: 0.5rem;
-}
-
-.login__icon {
-  font-size: 1.5rem;
-  color: var(--first-color);
-}
-
-.login__input {
-  border: none;
-  outline: none;
-  font-size: var(--normal-font-size);
-  font-weight: 700;
-  color: #818181;
-  width: 100%;
-  max-width: 100%;
-}
-
-.login__input::placeholder {
-  font-size: var(--normal-font-size);
-  font-family: var(--body-font);
-  color: #818181;
-}
-
-.login__forgot {
-  display: block;
-  width: max-content;
-  margin-left: auto;
-  margin-top: 0.5rem;
-  font-size: var(--small-font-size);
-  font-weight: 600;
-  color: black;
-}
-
-.login__button {
-  padding: 0.75rem;
-  margin: 1.5rem 0;
-  background-color: var(--first-color);
-  color: #fff;
-  font-weight: 600;
-  text-align: center;
-  border-radius: 0.5rem;
-  transition: 0.3s;
-  justify-content: center;
-}
-
-.login__button:hover {
-  background-color: var(--first-color-dark);
-}
-
-.login__account, .login__signin {
-  font-weight: 600;
-  font-size: var(--small-font-size);
-}
-
-.login__account {
-  color: #000;
-}
-
-.login__signin {
-  color: var(--first-color);
-  cursor: pointer;
-}
-
+/* Responsividad */
 @media screen and (min-width: 576px) {
-  .login {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  .login__create {
-    padding: 1rem 0.75rem;
-  }
 
   .login__title {
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
   .login__box {
-    padding: 0.5rem; 
+    padding: 0.5rem;
   }
 
   .login__icon {
-    font-size: 1rem; 
+    font-size: 1.2rem;
   }
 
   .login__input {
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
   }
 
   .login__button {
     padding: 0.5rem;
-    margin: 1rem 0; 
+    margin: 1rem 0;
   }
-  
+
   .login__forms {
     width: 348px;
     justify-self: center;
@@ -180,34 +186,26 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .login {
-    height: 100vh;
-    overflow: hidden;
-  }
 
   .login__content {
-    grid-template-columns: repeat(2, max-content);
-    justify-content: center;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    margin-left: 10rem;
+    justify-content: center;
+    gap: 3rem;
   }
 
   .login__img {
     display: flex;
-    width: 600px;
-    height: 588px;
-    background-color: var(--first-color-lighten);
-    border-radius: 1rem;
-    padding-left: 1rem;
+    width: 400px;
+    justify-content: center;
   }
 
   .login__img img {
-    width: 390px;
-    margin-top: 0;
+    width: 100%;
   }
 
   .login__registre {
-    left: -11rem;
     bottom: -2rem;
   }
 }

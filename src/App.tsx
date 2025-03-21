@@ -13,6 +13,7 @@ import EducationalOffers from './pages/EducationalOffers';
 import Legislations from './pages/Legislations';
 import Documentations from './pages/Documentations';
 import { useAuth } from './providers/Auth';
+import NewsDetail from './pages/NewsDetails';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -52,6 +53,7 @@ const App: React.FC = () => {
         <div className="main">
           <Routes>  
             <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/events" element={<Events />} /> 
             <Route path="/investigations" element={<Investigations />} />
             <Route path="/job-board" element={<JobBoard />} /> 

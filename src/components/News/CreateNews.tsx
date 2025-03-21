@@ -124,68 +124,65 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
     };
 
     return (
-        <div className="create-news__modal">
-            <div className="create-news__content">
-                <button className="create-news__close-button" onClick={onClose}>
-                    <FaTimes />
-                </button>
-                <h2 className="create-news__title">Crear Noticia</h2>
-                <form className="create-news__form" onSubmit={handleSubmit}>
-                    <input type="text" name="title" placeholder="Título" value={news.title} onChange={handleChange} required />
-                    <input type="text" name="image" placeholder="URL de la imagen" value={news.image} onChange={handleChange} required />
-                    
-                    {/* JoditEditor en lugar de textarea */}
-                    <JoditEditor
-                        ref={editor}
-                        value={news.description}
-                        onChange={(content) => setNews({ ...news, description: content })}
-                    />
+        <div className="create-news__content">
+            <button className="create-news__close-button" onClick={onClose}>
+                <FaTimes />
+            </button>
+            <h2 className="create-news__title">Crear Noticia</h2>
+            <form className="create-news__form" onSubmit={handleSubmit}>
+                <input type="text" name="title" placeholder="Título" value={news.title} onChange={handleChange} required />
+                <input type="text" name="image" placeholder="URL de la imagen" value={news.image} onChange={handleChange} required />
+                
+                <JoditEditor
+                    ref={editor}
+                    value={news.description}
+                    onChange={(content) => setNews({ ...news, description: content })}
+                />
 
-                    <input type="text" name="link" placeholder="Fuente" value={news.link} onChange={handleChange} />
-                    <input type="date" name="date" value={news.date} onChange={handleChange} />
+                <input type="text" name="link" placeholder="Fuente" value={news.link} onChange={handleChange} />
+                <input type="date" name="date" value={news.date} onChange={handleChange} />
 
-                    <div className="create-news__subtopics">
-                        <label>Seleccionar un tema:</label>
-                        <select className="create-news__select" onChange={handleSelectTopic}>
-                            <option value="">-- Selecciona un tema --</option>
-                            {topics.map((topic) => (
-                                <option key={topic.id} value={topic.id}>
-                                    {topic.name}
-                                </option>
+                <div className="create-news__subtopics">
+                    <label>Seleccionar un tema:</label>
+                    <select className="create-news__select" onChange={handleSelectTopic}>
+                        <option value="">-- Selecciona un tema --</option>
+                        {topics.map((topic) => (
+                            <option key={topic.id} value={topic.id}>
+                                {topic.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {selectedTopic && (
+                    <div className="create-news__subtopics-list">
+                        <label>Seleccionar subtemas:</label>
+                        {topics
+                            .find((topic) => topic.id === selectedTopic)
+                            ?.subtopics.map((sub) => (
+                                <div key={sub.id} className="create-news__subtopic">
+                                    <input type="checkbox" onChange={() => handleSelectSubtopic(sub)} />
+                                    <span>{sub.name}</span>
+                                </div>
                             ))}
-                        </select>
                     </div>
+                )}
 
-                    {selectedTopic && (
-                        <div className="create-news__subtopics-list">
-                            <label>Seleccionar subtemas:</label>
-                            {topics
-                                .find((topic) => topic.id === selectedTopic)
-                                ?.subtopics.map((sub) => (
-                                    <div key={sub.id} className="create-news__subtopic">
-                                        <input type="checkbox" onChange={() => handleSelectSubtopic(sub)} />
-                                        <span>{sub.name}</span>
-                                    </div>
-                                ))}
-                        </div>
-                    )}
+                {news.subtopics.length > 0 && (
+                    <div className="create-news__selected-subtopics">
+                        <label>Subtemas seleccionados:</label>
+                        <ul>
+                            {news.subtopics.map((sub) => (
+                                <li key={sub.id}>
+                                    {sub.name} <button onClick={() => handleRemoveSubtopic(sub.id)}>❌</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
-                    {news.subtopics.length > 0 && (
-                        <div className="create-news__selected-subtopics">
-                            <label>Subtemas seleccionados:</label>
-                            <ul>
-                                {news.subtopics.map((sub) => (
-                                    <li key={sub.id}>
-                                        {sub.name} <button onClick={() => handleRemoveSubtopic(sub.id)}>❌</button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    <button className="create-news__submit" type="submit">Guardar Noticia</button>
-                </form>
-            </div>
+                <button className="create-news__submit" type="submit">Guardar Noticia</button>
+            </form>
         </div>
     );
 };

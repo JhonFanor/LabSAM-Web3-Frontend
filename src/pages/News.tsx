@@ -1,40 +1,28 @@
 import React, { useState } from 'react';
 import { CreateNews } from '../components/News/CreateNews';
+import { GetAllNews } from '../components/News/GetAllNews';
 
 const News: React.FC = () => {
-  const [ShowCreateNews,setShowCreateNews] = useState(false);
+  const [showCreateNews, setShowCreateNews] = useState(false);
 
-  const closeModals = () => {
-    setShowCreateNews(false);
-  };
-
-  const handleCreatClick = () => {
-    setShowCreateNews(true);
-  };
-  
+  const closeModals = () => setShowCreateNews(false);
+  const handleCreateClick = () => setShowCreateNews(true);
 
   return (
     <div>
-      <div>
+      <header>
         <h1>Noticias</h1>
-      </div>
-      <div>
-        <button onClick={handleCreatClick} className="header__login__button">
-            Crear Noticia
+        <button onClick={handleCreateClick} className="header__login__button">
+          Crear Noticia
         </button>
-      </div>
-      <div>
-        <h1>Filtros</h1>
-      </div>
-      <div>
-        <h1>Listar</h1>
-      </div>
-      {ShowCreateNews && (
+      </header>
+
+      <GetAllNews />
+
+      {showCreateNews && (
         <div className="modal-overlay" onClick={closeModals}>
-          <div onClick={(e) => e.stopPropagation()}> 
-            <CreateNews
-              onClose={closeModals}
-            />
+          <div onClick={(e) => e.stopPropagation()}>
+            <CreateNews onClose={closeModals} />
           </div>
         </div>
       )}
