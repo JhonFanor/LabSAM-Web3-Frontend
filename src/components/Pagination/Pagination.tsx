@@ -13,25 +13,14 @@ export const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPage
 
   if (totalPages <= 1) return null;
 
-  // Agregar siempre la primera página
   pages.push(1);
+  if (page > pagesToShow + 2) pages.push("...");
 
-  // Agregar "..." si estamos lejos del inicio
-  if (page > pagesToShow + 2) {
-    pages.push("...");
-  }
-
-  // Agregar páginas contiguas al actual
   for (let i = Math.max(2, page - pagesToShow); i <= Math.min(totalPages - 1, page + pagesToShow); i++) {
     pages.push(i);
   }
 
-  // Agregar "..." si estamos lejos del final
-  if (page < totalPages - pagesToShow - 1) {
-    pages.push("...");
-  }
-
-  // Agregar siempre la última página
+  if (page < totalPages - pagesToShow - 1) pages.push("...");
   pages.push(totalPages);
 
   return (

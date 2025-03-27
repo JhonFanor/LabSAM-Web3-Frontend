@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CreateNews } from '../components/News/CreateNews';
 import { GetAllNews } from '../components/News/GetAllNews';
+import ButtonCreate from '../components/Button/ButtonCreate';
 
 const News: React.FC = () => {
   const [showCreateNews, setShowCreateNews] = useState(false);
@@ -9,12 +10,10 @@ const News: React.FC = () => {
   const handleCreateClick = () => setShowCreateNews(true);
 
   return (
-    <div>
+    <>
       <header>
         <h1>Noticias</h1>
-        <button onClick={handleCreateClick} className="header__login__button">
-          Crear Noticia
-        </button>
+        <ButtonCreate onClick={handleCreateClick} label="Crear Noticia" />
       </header>
 
       <GetAllNews />
@@ -26,7 +25,7 @@ const News: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

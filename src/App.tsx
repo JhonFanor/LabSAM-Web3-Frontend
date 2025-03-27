@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar, Header } from './components';
 import { Login, Register } from './components'; // Importa los nuevos componentes
 import News from './pages/News';
-import Events from './pages/Events';
+import Events from './pages/Event';
 import './App.css';
 import Companies from './pages/Companies';
-import Investigations from './pages/Investigations';
+import Investigations from './pages/Investigation';
 import JobBoard from './pages/JobBoard';
 import BankOfResume from './pages/BankOfResume';
-import EducationalOffers from './pages/EducationalOffers';
-import Legislations from './pages/Legislations';
-import Documentations from './pages/Documentations';
+import EducationalOffers from './pages/EducationalOffer';
+import Legislations from './pages/Legislation';
+import Documentation from './pages/Documentation';
 import { useAuth } from './providers/Auth';
 import NewsDetail from './pages/NewsDetails';
 
@@ -61,7 +61,7 @@ const App: React.FC = () => {
             <Route path="/companies" element={<Companies />} /> 
             <Route path="/educational-offers" element={<EducationalOffers />} /> 
             <Route path="/legislations" element={<Legislations />} /> 
-            <Route path="/documentations" element={<Documentations />} /> 
+            <Route path="/documentations" element={<Documentation />} /> 
           </Routes>
         </div>
         {!user && showLogin && (
