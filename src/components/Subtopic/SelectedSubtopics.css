@@ -1,0 +1,31 @@
+/* Lista de subtemas seleccionados */
+.selected-subtopics {
+    margin-top: 1rem;
+}
+
+.selected-subtopics ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.selected-subtopics li {
+    background: #d1ecf1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+
+/* Botón para eliminar subtemas */
+.selected-subtopics button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 1rem;
+}

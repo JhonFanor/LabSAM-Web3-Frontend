@@ -8,7 +8,7 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
-  const pagesToShow = 2; // Cantidad de páginas visibles antes y después de la actual
+  const pagesToShow = 2; 
   let pages: (number | string)[] = [];
 
   if (totalPages <= 1) return null;

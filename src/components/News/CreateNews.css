@@ -98,80 +98,11 @@
     text-align: left;
 }
 
-/* Dropdown para elegir el tema */
-.create-news__select {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    background: white;
-}
-
-/* Lista de subtemas con scroll */
-.create-news__subtopics-list {
-    margin-top: 0.5rem;
-    max-height: 180px; /* Máximo de altura */
-    overflow-y: auto; /* Scroll si hay muchos subtemas */
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    background: #f9f9f9;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-/* Estilos para cada subtema */
-.create-news__subtopic {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.9rem;
-    background: #e3e3e3;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Lista de subtemas seleccionados */
-.create-news__selected-subtopics {
-    margin-top: 1rem;
-}
-
-.create-news__selected-subtopics ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.create-news__selected-subtopics li {
-    background: #d1ecf1;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.9rem;
-}
-
-/* Botón para eliminar subtemas */
-.create-news__selected-subtopics button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: red;
-    font-size: 1rem;
-}
-
-/* Ajustes para pantallas medianas */
 @media screen and (max-width: 768px) {
     .create-news__content {
         width: 100%;
         max-width: 95%;
-        max-height: 95vh; /* Mejor uso del espacio */
+        max-height: 95vh;
         padding: 1.5rem;
     }
 
@@ -189,11 +120,10 @@
     }
 }
 
-/* Ajustes para pantallas grandes */
 @media screen and (min-width: 1024px) {
     .create-news__content {
-        max-width: 800px; /* Más ancho en pantallas grandes */
-        max-height: 85vh; /* Ajuste de altura */
+        max-width: 95%; 
+        max-height: 100vh;
     }
 
     .jodit-container {

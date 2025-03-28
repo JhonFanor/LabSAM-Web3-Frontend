@@ -19,12 +19,15 @@ const News: React.FC = () => {
       <GetAllNews />
 
       {showCreateNews && (
-        <div className="modal-overlay" onClick={closeModals}>
-          <div onClick={(e) => e.stopPropagation()}>
-            <CreateNews onClose={closeModals} />
-          </div>
+        <div className="modal-overlay" onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            closeModals();
+          }
+        }}>
+          <CreateNews onClose={closeModals} />
         </div>
       )}
+
     </>
   );
 };
