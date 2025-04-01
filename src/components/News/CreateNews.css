@@ -15,14 +15,12 @@
     flex-direction: column;
 }
 
-/* Animación de entrada */
 @keyframes animate-news {
     0% { transform: scale(1, 1); }
     50% { transform: scale(1.05, 1.05); }
     100% { transform: scale(1, 1); }
 }
 
-/* Botón de cerrar */
 .create-news__close-button {
     position: absolute;
     top: 10px;
@@ -38,7 +36,6 @@
     color: #000;
 }
 
-/* Título del formulario */
 .create-news__title {
     font-size: 1.8rem;
     margin-bottom: 1rem;
@@ -46,7 +43,6 @@
     color: #000;
 }
 
-/* Contenedor del formulario */
 .create-news__form {
     display: flex;
     flex-direction: column;
@@ -56,7 +52,6 @@
     padding-bottom: 1rem;
 }
 
-/* Estilos para los inputs */
 .create-news__form input,
 .create-news__form textarea {
     width: 100%;
@@ -68,15 +63,13 @@
     color: #818181;
 }
 
-/* Jodit Editor ajustado */
 .jodit-container {
     min-height: 200px;
-    max-height: 300px; /* Evita que sea muy grande */
-    overflow-y: auto; /* Scroll en el editor si es necesario */
+    max-height: 300px; 
+    overflow-y: auto; 
     border-radius: 8px;
 }
 
-/* Botón de enviar */
 .create-news__submit {
     background: var(--first-color, #007bff);
     color: #fff;
@@ -92,7 +85,6 @@
     background: var(--first-color-dark, #0056b3);
 }
 
-/* Contenedor de selección de temas y subtemas */
 .create-news__topics {
     margin-top: 1rem;
     text-align: left;
@@ -123,11 +115,11 @@
 @media screen and (min-width: 1024px) {
     .create-news__content {
         max-width: 95%; 
-        max-height: 100vh;
+        max-height: 90vh;
     }
 
     .jodit-container {
-        min-height: 250px;
-        max-height: 350px;
+        min-height: 500px;
+        max-height: 1000px;
     }
 }

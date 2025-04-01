@@ -1,6 +1,6 @@
-import { News } from "../models/News";
+import { BankOfResume } from "../models/BankOfResume";
 
-export const createNews = async (news: News) => { 
+export const createBankOfResume = async (bankOfResume: BankOfResume) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");
@@ -8,13 +8,13 @@ export const createNews = async (news: News) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/news/create", {
+      const response = await fetch("http://localhost:8080/bankOfResume/create", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
           "Authorization": `Bearer ${token}` 
         },
-        body: JSON.stringify(news), 
+        body: JSON.stringify(bankOfResume), 
       });
   
       if (response.status === 401) {
@@ -26,8 +26,8 @@ export const createNews = async (news: News) => {
         throw new Error("Error al crear la noticia");
       }
   
-      alert("Noticia creada con éxito!");
+      alert("Hoja de vida creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear la noticia.");
+      alert("Hubo un error al crear la hoja de vida.");
     }
 };

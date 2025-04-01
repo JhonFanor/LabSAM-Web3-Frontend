@@ -1,0 +1,125 @@
+.create-bank-of-resume__content {
+    position: relative;
+    background: white;
+    padding: 2.5rem; /* Aumenté un poco el padding */
+    border-radius: 1rem;
+    width: 95%;
+    max-width: 750px; /* Un poco más ancho */
+    max-height: 90vh; /* Ajuste para pantallas grandes */
+    min-height: 500px; /* Mayor altura mínima */
+    overflow-y: auto; /* Scroll interno */
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+    animation: animate-news 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes animate-news {
+    0% { transform: scale(1, 1); }
+    50% { transform: scale(1.05, 1.05); }
+    100% { transform: scale(1, 1); }
+}
+
+.create-bank-of-resume__close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.create-bank-of-resume__close-button:hover {
+    color: #000;
+}
+
+.create-bank-of-resume__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.create-bank-of-resume__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+}
+
+.create-bank-of-resume__form input,
+.create-bank-of-resume__form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #fff;
+    color: #818181;
+}
+
+.jodit-container {
+    min-height: 200px;
+    max-height: 300px; 
+    overflow-y: auto; 
+    border-radius: 8px;
+}
+
+.create-bank-of-resume__submit {
+    background: var(--first-color, #007bff);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.85rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.create-bank-of-resume__submit:hover {
+    background: var(--first-color-dark, #0056b3);
+}
+
+.create-bank-of-resume__topics {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+    .create-bank-of-resume__content {
+        width: 100%;
+        max-width: 95%;
+        max-height: 95vh;
+        padding: 1.5rem;
+    }
+
+    .create-bank-of-resume__title {
+        font-size: 1.5rem;
+    }
+
+    .jodit-container {
+        min-height: 150px;
+        max-height: 250px;
+    }
+
+    .create-bank-of-resume__submit {
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .create-bank-of-resume__content {
+        max-width: 95%; 
+        max-height: 90vh;
+    }
+
+    .jodit-container {
+        min-height: 500px;
+        max-height: 1000px;
+    }
+}

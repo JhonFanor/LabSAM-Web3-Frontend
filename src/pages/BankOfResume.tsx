@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ButtonCreate from '../components/Button/ButtonCreate';
+import { CreateBankOfResume } from '../components/BankOfResume/CreateBankOfResume';
 
 const BankOfResume: React.FC = () => {
 
@@ -14,6 +15,16 @@ const BankOfResume: React.FC = () => {
         <h1>Banco de hojas de vida</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
       </header>
+
+      {showCreateBankOfResume && (
+        <div className="modal-overlay" onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            closeModals();
+          }
+        }}>
+          <CreateBankOfResume onClose={closeModals} />
+        </div>
+      )}
     </>
   );
 };

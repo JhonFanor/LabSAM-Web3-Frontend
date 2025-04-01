@@ -1,5 +1,5 @@
 import React from "react";
-import { Topic } from "../../models/topic";
+import { Topic } from "../../models/Topic";
 import "./TopicSelector.css"
 
 interface TopicSelectorProps {

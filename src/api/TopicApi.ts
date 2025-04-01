@@ -1,4 +1,4 @@
-import { Topic } from "../models/topic";
+import { Topic } from "../models/Topic";
 
 export const GetAllTopics = async (setTopics: React.Dispatch<React.SetStateAction<Topic[]>>): Promise<void> => {
   try {

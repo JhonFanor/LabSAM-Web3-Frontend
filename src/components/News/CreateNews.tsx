@@ -5,8 +5,8 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import { createNews } from "../../api/NewsApi";
 import { GetAllTopics } from "../../api/TopicApi";
-import { News } from "../../models/news";
-import { Topic } from "../../models/topic";
+import { News } from "../../models/News";
+import { Topic } from "../../models/Topic";
 import "./CreateNews.css";
 import { FaTimes } from "react-icons/fa";
 
@@ -23,17 +23,17 @@ const [topics, setTopics] = useState<Topic[]>([]);
     image: "",
     link: "",
     date: "",
-    subtopics: [],
+    subtopic_ids: [] as number[],
   });
 
   useEffect(() => {
     GetAllTopics(setTopics);
   }, []);
-
+  const allSubtopics = topics.flatMap(topic => topic.subtopics); 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await createNews(news);
-    setNews({ title: "", description: "", image: "", link: "", date: "", subtopics: [] });
+    setNews({ title: "", description: "", image: "", link: "", date: "", subtopic_ids: [] });
     setSelectedTopic(null);
   };
 
@@ -47,14 +47,14 @@ const [topics, setTopics] = useState<Topic[]>([]);
             <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
             <input type="text" name="image" placeholder="URL de la imagen" value={news.image} onChange={(e) => setNews({ ...news, image: e.target.value })} required />
             
-            <JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} />
+            <JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container"/>
 
             <input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} />
             <input type="date" name="date" value={news.date} onChange={(e) => setNews({ ...news, date: e.target.value })} />
 
             <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
-            <SubtopicSelector topics={topics} selectedTopic={selectedTopic} news={news} setNews={setNews} />
-            <SelectedSubtopics news={news} setNews={setNews} />
+            <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={news} setData={setNews} subtopicsKey="subtopic_ids" />
+            <SelectedSubtopics data={news} setData={setNews} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
             <button className="create-news__submit" type="submit">Guardar Noticia</button>
         </form>

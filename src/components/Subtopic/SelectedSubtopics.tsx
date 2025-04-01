@@ -1,26 +1,37 @@
 import React from "react";
-import { News } from "../../models/news";
-import "./SelectedSubtopics.css"
+import "./SelectedSubtopics.css";
 
-interface SelectedSubtopicsProps {
-  news: News;
-  setNews: React.Dispatch<React.SetStateAction<News>>;
+interface SelectedSubtopicsProps<T, K extends keyof T> {
+  data: T;
+  setData: React.Dispatch<React.SetStateAction<T>>;
+  subtopicsKey: K;
+  subtopicsList?: { id: number; name: string }[]; // Lista opcional de referencia
 }
 
-const SelectedSubtopics: React.FC<SelectedSubtopicsProps> = ({ news, setNews }) => {
+const SelectedSubtopics = <T, K extends keyof T>({
+  data,
+  setData,
+  subtopicsKey,
+  subtopicsList = [],
+}: SelectedSubtopicsProps<T, K>) => {
+  const subtopicIds = data[subtopicsKey] as number[];
+
   const handleRemoveSubtopic = (id: number) => {
-    setNews({ ...news, subtopics: news.subtopics.filter((s) => s.id !== id) });
+    setData({ ...data, [subtopicsKey]: subtopicIds.filter((s) => s !== id) } as T);
   };
 
-  return news.subtopics.length > 0 ? (
+  return subtopicIds.length > 0 ? (
     <div className="selected-subtopics">
       <label>Subtemas seleccionados:</label>
       <ul>
-        {news.subtopics.map((sub) => (
-          <li key={sub.id}>
-            {sub.name} <button onClick={() => handleRemoveSubtopic(sub.id)}>❌</button>
-          </li>
-        ))}
+        {subtopicIds.map((id) => {
+          const sub = subtopicsList.find((s) => s.id === id) || { id, name: `Subtema ${id}` };
+          return (
+            <li key={id}>
+              {sub.name} <button onClick={() => handleRemoveSubtopic(id)}>❌</button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   ) : null;
