@@ -1,4 +1,4 @@
-export interface Job {
+export interface JobBoard {
     title: string;
     company: string;
     description: number;
