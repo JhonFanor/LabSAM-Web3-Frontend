@@ -49,7 +49,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
       <button className="create-bank-of-resume__close-button" onClick={onClose}>
         <FaTimes />
       </button>
-      <h2 className="create-bank-of-resume__title">Crear Resumen</h2>
+      <h2 className="create-bank-of-resume__title">Crear Hoja de vida</h2>
       <form className="create-bank-of-resume__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
         

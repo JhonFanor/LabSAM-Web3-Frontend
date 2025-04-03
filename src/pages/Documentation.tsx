@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CreateDocumentation } from '../components/Documentation/CreateDocumentation';
+import ButtonCreate from '../components/Button/ButtonCreate';
 
 const Documentation: React.FC = () => {
-  return <h1>Documentaciones</h1>;
+  const [showCreateDocumentation, setShowCreateDocumentation] = useState(false);
+      
+  const closeModals = () => setShowCreateDocumentation(false);
+  const handleCreateClick = () => setShowCreateDocumentation(true);
+
+  return (
+    <>
+      <header>
+        <h1>Documentación</h1>
+        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+      </header>
+
+      {showCreateDocumentation && (
+        <div className="modal-overlay" onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            closeModals();
+          }
+        }}>
+          <CreateDocumentation onClose={closeModals} />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Documentation;
