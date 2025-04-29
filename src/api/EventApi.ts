@@ -8,7 +8,7 @@ export const createEvent = async (event: Event) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/event/create", {
+      const response = await fetch("http://localhost:8080/api/event", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 

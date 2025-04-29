@@ -5,7 +5,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import { createNews } from "../../api/NewsApi";
 import { GetAllTopics } from "../../api/TopicApi";
-import { News } from "../../models/News";
+import { NewsCreateDto } from "../../dtos/News";
 import { Topic } from "../../models/Topic";
 import "./CreateNews.css";
 import { FaTimes } from "react-icons/fa";
@@ -17,7 +17,7 @@ interface CreateNewsProps {
 export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [news, setNews] = useState<News>({
+  const [news, setNews] = useState<NewsCreateDto>({
     title: "",
     description: "",
     image: "",

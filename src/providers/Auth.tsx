@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const checkAuthStatus = async () => {
     setIsLoading(true); // Comenzar a cargar
     try {
-      const response = await fetch("http://localhost:8080/user/get", {
+      const response = await fetch("http://localhost:8080/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (usernameOrEmail: string, password: string) => {
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshAccessToken = async () => {
     try {
-      const response = await fetch("http://localhost:8080/auth/token/refresh", {
+      const response = await fetch("http://localhost:8080/api/auth/token/refresh", {
         method: "POST",
         credentials: "include",
       });
@@ -89,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     localStorage.removeItem("access_token");
-    fetch("http://localhost:8080/auth/logout", {
+    fetch("http://localhost:8080/api/auth/logout", {
       method: "POST",
       credentials: "include",
     }).catch(console.error);

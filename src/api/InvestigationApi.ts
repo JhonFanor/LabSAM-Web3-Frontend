@@ -8,7 +8,7 @@ export const createInvestigation = async (investigation: Investigation) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/investigation/create", {
+      const response = await fetch("http://localhost:8080/api/investigation", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 

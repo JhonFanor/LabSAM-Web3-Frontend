@@ -8,7 +8,7 @@ export const createJobBoard = async (jobBoard: JobBoard) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/job-board/create", {
+      const response = await fetch("http://localhost:8080/api/job-board", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 

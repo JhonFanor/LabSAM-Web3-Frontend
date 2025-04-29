@@ -8,7 +8,7 @@ export const createCompany = async (company: Company) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/company/create", {
+      const response = await fetch("http://localhost:8080/api/company", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 

@@ -23,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
         <div>
           <Link to="/" className="nav__link nav__logo">
             <FaCircle className="nav__icon" />
-            <span className="nav__logo-name">Bedimcode</span>
+            <span className="nav__logo-name">LamSamWeb3</span>
           </Link>
 
           <div className="nav__list">

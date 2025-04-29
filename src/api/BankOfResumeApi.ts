@@ -8,7 +8,7 @@ export const createBankOfResume = async (bankOfResume: BankOfResume) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/bankOfResume/create", {
+      const response = await fetch("http://localhost:8080/api/bankOfResume", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 

@@ -8,7 +8,7 @@ export const createEducationalOffer = async (educationalOffer: EducationalOffer)
     }
   
     try {
-      const response = await fetch("http://localhost:8080/educational-offer/create", {
+      const response = await fetch("http://localhost:8080/api/educational-offer", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
