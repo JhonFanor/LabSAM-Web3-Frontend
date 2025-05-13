@@ -1,23 +1,30 @@
 export interface NewsCreateDto {
-    title: string;
-    description: string;
-    image: string;
-    link: string;
-    date: string;
-    subtopic_ids: number[];
+  title: string;
+  image: string;
+  description: string;
+  link: string;
+  date: string;
+  subtopic_ids: number[];
 }
 
 export interface NewsResponseDto {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    date: string;
-    link?: string;
-    subtopics: { name: string }[]; // ⬅️ Agregado
-    user: {
-      username: string;
-      avatar: string;
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+  date: string;
+  link?: string;
+  subtopics: { name: string }[];
+  user: {
+    avatar: string;
+    regular_user?: {
+      name: string;
     };
-  }
-  
+    university_user?: {
+      name: string;
+    };
+    business_user?: {
+      name: string;
+    };
+  };
+}

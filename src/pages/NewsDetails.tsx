@@ -21,6 +21,7 @@ const NewsDetail: React.FC = () => {
       setLoading(true);
       try {
         const data = await getNewsById(Number(id));
+        console.log(data)
         setNews(data);
       } catch (err) {
         console.error(err);

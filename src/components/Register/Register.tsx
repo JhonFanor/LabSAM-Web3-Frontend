@@ -16,7 +16,7 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
 
   const handlePersonSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:8080/auth/register/regular', {
+      const response = await fetch('http://localhost:8080/api/auth/register/regular', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
 
   const handleBusinessSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:8080/auth/register/business', {
+      const response = await fetch('http://localhost:8080/api/auth/register/business', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
 
   const handleUniversitySubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:8080/auth/register/university', {
+      const response = await fetch('http://localhost:8080/api/auth/register/university', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

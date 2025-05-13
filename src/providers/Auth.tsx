@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: any;
-  login: (usernameOrEmail: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;  // Nuevo estado de carga
@@ -13,24 +13,32 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     checkAuthStatus();
   }, []);
 
   const checkAuthStatus = async () => {
-    setIsLoading(true); // Comenzar a cargar
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setUser(null);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+      return;
+    }
+  
+    setIsLoading(true); 
     try {
       const response = await fetch("http://localhost:8080/api/user", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
@@ -46,17 +54,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
       setIsAuthenticated(false);
     } finally {
-      setIsLoading(false); // Finalizar carga
+      setIsLoading(false);
     }
-  };
+  };  
 
-  const login = async (usernameOrEmail: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username_or_email: usernameOrEmail, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) throw new Error("Error en el inicio de sesión");

@@ -43,12 +43,20 @@ export const GetAllNews: React.FC = () => {
 
       <div className="news-get-all-list">
         {newsList.map((news) => (
-          <Link to={`/news/${news.id}?page=${page}`} key={news.id} className="news-get-all-item">
+          <Link to={`/news/${news.id}`} key={news.id} className="news-get-all-item">
             <h3>{news.title}</h3>
             <img src={news.image} alt={news.title} className="news-get-all-image" />
             <div className="news-get-all-meta-container">
               <p className="news-get-all-meta">{new Date(news.date).toLocaleDateString()}</p>
-              <p className="news-get-all-meta">Subido por: {news.user.username}</p>
+              <p className="news-get-all-meta">
+                Subido por:{" "}
+                {
+                  news.user.regular_user?.name ||
+                  news.user.university_user?.name ||
+                  news.user.business_user?.name ||
+                  "Anónimo"
+                }
+              </p>
             </div>
           </Link>
         ))}

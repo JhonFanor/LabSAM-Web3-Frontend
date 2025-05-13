@@ -11,7 +11,7 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => {
   const { login } = useAuth(); 
-  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +20,7 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => 
     setError(null);
 
     try {
-      await login(usernameOrEmail, password);
+      await login(email, password);
       console.log("Inicio de sesión exitoso!");
       onClose(); 
     } catch (err) {
@@ -47,10 +47,10 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => 
               <FaUser className="login__icon" />
               <input
                 type="text"
-                placeholder="Usuario o Correo"
+                placeholder="Correo"
                 className="login__input"
-                value={usernameOrEmail}
-                onChange={(e) => setUsernameOrEmail(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
