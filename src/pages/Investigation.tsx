@@ -12,7 +12,7 @@ const Investigation: React.FC = () => {
     <>
       <header>
         <h1>Investigaciones</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <ButtonCreate onClick={handleCreateClick} label="Crear Investigación" />
       </header>
 
       {showCreateInvestigation && (

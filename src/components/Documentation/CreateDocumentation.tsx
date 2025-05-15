@@ -90,7 +90,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
         
         <DocumentInputSelector value={documentation.link} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         

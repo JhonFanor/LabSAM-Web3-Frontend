@@ -1,6 +1,6 @@
-import { JobBoard } from "../models/JobBoard";
+import { JobBoardCreateDto } from "../dtos/JobBoard";
 
-export const createJobBoard = async (jobBoard: JobBoard) => { 
+export const createJobBoard = async (jobBoard: JobBoardCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");
@@ -26,7 +26,7 @@ export const createJobBoard = async (jobBoard: JobBoard) => {
         throw new Error("Error al crear la empleo");
       }
   
-      alert("Hoja de vida creada con éxito!");
+      alert("Empleo creada con éxito!");
     } catch (error) {
       alert("Hubo un error al crear  el empleo.");
     }

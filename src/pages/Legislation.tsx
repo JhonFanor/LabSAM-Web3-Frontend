@@ -12,7 +12,7 @@ const Legislation: React.FC = () => {
     <>
       <header>
         <h1>Legislaciones</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <ButtonCreate onClick={handleCreateClick} label="Crear Legislación" />
       </header>
 
       {showCreateLegislation && (

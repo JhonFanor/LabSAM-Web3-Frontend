@@ -1,6 +1,6 @@
-import { Investigation } from "../models/Investigation";
+import { InvestigationCreateDto } from "../dtos/Investigation";
 
-export const createInvestigation = async (investigation: Investigation) => { 
+export const createInvestigation = async (investigation: InvestigationCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");

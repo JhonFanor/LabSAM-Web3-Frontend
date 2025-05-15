@@ -1,6 +1,6 @@
-import { EducationalOffer } from "../dtos/EducationalOffer";
+import { EducationalOfferCreateDto } from "../dtos/EducationalOffer";
 
-export const createEducationalOffer = async (educationalOffer: EducationalOffer) => { 
+export const createEducationalOffer = async (educationalOffer: EducationalOfferCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");

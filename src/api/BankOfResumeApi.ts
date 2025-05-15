@@ -1,6 +1,6 @@
-import { BankOfResume } from "../models/BankOfResume";
+import { BankOfResumeCreateDto } from "../dtos/BankOfResume";
 
-export const createBankOfResume = async (bankOfResume: BankOfResume) => { 
+export const createBankOfResume = async (bankOfResume: BankOfResumeCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");
@@ -8,7 +8,7 @@ export const createBankOfResume = async (bankOfResume: BankOfResume) => {
     }
   
     try {
-      const response = await fetch("http://localhost:8080/api/bankOfResume", {
+      const response = await fetch("http://localhost:8080/api/bank-of-resume", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
@@ -23,7 +23,7 @@ export const createBankOfResume = async (bankOfResume: BankOfResume) => {
       }
   
       if (!response.ok) {
-        throw new Error("Error al crear la noticia");
+        throw new Error("Error al crear la hoja de vida");
       }
   
       alert("Hoja de vida creada con éxito!");

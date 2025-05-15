@@ -12,7 +12,7 @@ const Documentation: React.FC = () => {
     <>
       <header>
         <h1>Documentación</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <ButtonCreate onClick={handleCreateClick} label="Crear Documentación" />
       </header>
 
       {showCreateDocumentation && (

@@ -1,6 +1,6 @@
-import { Legislation } from "../dtos/Legislation";
+import { LegislationCreateDto } from "../dtos/Legislation";
 
-export const createLegislation = async (legislation: Legislation) => { 
+export const createLegislation = async (legislation: LegislationCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");
@@ -28,6 +28,6 @@ export const createLegislation = async (legislation: Legislation) => {
   
       alert("Hoja de vida creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear la legislación.");
+      alert("Hubo un error al crear la hoja de vida.");
     }
 };

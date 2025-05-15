@@ -60,6 +60,8 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         date: investigation ? new Date(investigation.date).toISOString() : "",
       };
 
+      console.log(investigationToSend);
+
       await createInvestigation(investigationToSend);
 
       setSelectedTopic(null);
@@ -94,7 +96,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         
         <DocumentInputSelector value={investigation.link} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={investigation} setData={setInvestigation} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={investigation} setData={setInvestigation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         

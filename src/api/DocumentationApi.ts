@@ -1,6 +1,6 @@
-import { Documentation } from "../dtos/Documentation";
+import { DocumentationCreateDto } from "../dtos/Documentation";
 
-export const createDocumentation = async (documentation: Documentation) => { 
+export const createDocumentation = async (documentation: DocumentationCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");

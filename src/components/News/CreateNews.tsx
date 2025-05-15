@@ -98,7 +98,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 
         <input type="date" name="date" value={news.date} onChange={(e) => setNews({ ...news, date: e.target.value })} />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={news} setData={setNews} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={news} setData={setNews} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 

@@ -1,6 +1,6 @@
-import { Event } from "../models/Event";
+import { EventCreateDto } from "../dtos/Event";
 
-export const createEvent = async (event: Event) => { 
+export const createEvent = async (event: EventCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");

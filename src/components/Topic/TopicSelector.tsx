@@ -4,13 +4,14 @@ import "./TopicSelector.css"
 
 interface TopicSelectorProps {
   topics: Topic[];
+  selectedTopic: number | null;
   setSelectedTopic: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const TopicSelector: React.FC<TopicSelectorProps> = ({ topics, setSelectedTopic }) => (
+const TopicSelector: React.FC<TopicSelectorProps> = ({ topics, selectedTopic, setSelectedTopic }) => (
   <div className="subtopics">
     <label>Seleccionar un tema:</label>
-    <select className="create-news__select" onChange={(e) => setSelectedTopic(Number(e.target.value) || null)}>
+    <select className="create-news__select" value={selectedTopic ?? ""} onChange={(e) => setSelectedTopic(e.target.value ? Number(e.target.value) : null)} >
       <option value="">-- Selecciona un tema --</option>
       {topics.map((topic) => (
         <option key={topic.id} value={topic.id}>

@@ -7,7 +7,7 @@ interface DocumentUploaderProps {
 const DocumentUploader: React.FC<DocumentUploaderProps> = ({ onFileSelect }) => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    if (file && file.type.startsWith("application/pdf")) {
+    if (file && !file.type.startsWith("application/pdf")) {
       alert("Solo se permiten archivos PDF.");
       return;
     }

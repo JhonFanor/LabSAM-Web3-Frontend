@@ -1,6 +1,6 @@
-import { Company } from "../models/Company";
+import { CompanyCreateDto } from "../dtos/Company";
 
-export const createCompany = async (company: Company) => { 
+export const createCompany = async (company: CompanyCreateDto) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");

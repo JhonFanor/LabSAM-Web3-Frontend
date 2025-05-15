@@ -13,7 +13,7 @@ const Event: React.FC = () => {
     <>
       <header>
         <h1>Eventos</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <ButtonCreate onClick={handleCreateClick} label="Crear Evento" />
       </header>
 
       {showCreateEvent && (

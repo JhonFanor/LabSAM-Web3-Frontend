@@ -12,7 +12,7 @@ const JobBoard: React.FC = () => {
     <>
       <header>
         <h1>Bolsa de empleos</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <ButtonCreate onClick={handleCreateClick} label="Crear Oferta de empleo" />
       </header>
 
       {showCreateJobBoard && (

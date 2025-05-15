@@ -39,7 +39,12 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      await createCompany(company);
+      const companyToSend: CompanyCreateDto = {
+        ...company,
+        ...(localitation) && {localitation},
+      }
+
+      await createCompany(companyToSend);
 
       setSelectedTopic(null);
       setLocalitation(undefined);
@@ -53,7 +58,7 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
         subtopic_ids: [],
       });
     } catch (error) {
-      console.error("Error al guardar la compañia:", error);
+      console.error("Error al guardar la Empresa:", error);
     }
   };
 
@@ -64,39 +69,12 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
       </button>
       <h2 className="create-company__title">Crear Empresa</h2>
       <form className="create-company__form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre de la empresa"
-          value={company.name}
-          onChange={(e) => setCompany({ ...company, name: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          name="industry"
-          placeholder="Industria"
-          value={company.industry}
-          onChange={(e) => setCompany({ ...company, industry: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          name="website"
-          placeholder="Sitio web"
-          value={company.website}
-          onChange={(e) => setCompany({ ...company, website: e.target.value })}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electrónico"
-          value={company.email}
-          onChange={(e) => setCompany({ ...company, email: e.target.value })}
-          required
-        />
+        <input type="text" name="name" placeholder="Nombre de la empresa" value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} required />
+        <input type="text" name="industry" placeholder="Industria" value={company.industry} onChange={(e) => setCompany({ ...company, industry: e.target.value })} required />
+        <input type="text" name="website" placeholder="Sitio web" value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} />
+        <input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} required />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={company} setData={setCompany} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={company} setData={setCompany} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 

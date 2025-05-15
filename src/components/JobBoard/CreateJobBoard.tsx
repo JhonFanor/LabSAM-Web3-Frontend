@@ -70,7 +70,7 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
         <input type="text" name="salary_range" placeholder="Rango Salarial" value={jobBoard.salary_range} onChange={(e) => setJobBoard({ ...jobBoard, salary_range: e.target.value })} required />
         <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
         
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         

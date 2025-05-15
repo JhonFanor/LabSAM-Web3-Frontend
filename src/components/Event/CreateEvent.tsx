@@ -104,8 +104,8 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 
         <input type="date" name="date" value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
-        <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={event} setData={setEvent}subtopicsKey="subtopic_ids"/>
+        <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
+        <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={event} setData={setEvent} subtopicsKey="subtopic_ids"/>
         <SelectedSubtopics data={event} setData={setEvent} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics}/>
 
         {!localitation ? (

@@ -11,8 +11,8 @@ const Conpanies: React.FC = () => {
   return (
     <>
       <header>
-        <h1>Compañias</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Compañia" />
+        <h1>Empresas</h1>
+        <ButtonCreate onClick={handleCreateClick} label="Crear Empresa" />
       </header>
 
       {showCreateCompany && (
