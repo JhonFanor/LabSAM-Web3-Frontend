@@ -1,4 +1,4 @@
-import { EducationalOffer } from "../models/EducationalOffer";
+import { EducationalOffer } from "../dtos/EducationalOffer";
 
 export const createEducationalOffer = async (educationalOffer: EducationalOffer) => { 
     const token = localStorage.getItem("access_token");

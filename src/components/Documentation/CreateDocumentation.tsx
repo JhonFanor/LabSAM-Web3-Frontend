@@ -8,7 +8,9 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateDocumentation.css";
 import { Topic } from "../../models/Topic.ts";
-import { Documentation } from "../../models/Documentation.ts";
+import { DocumentationCreateDto } from "../../dtos/Documentation";
+import { uploadDocumentFile } from "../../api/Upload.ts";
+import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
 
 interface CreateDocumentationProps {
   onClose: () => void;
@@ -17,9 +19,13 @@ interface CreateDocumentationProps {
 export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [documentation, setDocumentation] = useState<Documentation>({
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+
+  const [documentation, setDocumentation] = useState<DocumentationCreateDto>({
     title: "",
     description: "",
+    link: "",
     subtopic_ids: [] as number[],
   });
 
@@ -31,13 +37,44 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createDocumentation(documentation);
-    setDocumentation({
-      title: "",
-      description: "",
-      subtopic_ids: [],
-    });
-    setSelectedTopic(null);
+    setUploading(true);
+
+    try {
+      let documentPath = documentation.link;
+
+      if (selectedDocumentFile) {
+        try {
+          documentPath = await uploadDocumentFile(selectedDocumentFile, "documentation");
+        } catch (uploadError) {
+          setUploading(false);
+          console.error("Error al subir la documentación", uploadError);
+          alert("No se pudo subir la documentación. Por favor, inténtalo de nuevo.");
+          return;
+        }
+      }
+
+      const documentationToSend: DocumentationCreateDto = {
+        ...documentation,
+        link: documentPath,
+      }
+
+      await createDocumentation(documentationToSend);
+      
+      setSelectedTopic(null);
+      setUploading(false);
+      setSelectedDocumentFile(null);
+
+      setDocumentation({
+        title: "",
+        description: "",
+        link: "",
+        subtopic_ids: [],
+      });
+    } catch(error){
+      console.error("Error al guardar la documentación:", error);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -51,11 +88,15 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
         
         <JoditEditor value={documentation.description} onChange={(content) => setDocumentation({ ...documentation, description: content })} className="jodit-container"/>
         
+        <DocumentInputSelector value={documentation.link} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" />
+
         <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         
-        <button className="create-documentation__submit" type="submit">Guardar Documentación</button>
+        <button className="create-documentation__submit" type="submit" disabled={uploading} >
+          {uploading ? "Guardando..." : "Guardar Documentación"}
+        </button>
       </form>
     </div>
   );

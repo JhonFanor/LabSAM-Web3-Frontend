@@ -9,6 +9,8 @@ import { NewsCreateDto } from "../../dtos/News";
 import { Topic } from "../../models/Topic";
 import { FaTimes } from "react-icons/fa";
 import "./CreateNews.css";
+import ImageInputSelector from "../Selector/ImageInputSelector";
+import { uploadImageFile } from "../../api/Upload";
 
 interface CreateNewsProps {
   onClose: () => void;
@@ -18,8 +20,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageOption, setImageOption] = useState<"url" | "file">("url");
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
 
   const [news, setNews] = useState<NewsCreateDto>({
     title: "",
@@ -43,24 +44,17 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
     try {
       let imagePath = news.image;
 
-      if (imageOption === "file" && selectedFile) {
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-        formData.append("folder", "news");
-
-        const res = await fetch("http://localhost:8080/api/upload/file", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await res.json();
-        if (data?.path) {
-          imagePath = data.path;
-        } else {
-          throw new Error("Error al subir imagen");
+      if (selectedImageFile) {
+        try {
+          imagePath = await uploadImageFile(selectedImageFile, "news");
+        } catch (uploadError) {
+          setUploading(false);
+          console.error("Error al subir imagen:", uploadError);
+          alert("No se pudo subir la imagen. Por favor, inténtalo de nuevo.");
+          return;
         }
       }
-
+  
       const newsToSend: NewsCreateDto = {
         ...news,
         image: imagePath,
@@ -68,11 +62,18 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
       };
 
       await createNews(newsToSend);
-
-      setNews({ title: "", description: "", image: "", link: "", date: "", subtopic_ids: [] });
+      
       setSelectedTopic(null);
-      setSelectedFile(null);
-      setImageOption("url");
+      setUploading(false);
+      setSelectedImageFile(null);
+      setNews({ 
+        title: "", 
+        description: "", 
+        image: "", 
+        link: "", 
+        date: "", 
+        subtopic_ids: [] 
+      });
     } catch (error) {
       console.error("Error al guardar noticia:", error);
     } finally {
@@ -87,44 +88,9 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
       </button>
       <h2 className="create-news__title">Crear Noticia</h2>
       <form className="create-news__form" onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required/>
+        <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
 
-        <div className="image-option-selector">
-          <div className={`image-option ${imageOption === "url" ? "selected" : ""}`} onClick={() => { setImageOption("url"); setSelectedFile(null); }} >
-            📎 URL de imagen
-          </div>
-          <div className={`image-option ${imageOption === "file" ? "selected" : ""}`} onClick={() => { setImageOption("file"); setNews({ ...news, image: "" }); }}>
-            🖼️ Subir imagen
-          </div>
-        </div>
-
-        {imageOption === "url" && (
-          <>
-            <input type="text" name="image" placeholder="URL de la imagen" value={news.image} onChange={(e) => setNews({ ...news, image: e.target.value })}/>
-            {news.image && (
-              <div className="image-preview">
-                <img src={news.image} alt="Vista previa" />
-                <button type="button" className="remove-image-button"onClick={() => setNews({ ...news, image: "" })}>
-                  Quitar URL
-                </button>
-              </div>
-            )}
-          </>
-        )}
-
-        {imageOption === "file" && (
-          <>
-            <input type="file" accept="image/*" onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} />
-            {selectedFile && (
-              <div className="image-preview">
-                <p>{selectedFile.name}</p>
-                <button type="button" className="remove-image-button"onClick={() => setSelectedFile(null)}>
-                  Quitar archivo
-                </button>
-              </div>
-            )}
-          </>
-        )}
+        <ImageInputSelector value={news.image} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" />
 
         <JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
 
@@ -136,7 +102,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={news} setData={setNews} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={news} setData={setNews} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
-        <button className="create-news__submit" type="submit" disabled={uploading}>
+        <button className="create-news__submit" type="submit" disabled={uploading} >
           {uploading ? "Guardando..." : "Guardar Noticia"}
         </button>
       </form>

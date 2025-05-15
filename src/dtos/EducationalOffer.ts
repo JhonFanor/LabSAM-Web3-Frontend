@@ -1,9 +1,10 @@
-export interface EducationalOffer {
+export interface EducationalOfferCreateDto {
     title: string;
     institution: string;
-    duration: number;
+    start_date: string;
+    end_date: string;
     cost: number;
     description: string;
-    website: string;
+    link: string;
     subtopic_ids: number[];
 }

@@ -7,7 +7,8 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateCompany.css";
 import { Topic } from "../../models/Topic.ts";
-import { Company } from "../../models/Company.ts";
+import { CompanyCreateDto } from "../../dtos/Company";
+import Localitation from "../Localitation/Localitation.tsx";
 
 interface CreateCompanyProps {
   onClose: () => void;
@@ -16,14 +17,17 @@ interface CreateCompanyProps {
 export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [company, setCompany] = useState<Company>({
+  
+  const [company, setCompany] = useState<CompanyCreateDto>({
     name: "",
     industry: "",
-    localitation_id: 0,
     website: "",
     email: "",
+    localitation: undefined,
     subtopic_ids: [],
   });
+
+  const [localitation, setLocalitation] = useState<{ address: string; latitude: number; longitude: number } | undefined >(undefined);
 
   useEffect(() => {
     GetAllTopics(setTopics);
@@ -33,16 +37,24 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createCompany(company);
-    setCompany({
-      name: "",
-      industry: "",
-      localitation_id: 0,
-      website: "",
-      email: "",
-      subtopic_ids: [],
-    });
-    setSelectedTopic(null);
+
+    try {
+      await createCompany(company);
+
+      setSelectedTopic(null);
+      setLocalitation(undefined);
+
+      setCompany({
+        name: "",
+        industry: "",
+        website: "",
+        email: "",
+        localitation: undefined,
+        subtopic_ids: [],
+      });
+    } catch (error) {
+      console.error("Error al guardar la compañia:", error);
+    }
   };
 
   return (
@@ -83,20 +95,28 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
           onChange={(e) => setCompany({ ...company, email: e.target.value })}
           required
         />
-        <input
-          type="number"
-          name="localitation_id"
-          placeholder="ID de localización"
-          value={company.localitation_id}
-          onChange={(e) => setCompany({ ...company, localitation_id: Number(e.target.value) })}
-          required
-        />
 
         <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={company} setData={setCompany} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={company} setData={setCompany} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
-        <button className="create-company__submit" type="submit">Guardar Empresa</button>
+        {!localitation ? (
+          <button type="button" onClick={() => setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973,})} >
+            Añadir localización
+          </button>
+        ) : (
+          <div style={{ marginBottom: "1rem" }}>
+            <Localitation value={localitation} onChange={setLocalitation} />
+            <button type="button" className="remove-localitation-button" onClick={() => setLocalitation(undefined)} style={{ marginTop: "0.5rem", backgroundColor: "#f44336", color: "#fff", border: "none", padding: "0.5rem", borderRadius: "4px", }} >
+              Quitar localización
+            </button>
+          </div>
+        )}
+
+
+        <button className="create-company__submit" type="submit">
+          Guardar Empresa
+        </button>
       </form>
     </div>
   );

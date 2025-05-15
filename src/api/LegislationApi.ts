@@ -1,4 +1,4 @@
-import { Legislation } from "../models/Legislation";
+import { Legislation } from "../dtos/Legislation";
 
 export const createLegislation = async (legislation: Legislation) => { 
     const token = localStorage.getItem("access_token");

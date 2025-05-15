@@ -1,7 +1,6 @@
-export interface Event {
+export interface LegislationCreateDto {
     title: string;
     description: string;
     link: string;
-    date: string;
     subtopic_ids: number[];
 }

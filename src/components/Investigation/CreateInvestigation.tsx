@@ -8,7 +8,9 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateInvestigation.css";
 import { Topic } from "../../models/Topic.ts";
-import { Investigation } from "../../models/Investigation.ts";
+import { InvestigationCreateDto } from "../../dtos/Investigation";
+import DocumentInputSelector from "../Selector/DocumentInputSelector";
+import { uploadDocumentFile } from "../../api/Upload.ts";
 
 interface CreateInvestigationProps {
   onClose: () => void;
@@ -17,10 +19,14 @@ interface CreateInvestigationProps {
 export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [investigation, setInvestigation] = useState<Investigation>({
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+
+  const [investigation, setInvestigation] = useState<InvestigationCreateDto>({
     title: "",
     description: "",
     date: "",
+    link: "",
     subtopic_ids: [] as number[],
   });
 
@@ -32,14 +38,45 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createInvestigation(investigation);
-    setInvestigation({
-      title: "",
-      description: "",
-      date: "",
-      subtopic_ids: [],
-    });
-    setSelectedTopic(null);
+    setUploading(true);
+
+    try {
+      let documentPath = investigation.link;
+
+      if (selectedDocumentFile) {
+        try {
+          documentPath = await uploadDocumentFile(selectedDocumentFile, "investigation")
+        } catch (uploadError) {
+          setUploading(false);
+          console.error("Error al subir la investigación:", uploadError);
+          alert("No se pudo subir la investigación. Por favor, inténtalo de nuevo.");
+          return;
+        }
+      }
+
+      const investigationToSend: InvestigationCreateDto = {
+        ...investigation,
+        link: documentPath,
+        date: investigation ? new Date(investigation.date).toISOString() : "",
+      };
+
+      await createInvestigation(investigationToSend);
+
+      setSelectedTopic(null);
+      setUploading(false);
+      setSelectedDocumentFile(null);
+      setInvestigation({
+        title: "",
+        description: "",
+        date: "",
+        link: "",
+        subtopic_ids: [],
+      });
+    } catch(error){
+      console.error("Error al guardar la investigación:", error);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -55,11 +92,15 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         
         <input type="date" name="date" placeholder="Fecha" value={investigation.date} onChange={(e) => setInvestigation({ ...investigation, date: e.target.value })} required />
         
+        <DocumentInputSelector value={investigation.link} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" />
+
         <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={investigation} setData={setInvestigation} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={investigation} setData={setInvestigation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         
-        <button className="create-investigation__submit" type="submit">Guardar Investigación</button>
+        <button className="create-investigation__submit" type="submit"  disabled={uploading} >
+          {uploading ? "Guardando..." : "Guardar Investigación"}
+        </button>
       </form>
     </div>
   );

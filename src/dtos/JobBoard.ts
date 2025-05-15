@@ -1,9 +1,9 @@
-export interface JobBoard {
+export interface JobBoardCreateDto {
     title: string;
     company: string;
     description: string;
-    type: string;
+    type?: string;
     salary_range: string;
-    status: string;
+    link: string;
     subtopic_ids: number[];
 }

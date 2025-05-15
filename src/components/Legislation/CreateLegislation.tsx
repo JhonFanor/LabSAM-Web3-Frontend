@@ -8,7 +8,9 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateLegislation.css";
 import { Topic } from "../../models/Topic.ts";
-import { Legislation } from "../../models/Legislation.ts";
+import { LegislationCreateDto } from "../../dtos/Legislation";
+import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
+import { uploadDocumentFile } from "../../api/Upload.ts";
 
 interface CreateLegislationProps {
   onClose: () => void;
@@ -17,9 +19,13 @@ interface CreateLegislationProps {
 export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [legislation, setLegislation] = useState<Legislation>({
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+
+  const [legislation, setLegislation] = useState<LegislationCreateDto>({
     title: "",
     description: "",
+    link: "",
     subtopic_ids: [] as number[],
   });
 
@@ -31,13 +37,44 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createLegislation(legislation);
-    setLegislation({
-      title: "",
-      description: "",
-      subtopic_ids: [],
-    });
-    setSelectedTopic(null);
+    setUploading(true);
+
+    try {
+      let documentPath = legislation.link;
+
+      if (selectedDocumentFile) {
+        try {
+          documentPath = await uploadDocumentFile(selectedDocumentFile, "investigation")
+        } catch (uploadError) {
+          setUploading(false);
+          console.error("Error al subir la legislación:", uploadError);
+          alert("No se pudo subir la legislación. Por favor, inténtalo de nuevo.");
+          return;
+        }
+      }
+
+      const legislationToSend: LegislationCreateDto = {
+        ...legislation,
+        link: documentPath,
+      }
+
+      await createLegislation(legislationToSend);
+      
+      setSelectedTopic(null);
+      setUploading(false)
+      setSelectedDocumentFile(null);
+      
+      setLegislation({
+        title: "",
+        description: "",
+        link: "",
+        subtopic_ids: [],
+      });
+    } catch (error) {
+      console.error("Error al guardar la legislación:", error);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -51,11 +88,15 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
         
         <JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
         
+        <DocumentInputSelector value={legislation.link} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" />
+
         <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={legislation} setData={setLegislation} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={legislation} setData={setLegislation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         
-        <button className="create-legislation__submit" type="submit">Guardar Legislación</button>
+        <button className="create-legislation__submit" type="submit" disabled={uploading}>
+          {uploading ? "Guardando..." : "Guardar Legislación"}
+        </button>
       </form>
     </div>
   );

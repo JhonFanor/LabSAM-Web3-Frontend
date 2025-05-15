@@ -1,4 +1,4 @@
-import { Documentation } from "../models/Documentation";
+import { Documentation } from "../dtos/Documentation";
 
 export const createDocumentation = async (documentation: Documentation) => { 
     const token = localStorage.getItem("access_token");
