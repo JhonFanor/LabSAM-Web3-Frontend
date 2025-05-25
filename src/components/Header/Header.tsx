@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({toggleMenu, menuVisible, onLoginC
     <header className="header">
       <div className="header__container">
         <img src="assets/img/perfil.jpg" alt="Profile" className="header__img" />
-        <a href="#" className="header__logo">Bedimcode</a>
+        <a href="#" className="header__logo">LamSamWeb3</a>
 
         <div className="right-aligned">
           {!isAuthenticated && !isLoading &&( 

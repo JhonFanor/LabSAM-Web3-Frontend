@@ -1,9 +1,9 @@
 import React from "react";
 import "./GetNews.css";
-import { NewsResponseDto } from "../../dtos/News";
+import { NewsGetResponse } from "../../dtos/responses/News";
 
 interface GetNewsProps {
-  news: NewsResponseDto;
+  news: NewsGetResponse;
 }
 
 const formatDate = (dateString: string) => {
@@ -26,14 +26,14 @@ const GetNews: React.FC<GetNewsProps> = ({ news }) => {
           )}
         </p>
         <p className="news-meta">
-                Subido por:{" "}
-                {
-                  news.user.regular_user?.name ||
-                  news.user.university_user?.name ||
-                  news.user.business_user?.name ||
-                  "Anónimo"
-                }
-              </p>
+          Subido por:{" "}
+          {
+            news.user.regular_user?.name ||
+            news.user.university_user?.name ||
+            news.user.business_user?.name ||
+            "Anónimo"
+          }
+        </p>
       </div>
       <p className="news-meta">Subtemas: {news.subtopics.map((s) => s.name).join(", ")}</p>
 

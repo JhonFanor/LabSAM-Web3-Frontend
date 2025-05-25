@@ -1,7 +1,8 @@
-import { NewsCreateDto } from "../dtos/News";
-import { NewsResponseDto } from "../dtos/News";
+import { NewsCreateRequest } from "../dtos/requests/News";
+import { NewsGetResponse } from "../dtos/responses/News";
 
-export const createNews = async (news: NewsCreateDto) => { 
+
+export const createNews = async (news: NewsCreateRequest) => { 
     const token = localStorage.getItem("access_token");
     if (!token) {
       alert("No tienes una sesión activa.");
@@ -45,7 +46,7 @@ export const getAllNews = async (page: number, limit: number) => {
 };
 
 
-export const getNewsById = async (id: number): Promise<NewsResponseDto> => {
+export const getNewsById = async (id: number): Promise<NewsGetResponse> => {
   const response = await fetch(`http://localhost:8080/api/news/${id}`);
   
   if (!response.ok) {
@@ -53,6 +54,5 @@ export const getNewsById = async (id: number): Promise<NewsResponseDto> => {
   }
 
   const data = await response.json();
-  console.log(data)
-  return data as NewsResponseDto;
+  return data as NewsGetResponse;
 };

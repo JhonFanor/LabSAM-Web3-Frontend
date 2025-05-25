@@ -1,3 +1,5 @@
+import { UserResponseDto } from "./User";
+
 export interface EventCreateDto {
     title: string;
     image: string;
@@ -23,29 +25,6 @@ export interface EventResponseDto {
         longitude: number;
     };
     subtopic_ids: number[];
-    user: {
-        avatar: string;
-        regular_user?: {
-        name: string;
-        };
-        university_user?: {
-        name: string;
-        };
-        business_user?: {
-        name: string;
-        };
-    };
-}
-
-export interface Event {
-    title: string;
-    description: string;
-    link: string;
-    date: string;
-    localitation: {
-        address: string;
-        latitude: number;
-        longitude: number;
-    };
-    subtopic_ids: number[];
+    subtopics: { name: string }[];
+    user: UserResponseDto;
 }

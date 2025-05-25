@@ -5,7 +5,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import { createNews } from "../../api/NewsApi";
 import { GetAllTopics } from "../../api/TopicApi";
-import { NewsCreateDto } from "../../dtos/News";
+import { NewsCreateRequest } from "../../dtos/requests/News";
 import { Topic } from "../../models/Topic";
 import { FaTimes } from "react-icons/fa";
 import "./CreateNews.css";
@@ -22,7 +22,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
 
-  const [news, setNews] = useState<NewsCreateDto>({
+  const [news, setNews] = useState<NewsCreateRequest>({
     title: "",
     image: "",
     description: "",
@@ -55,7 +55,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
         }
       }
   
-      const newsToSend: NewsCreateDto = {
+      const newsToSend: NewsCreateRequest = {
         ...news,
         image: imagePath,
         date: news.date ? new Date(news.date).toISOString() : "",

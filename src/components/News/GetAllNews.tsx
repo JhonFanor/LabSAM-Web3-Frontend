@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Pagination } from "../Pagination/Pagination";
 import { getAllNews } from "../../api/NewsApi";
-import { NewsResponseDto } from "../../dtos/News";
 import "./GetAllNews.css";
+import { NewsGetAllResponse } from "../../dtos/responses/News";
 
 
 export const GetAllNews: React.FC = () => {
-  const [newsList, setNewsList] = useState<NewsResponseDto[]>([]);
+  const [newsList, setNewsList] = useState<NewsGetAllResponse[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState<string | null>(null);
 

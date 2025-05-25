@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GetNews from "../components/News/GetNews";
 import { getNewsById } from "../api/NewsApi";
-import { NewsResponseDto } from "../dtos/News";
+import { NewsGetResponse } from "../dtos/responses/News";
 
 const NewsDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -10,7 +10,7 @@ const NewsDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
 
-  const [news, setNews] = useState<NewsResponseDto | null>(null);
+  const [news, setNews] = useState<NewsGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -113,7 +113,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
                 
         <DocumentInputSelector value={bankOfResume.link} onChange={(document) => setBankOfResume({...bankOfResume, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" />
 
-        <TopicSelector topics={topics} setSelectedTopic={setSelectedTopic} />
+        <TopicSelector topics={topics}  selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={bankOfResume} setData={setBankOfResume} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={bankOfResume} setData={setBankOfResume} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
         

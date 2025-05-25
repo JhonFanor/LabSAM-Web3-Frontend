@@ -31,3 +31,27 @@ export const createBankOfResume = async (bankOfResume: BankOfResumeCreateDto) =>
       alert("Hubo un error al crear la hoja de vida.");
     }
 };
+
+export const getAllBankOfResume = async (page: number, limit: number) => {
+  const response = await fetch(`http://localhost:8080/api/bank-of-resume?page=${page}&limit=${limit}`);
+  console.log("STATUS:", response.status);
+  if (!response.ok) {
+    throw new Error("Error al obtener las hojas de vida");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+
+export const getNewsById = async (id: number): Promise<NewsResponseDto> => {
+  const response = await fetch(`http://localhost:8080/api/news/${id}`);
+  
+  if (!response.ok) {
+    throw new Error("Error al obtener la noticia");
+  }
+
+  const data = await response.json();
+  console.log(data)
+  return data as NewsResponseDto;
+};
