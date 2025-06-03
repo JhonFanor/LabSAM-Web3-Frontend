@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateEducationalOffer.css";
 import { Topic } from "../../models/Topic.ts";
-import { EducationalOfferCreateDto } from "../../dtos/EducationalOffer";
+import { EducationalOfferCreateRequest } from "../../dtos/requests/EducationalOffer";
 
 interface CreateEducationalOfferProps {
   onClose: () => void;
@@ -18,7 +18,7 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   
-  const [educationalOffer, setEducationalOffer] = useState<EducationalOfferCreateDto>({
+  const [educationalOffer, setEducationalOffer] = useState<EducationalOfferCreateRequest>({
     title: "",
     institution: "",
     start_date: "",

@@ -7,7 +7,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateCompany.css";
 import { Topic } from "../../models/Topic.ts";
-import { CompanyCreateDto } from "../../dtos/Company";
+import { CompanyCreateRequest } from "../../dtos/requests/Company";
 import Localitation from "../Localitation/Localitation.tsx";
 
 interface CreateCompanyProps {
@@ -18,7 +18,7 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   
-  const [company, setCompany] = useState<CompanyCreateDto>({
+  const [company, setCompany] = useState<CompanyCreateRequest>({
     name: "",
     industry: "",
     website: "",
@@ -39,7 +39,7 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const companyToSend: CompanyCreateDto = {
+      const companyToSend: CompanyCreateRequest = {
         ...company,
         ...(localitation) && {localitation},
       }

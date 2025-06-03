@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateInvestigation.css";
 import { Topic } from "../../models/Topic.ts";
-import { InvestigationCreateDto } from "../../dtos/Investigation";
+import { InvestigationCreateRequest } from "../../dtos/requests/Investigation";
 import DocumentInputSelector from "../Selector/DocumentInputSelector";
 import { uploadDocumentFile } from "../../api/Upload.ts";
 
@@ -22,7 +22,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 
-  const [investigation, setInvestigation] = useState<InvestigationCreateDto>({
+  const [investigation, setInvestigation] = useState<InvestigationCreateRequest>({
     title: "",
     description: "",
     date: "",
@@ -54,7 +54,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         }
       }
 
-      const investigationToSend: InvestigationCreateDto = {
+      const investigationToSend: InvestigationCreateRequest = {
         ...investigation,
         link: documentPath,
         date: investigation ? new Date(investigation.date).toISOString() : "",

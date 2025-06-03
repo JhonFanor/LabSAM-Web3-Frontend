@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateBankOfResume.css";
 import { Topic } from "../../models/Topic.ts";
-import { BankOfResumeCreateDto } from "../../dtos/BankOfResume";
+import { BankOfResumeCreateRequest } from "../../dtos/requests/BankOfResume";
 import ImageInputSelector from "../Selector/ImageInputSelector.tsx";
 import { uploadDocumentFile, uploadImageFile } from "../../api/Upload.ts";
 import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
@@ -24,7 +24,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 
-  const [bankOfResume, setBankOfResume] = useState<BankOfResumeCreateDto>({
+  const [bankOfResume, setBankOfResume] = useState<BankOfResumeCreateRequest>({
     photo: "",
     title: "",
     summary: "",
@@ -70,7 +70,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
         }
       }
 
-      const bankOfResumeToSend: BankOfResumeCreateDto = {
+      const bankOfResumeToSend: BankOfResumeCreateRequest = {
         ...bankOfResume,
         photo: imagePath,
         link: documentPath,

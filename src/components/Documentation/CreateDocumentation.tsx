@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateDocumentation.css";
 import { Topic } from "../../models/Topic.ts";
-import { DocumentationCreateDto } from "../../dtos/Documentation";
+import { DocumentationCreateRequest } from "../../dtos/requests/Documentation";
 import { uploadDocumentFile } from "../../api/Upload.ts";
 import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
 
@@ -22,7 +22,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 
-  const [documentation, setDocumentation] = useState<DocumentationCreateDto>({
+  const [documentation, setDocumentation] = useState<DocumentationCreateRequest>({
     title: "",
     description: "",
     link: "",
@@ -53,7 +53,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
         }
       }
 
-      const documentationToSend: DocumentationCreateDto = {
+      const documentationToSend: DocumentationCreateRequest = {
         ...documentation,
         link: documentPath,
       }

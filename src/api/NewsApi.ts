@@ -1,37 +1,22 @@
+import { FetchWithAuth } from "../utils/FetchWithAuth";
 import { NewsCreateRequest } from "../dtos/requests/News";
 import { NewsGetResponse } from "../dtos/responses/News";
 
 
 export const createNews = async (news: NewsCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-    console.log(news.subtopic_ids)
-    try {
-      const response = await fetch("http://localhost:8080/api/news", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
-        body: JSON.stringify(news), 
-      });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
-  
-      if (!response.ok) {
-        throw new Error("Error al crear la noticia");
-      }
-  
-      alert("Noticia creada con éxito!");
-    } catch (error) {
-      alert("Hubo un error al crear la noticia.");
-    }
+  try {
+    const response = await FetchWithAuth("http://localhost:8080/api/news", {
+      method: "POST",
+      body: JSON.stringify(news),
+    });
+
+    if (!response.ok) throw new Error("Error al crear la noticia");
+
+    alert("Noticia creada con éxito!");
+  } catch (error) {
+    alert((error as Error).message || "Hubo un error al crear la noticia.");
+    console.error(error);
+  }
 };
 
 export const getAllNews = async (page: number, limit: number) => {

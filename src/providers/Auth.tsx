@@ -5,7 +5,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
-  isLoading: boolean;  // Nuevo estado de carga
+  isLoading: boolean;  
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);

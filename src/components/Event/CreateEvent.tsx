@@ -9,7 +9,7 @@ import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import Localitation from "../Localitation/Localitation.tsx";
 import "./CreateEvent.css";
 import { Topic } from "../../models/Topic.ts";
-import { EventCreateDto } from "../../dtos/Event";
+import { EventCreateRequest } from "../../dtos/requests/Event";
 import ImageInputSelector from "../Selector/ImageInputSelector.tsx";
 import { uploadImageFile } from "../../api/Upload.ts";
 
@@ -23,7 +23,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
 
-  const [event, setEvent] = useState<EventCreateDto>({
+  const [event, setEvent] = useState<EventCreateRequest>({
     title: "",
     image: "",
     description: "",
@@ -60,7 +60,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
         }
       }
 
-      const eventToSend: EventCreateDto = {
+      const eventToSend: EventCreateRequest = {
         ...event,
         image: imagePath,
         ...(localitation && { localitation }),

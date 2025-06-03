@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateLegislation.css";
 import { Topic } from "../../models/Topic.ts";
-import { LegislationCreateDto } from "../../dtos/Legislation";
+import { LegislationCreateRequest } from "../../dtos/requests/Legislation";
 import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
 import { uploadDocumentFile } from "../../api/Upload.ts";
 
@@ -22,7 +22,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 
-  const [legislation, setLegislation] = useState<LegislationCreateDto>({
+  const [legislation, setLegislation] = useState<LegislationCreateRequest>({
     title: "",
     description: "",
     link: "",
@@ -53,7 +53,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
         }
       }
 
-      const legislationToSend: LegislationCreateDto = {
+      const legislationToSend: LegislationCreateRequest = {
         ...legislation,
         link: documentPath,
       }

@@ -8,7 +8,7 @@ import SubtopicSelector from "../Subtopic/SubtopicSelector";
 import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
 import "./CreateJobBoard.css";
 import { Topic } from "../../models/Topic.ts";
-import { JobBoardCreateDto } from "../../dtos/JobBoard";
+import { JobBoardCreateRequest } from "../../dtos/requests/JobBoard";
 
 interface CreateJobBoardProps {
   onClose: () => void;
@@ -17,7 +17,7 @@ interface CreateJobBoardProps {
 export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  const [jobBoard, setJobBoard] = useState<JobBoardCreateDto>({
+  const [jobBoard, setJobBoard] = useState<JobBoardCreateRequest>({
     title: "",
     company: "",
     description: "",
