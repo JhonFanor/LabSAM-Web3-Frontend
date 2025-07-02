@@ -7,10 +7,10 @@ import { createNews } from "../../api/NewsApi";
 import { GetAllTopics } from "../../api/TopicApi";
 import { NewsCreateRequest } from "../../dtos/requests/News";
 import { Topic } from "../../models/Topic";
-import { FaTimes } from "react-icons/fa";
 import "./CreateNews.css";
 import ImageInputSelector from "../Selector/ImageInputSelector";
 import { uploadImageFile } from "../../api/Upload";
+import { ButtonClose } from "../../components";
 
 interface CreateNewsProps {
   onClose: () => void;
@@ -82,10 +82,8 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="create-news__content">
-      <button className="create-news__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+    <div className="create-news">
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-news__title">Crear Noticia</h2>
       <form className="create-news__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
@@ -102,7 +100,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={news} setData={setNews} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={news} setData={setNews} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
-        <button className="create-news__submit" type="submit" disabled={uploading} >
+        <button className="create-news__form-submit" type="submit" disabled={uploading} >
           {uploading ? "Guardando..." : "Guardar Noticia"}
         </button>
       </form>

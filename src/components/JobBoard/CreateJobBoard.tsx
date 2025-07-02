@@ -55,7 +55,7 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="create-job-board__content">
+    <div className="create-job-board">
       <button className="create-job-board__close-button" onClick={onClose}>
         <FaTimes />
       </button>

@@ -1,13 +1,13 @@
-.create-bank-of-resume__content {
+.create-bank-of-resume {
     position: relative;
     background: white;
-    padding: 2.5rem; /* Aumenté un poco el padding */
+    padding: 2.5rem; 
     border-radius: 1rem;
     width: 95%;
-    max-width: 750px; /* Un poco más ancho */
-    max-height: 90vh; /* Ajuste para pantallas grandes */
-    min-height: 500px; /* Mayor altura mínima */
-    overflow-y: auto; /* Scroll interno */
+    max-width: 750px; 
+    max-height: 90vh; 
+    min-height: 500px; 
+    overflow-y: auto; 
     text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-news 0.4s ease-in-out;
@@ -19,21 +19,6 @@
     0% { transform: scale(1, 1); }
     50% { transform: scale(1.05, 1.05); }
     100% { transform: scale(1, 1); }
-}
-
-.create-bank-of-resume__close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.create-bank-of-resume__close-button:hover {
-    color: #000;
 }
 
 .create-bank-of-resume__title {
@@ -91,7 +76,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-bank-of-resume__content {
+    .create-bank-of-resume {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -113,7 +98,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-bank-of-resume__content {
+    .create-bank-of-resume {
         max-width: 95%; 
         max-height: 90vh;
     }

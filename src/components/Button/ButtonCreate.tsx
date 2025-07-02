@@ -5,7 +5,7 @@ type ButtonCreateProps = {
     label: string;
 };
 
-const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, label }) => {
+export const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, label }) => {
     return (
       <button onClick={onClick} className="header__login__button">
         {label}
@@ -13,4 +13,3 @@ const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, label }) => {
     );
 };
 
-export default ButtonCreate;

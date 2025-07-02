@@ -1,4 +1,4 @@
-.subtopic {
+.topic {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.create-news__select {
+.topic__select {
     width: 100%;
     padding: 0.5rem;
     border-radius: 0.5rem;

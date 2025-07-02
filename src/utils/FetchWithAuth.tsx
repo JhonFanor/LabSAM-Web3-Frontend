@@ -26,14 +26,13 @@ export const FetchWithAuth = async (input: RequestInfo, init: RequestInit = {}, 
     });
 
     if (!refresh.ok) {
-      localStorage.removeItem("access_token"); // limpieza
+      localStorage.removeItem("access_token");
       throw new Error("Sesión expirada. Vuelve a iniciar sesión.");
     }
 
     const { access_token } = await refresh.json();
     localStorage.setItem("access_token", access_token);
 
-    // Reintenta con el nuevo token
     return doRequest(access_token);
   }
 

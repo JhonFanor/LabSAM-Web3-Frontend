@@ -5,15 +5,10 @@ interface SelectedSubtopicsProps<T, K extends keyof T> {
   data: T;
   setData: React.Dispatch<React.SetStateAction<T>>;
   subtopicsKey: K;
-  subtopicsList?: { id: number; name: string }[]; // Lista opcional de referencia
+  subtopicsList?: { id: number; name: string }[];
 }
 
-const SelectedSubtopics = <T, K extends keyof T>({
-  data,
-  setData,
-  subtopicsKey,
-  subtopicsList = [],
-}: SelectedSubtopicsProps<T, K>) => {
+export const SelectedSubtopics = <T, K extends keyof T>({ data, setData, subtopicsKey, subtopicsList = [], }: SelectedSubtopicsProps<T, K>) => {
   const subtopicIds = data[subtopicsKey] as number[];
 
   const handleRemoveSubtopic = (id: number) => {
@@ -21,14 +16,14 @@ const SelectedSubtopics = <T, K extends keyof T>({
   };
 
   return subtopicIds.length > 0 ? (
-    <div className="selected-subtopics">
+    <div className="subtopics">
       <label>Subtemas seleccionados:</label>
-      <ul>
+      <ul className="subtopics__list">
         {subtopicIds.map((id) => {
           const sub = subtopicsList.find((s) => s.id === id) || { id, name: `Subtema ${id}` };
           return (
-            <li key={id}>
-              {sub.name} <button onClick={() => handleRemoveSubtopic(id)}>❌</button>
+            <li key={id} className="subtopics__list-item">
+              {sub.name} <button className="subtopics__list-button" onClick={() => handleRemoveSubtopic(id)}>❌</button>
             </li>
           );
         })}
@@ -36,5 +31,3 @@ const SelectedSubtopics = <T, K extends keyof T>({
     </div>
   ) : null;
 };
-
-export default SelectedSubtopics;

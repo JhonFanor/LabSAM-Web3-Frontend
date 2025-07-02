@@ -10,13 +10,7 @@ interface SubtopicSelectorProps<T extends object, K extends keyof T> {
   subtopicsKey: K;
 }
 
-const SubtopicSelector = <T extends object, K extends keyof T>({
-  topics,
-  selectedTopic,
-  data,
-  setData,
-  subtopicsKey,
-}: SubtopicSelectorProps<T, K>) => {
+export const SubtopicSelector = <T extends object, K extends keyof T>({ topics, selectedTopic, data, setData, subtopicsKey, }: SubtopicSelectorProps<T, K>) => {
   const subtopicIds = data[subtopicsKey] as number[];
 
   const handleSelectSubtopic = (subtopicId: number) => {
@@ -51,5 +45,3 @@ const SubtopicSelector = <T extends object, K extends keyof T>({
     </div>
   ) : null;
 };
-
-export default SubtopicSelector;

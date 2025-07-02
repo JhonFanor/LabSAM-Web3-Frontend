@@ -1,4 +1,4 @@
-.create-educational-offer__content {
+.create-educational-offer {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-educational-offer__content {
+    .create-educational-offer {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-educational-offer__content {
+    .create-educational-offer {
         max-width: 95%; 
         max-height: 90vh;
     }

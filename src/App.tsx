@@ -5,7 +5,7 @@ import { Login, Register } from './components'; // Importa los nuevos componente
 import News from './pages/News';
 import Events from './pages/Event';
 import './App.css';
-import Companies from './pages/Companies';
+import Companies from './pages/Company';
 import Investigations from './pages/Investigation';
 import JobBoard from './pages/JobBoard';
 import BankOfResume from './pages/BankOfResume';

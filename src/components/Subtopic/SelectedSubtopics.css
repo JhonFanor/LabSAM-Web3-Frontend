@@ -1,9 +1,8 @@
-/* Lista de subtemas seleccionados */
-.selected-subtopics {
+.subtopics {
     margin-top: 1rem;
 }
 
-.selected-subtopics ul {
+.subtopics__list {
     list-style: none;
     padding: 0;
     display: flex;
@@ -11,7 +10,7 @@
     gap: 5px;
 }
 
-.selected-subtopics li {
+.subtopics__list-item {
     background: #d1ecf1;
     padding: 5px 10px;
     border-radius: 5px;
@@ -21,7 +20,7 @@
     font-size: 0.9rem;
 }
 
-.selected-subtopics button {
+.subtopics__list-button {
     background: none;
     border: none;
     cursor: pointer;

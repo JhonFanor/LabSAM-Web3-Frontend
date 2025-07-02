@@ -4,7 +4,7 @@ import { Pagination } from "../Pagination/Pagination";
 import { getAllNews } from "../../api/NewsApi";
 import "./GetAllNews.css";
 import { NewsGetAllResponse } from "../../dtos/responses/News";
-
+import { GetAllError } from "../Error/GetAll";
 
 export const GetAllNews: React.FC = () => {
   const [newsList, setNewsList] = useState<NewsGetAllResponse[]>([]);
@@ -22,7 +22,7 @@ export const GetAllNews: React.FC = () => {
         const data = await getAllNews(page, limit);
         setNewsList(data.data);
         setTotalPages(data.total_page);
-        setError(null);
+        setError(data.data.length ? null : "No hay noticias disponibles.");
       } catch (err) {
         setError("No se pudieron cargar las noticias");
         console.error(err);
@@ -38,24 +38,18 @@ export const GetAllNews: React.FC = () => {
   };
 
   return (
-    <section className="news-get-all-container">
-      {error && <p className="error-message">{error}</p>}
+    <section className="get-all-news">
+      <GetAllError message={error}/>
 
-      <div className="news-get-all-list">
+      <div className="get-all-news__list">
         {newsList.map((news) => (
-          <Link to={`/news/${news.id}`} key={news.id} className="news-get-all-item">
-            <h3>{news.title}</h3>
-            <img src={news.image} alt={news.title} className="news-get-all-image" />
-            <div className="news-get-all-meta-container">
-              <p className="news-get-all-meta">{new Date(news.date).toLocaleDateString()}</p>
-              <p className="news-get-all-meta">
-                Subido por:{" "}
-                {
-                  news.user.regular_user?.name ||
-                  news.user.university_user?.name ||
-                  news.user.business_user?.name ||
-                  "Anónimo"
-                }
+          <Link to={`/news/${news.id}`} key={news.id} className="get-all-news__list-item">
+            <h3 className="get-all-news__list-item-title">{news.title}</h3>
+            <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
+            <div className="get-all-news__list-item__content">
+              <p className="get-all-news__list-item__content-date">{new Date(news.date).toLocaleDateString()}</p>
+              <p className="get-all-news__list-item__content-user">
+                Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
               </p>
             </div>
           </Link>

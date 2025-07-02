@@ -78,7 +78,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
   };
 
   return (
-    <div className="create-legislation__content">
+    <div className="create-legislation">
       <button className="create-legislation__close-button" onClick={onClose}>
         <FaTimes />
       </button>

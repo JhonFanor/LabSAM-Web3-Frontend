@@ -1,4 +1,4 @@
-.create-legislation__content {
+.create-legislation {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-legislation__content {
+    .create-legislation {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-legislation__content {
+    .create-legislation {
         max-width: 95%; 
         max-height: 90vh;
     }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CreateEducationalOffer } from '../components/EducationalOffer/CreateEducationalOffer';
-import ButtonCreate from '../components/Button/ButtonCreate';
+import { ButtonCreate, CreateEducationalOffer, GetAllEducationalOffer } from '../components';
 
 const EducationalOffer: React.FC = () => {
   const [showCreateEducationalOffer, setShowCreateEducationalOffer] = useState(false);
@@ -14,6 +13,8 @@ const EducationalOffer: React.FC = () => {
         <h1>Ofertas educativas</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear oferta educativa" />
       </header>
+
+      <GetAllEducationalOffer/>
 
       {showCreateEducationalOffer && (
         <div className="modal-overlay" onClick={(e) => {

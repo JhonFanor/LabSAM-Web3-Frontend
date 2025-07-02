@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { CreateNews } from '../components/News/CreateNews';
-import { GetAllNews } from '../components/News/GetAllNews';
-import ButtonCreate from '../components/Button/ButtonCreate';
+import { ButtonCreate, CreateNews, GetAllNews } from '../components';
 
 const News: React.FC = () => {
   const [showCreateNews, setShowCreateNews] = useState(false);

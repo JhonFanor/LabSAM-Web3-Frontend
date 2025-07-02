@@ -2,7 +2,7 @@ import { UserMinimalResponse } from "./User";
 import { LocalitationResponse } from "./Localitation";
 import { SubtopicMinimalResponse } from "./Subtopic";
 
-export interface EventGetResponse {
+export interface EventGetAllResponse {
     id: number;
     title: string;
     image: string;

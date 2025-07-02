@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DocumentUploader from "../Upload/Document";
+import { DocumentUploader } from "../../components";
 import "./DocumentInputSelector.css"
 
 interface DocumentInputSelectorProps {
@@ -10,7 +10,7 @@ interface DocumentInputSelectorProps {
   fileLabel?: string;
 }
 
-const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel }) => {
+export const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel }) => {
   const [documentOption, setDocumentOption] = useState<"url" | "file">(value.startsWith("http") ? "url" : "file");
 
   return (
@@ -44,5 +44,3 @@ const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ value, on
     </div>
   );
 };
-
-export default DocumentInputSelector;

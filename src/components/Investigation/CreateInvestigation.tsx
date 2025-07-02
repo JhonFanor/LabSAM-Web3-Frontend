@@ -82,7 +82,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
   };
 
   return (
-    <div className="create-investigation__content">
+    <div className="create-investigation">
       <button className="create-investigation__close-button" onClick={onClose}>
         <FaTimes />
       </button>

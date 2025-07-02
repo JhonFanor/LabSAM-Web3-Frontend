@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { FaUser, FaLock, FaTimes } from "react-icons/fa"; // Importar iconos de FontAwesome
+import { FaUser, FaLock, FaTimes } from "react-icons/fa";
 import loginImage from "../../assets/img/img-login.svg";
-import { useAuth } from "../../providers/Auth"; // Importar el contexto de autenticación
-
+import { useAuth } from "../../providers/Auth"; 
 interface LoginProps {
   onClose: () => void;
   onSwitchToRegister: () => void;

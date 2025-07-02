@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import ButtonCreate from '../components/Button/ButtonCreate';
-import { CreateJobBoard } from '../components/JobBoard/CreateJobBoard';
+import { ButtonCreate, CreateJobBoard, GetAllJobBoard } from '../components';
 
 const JobBoard: React.FC = () => {
   const [showCreateJobBoard, setShowCreateJobBoard] = useState(false);
@@ -14,6 +13,8 @@ const JobBoard: React.FC = () => {
         <h1>Bolsa de empleos</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Oferta de empleo" />
       </header>
+
+      <GetAllJobBoard />
 
       {showCreateJobBoard && (
         <div className="modal-overlay" onClick={(e) => {

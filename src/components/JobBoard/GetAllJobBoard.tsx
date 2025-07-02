@@ -1,0 +1,58 @@
+import React, { useEffect, useState } from "react";
+import { JobBoardGetAllResponse } from "../../dtos/responses/JobBoard";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getAllJobBoard } from "../../api/JobBoardApi";
+import { Pagination } from "../Pagination/Pagination";
+import "./GetAllJobBoard.css";
+import { GetAllError } from "../Error/GetAll";
+import JobBoard from "../../pages/JobBoard";
+
+export const GetAllJobBoard: React.FC = () => {
+    const [jobBoardList, setJobBoardList] = useState<JobBoardGetAllResponse[]>([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [error, setError] = useState<string | null>(null);
+
+    const limit = 10;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const page = Number(searchParams.get("page")) || 1;
+
+    useEffect(() => {
+        const getJobBoard = async () => {
+            try {
+                const data = await getAllJobBoard(page, limit);
+                setJobBoardList(data.data);
+                setTotalPages(data.total_page);
+                setError(data.data.length ? null : "No hay ofertas de trabajo disponibles.");
+            } catch (err) {
+                setError("No se pudieron cargar las ofertas de trabajo");
+                console.error(err);
+            }
+        }
+
+        getJobBoard();
+    }, [page]); 
+
+    const handlePageChange = (newPage: number) => {
+        setSearchParams({ page: newPage.toString() });
+        navigate(`/job-board?page=${newPage}`);
+    };
+
+    return (
+        <section className="get-all-job-board">
+            <GetAllError message={error}/>
+            <div className="get-all-job-board__list">
+                {jobBoardList.map((jobBoard) => (
+                    <Link to={`/job-board/${jobBoard.id}`} key={jobBoard.id} className="get-all-job-board__list-item">
+                        <p className="get-all-job-board__list-item-name">{JobBoard.name}</p>
+                        <p className="get-all-job-board__list-item-company">Empresa: {jobBoard.company}</p>
+                        <p className="get-all-job-board__list-item-user">
+                            Subido por:{" "}{ jobBoard.user.regular_user?.name || jobBoard.user.university_user?.name || jobBoard.user.business_user?.name || "Anónimo" }
+                        </p>
+                    </Link>
+                ))}
+            </div>
+            <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
+        </section>
+    );
+};

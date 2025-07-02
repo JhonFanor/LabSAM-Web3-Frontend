@@ -1,0 +1,66 @@
+.get-all-educational-offer {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.get-all-educational-offer__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.get-all-educational-offer__list-item {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  text-align: left;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.get-all-educational-offer__list-item:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+.get-all-educational-offer__list-item-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.get-all-educational-offer__list-item-dates {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.get-all-educational-offer__list-item-cost {
+  font-size: 14px;
+  font-weight: 500;
+  color: #007b5e; 
+  margin-bottom: 5px;
+}
+
+.get-all-educational-offer__list-item-user {
+  font-size: 14px;
+  color: gray;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}

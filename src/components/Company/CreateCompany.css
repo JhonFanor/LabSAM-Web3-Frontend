@@ -1,4 +1,4 @@
-.create-company__content {
+.create-company {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-company__content {
+    .create-company {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-company__content {
+    .create-company {
         max-width: 95%; 
         max-height: 90vh;
     }

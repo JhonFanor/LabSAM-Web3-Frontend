@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createBankOfResume } from "../../api/BankOfResumeApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
+import { BankOfResumeCreateRequest } from "../../dtos/requests";
+import { createBankOfResume, getAllTopics, uploadDocumentFile, uploadImageFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector, ImageInputSelector} from "../../components";
 import "./CreateBankOfResume.css";
-import { Topic } from "../../models/Topic.ts";
-import { BankOfResumeCreateRequest } from "../../dtos/requests/BankOfResume";
-import ImageInputSelector from "../Selector/ImageInputSelector.tsx";
-import { uploadDocumentFile, uploadImageFile } from "../../api/Upload.ts";
-import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
 
 interface CreateBankOfResumeProps {
   onClose: () => void;
 }
 
 export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
@@ -33,7 +26,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
   });
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
 
   const allSubtopics = topics.flatMap(topic => topic.subtopics); 
@@ -98,10 +91,8 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
   };
 
   return (
-    <div className="create-bank-of-resume__content">
-      <button className="create-bank-of-resume__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+    <div className="create-bank-of-resume">
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-bank-of-resume__title">Crear Hoja de vida</h2>
       <form className="create-bank-of-resume__form" onSubmit={handleSubmit}>
 

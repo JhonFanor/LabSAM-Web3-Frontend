@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import ButtonCreate from '../components/Button/ButtonCreate';
-import { CreateLegislation } from '../components/Legislation/CreateLegislation';
+import { ButtonCreate, CreateLegislation, GetAllLegislation } from '../components';
 
 const Legislation: React.FC = () => {
   const [showCreateLegislation, setShowCreateLegislation] = useState(false);
@@ -14,6 +13,8 @@ const Legislation: React.FC = () => {
         <h1>Legislaciones</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Legislación" />
       </header>
+
+      <GetAllLegislation />
 
       {showCreateLegislation && (
         <div className="modal-overlay" onClick={(e) => {

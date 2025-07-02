@@ -1,4 +1,4 @@
-.create-job-board__content {
+.create-job-board {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-job-board__content {
+    .create-job-board {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-job-board__content {
+    .create-job-board {
         max-width: 95%; 
         max-height: 90vh;
     }

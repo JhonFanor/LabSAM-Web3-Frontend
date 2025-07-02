@@ -37,21 +37,6 @@ body {
   padding: 1rem 1rem 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
-  background-color: var(--body-color);
-  color: var(--text-color);
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.active {
-  color: var(--first-color);
 }
 
 @media screen and (min-width: 768px) {

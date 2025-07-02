@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import ButtonCreate from '../components/Button/ButtonCreate';
-import { CreateCompany } from '../components/Company/CreateCompany';
+import { ButtonCreate, CreateCompany, GetAllCompany } from '../components';
 
 const Conpanies: React.FC = () => {
   const [showCreateCompany, setShowCreateCompany] = useState(false);
@@ -14,6 +13,8 @@ const Conpanies: React.FC = () => {
         <h1>Empresas</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Empresa" />
       </header>
+
+      <GetAllCompany/>
 
       {showCreateCompany && (
         <div className="modal-overlay" onClick={(e) => {

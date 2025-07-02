@@ -88,7 +88,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="create-event__content">
+    <div className="create-event">
       <button className="create-event__close-button" onClick={onClose}>
         <FaTimes />
       </button>

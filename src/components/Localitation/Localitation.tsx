@@ -16,7 +16,7 @@ interface LocalitationProps {
   onChange: (location: Location) => void;
 }
 
-const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) => {
+export const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) => {
   const [markerPosition, setMarkerPosition] = useState<[number, number]>([
     value.latitude || 4.5709, 
     value.longitude || -74.2973,
@@ -69,5 +69,3 @@ const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) => {
     </div>
   );
 };
-
-export default Localitation;

@@ -1,4 +1,4 @@
-.create-investigation__content {
+.create-investigation {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-investigation__content {
+    .create-investigation {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-investigation__content {
+    .create-investigation {
         max-width: 95%; 
         max-height: 90vh;
     }

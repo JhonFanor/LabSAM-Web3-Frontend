@@ -1,4 +1,4 @@
-.create-event__content {
+.create-event {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -84,7 +84,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .create-event__content {
+    .create-event {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .create-event__content {
+    .create-event {
         max-width: 95%; 
         max-height: 90vh;
     }

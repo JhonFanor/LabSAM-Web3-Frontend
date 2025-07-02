@@ -1,7 +1,5 @@
-// src/pages/Events.tsx
 import React, { useState } from 'react';
-import ButtonCreate from '../components/Button/ButtonCreate';
-import { CreateEvent } from '../components/Event/CreateEvent';
+import { ButtonCreate, CreateEvent, GetAllEvent } from '../components';
 
 const Event: React.FC = () => {
   const [showCreateEvent, setShowCreateEvent] = useState(false);
@@ -15,6 +13,8 @@ const Event: React.FC = () => {
         <h1>Eventos</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Evento" />
       </header>
+      
+      <GetAllEvent />
 
       {showCreateEvent && (
         <div className="modal-overlay" onClick={(e) => {

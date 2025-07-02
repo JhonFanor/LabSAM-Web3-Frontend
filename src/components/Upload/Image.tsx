@@ -4,7 +4,7 @@ interface ImageUploaderProps {
   onFileSelect: (file: File | null) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file && !file.type.startsWith("image/")) {
@@ -20,5 +20,3 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect }) => {
     </div>
   );
 };
-
-export default ImageUploader;

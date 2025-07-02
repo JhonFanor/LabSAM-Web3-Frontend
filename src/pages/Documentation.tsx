@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CreateDocumentation } from '../components/Documentation/CreateDocumentation';
-import ButtonCreate from '../components/Button/ButtonCreate';
+import { ButtonCreate, CreateDocumentation, GetAllDocumentation } from '../components';
 
 const Documentation: React.FC = () => {
   const [showCreateDocumentation, setShowCreateDocumentation] = useState(false);
@@ -14,6 +13,8 @@ const Documentation: React.FC = () => {
         <h1>Documentación</h1>
         <ButtonCreate onClick={handleCreateClick} label="Crear Documentación" />
       </header>
+
+      <GetAllDocumentation />
 
       {showCreateDocumentation && (
         <div className="modal-overlay" onClick={(e) => {

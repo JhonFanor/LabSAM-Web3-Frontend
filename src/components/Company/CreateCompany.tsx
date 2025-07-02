@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { createCompany } from "../../api/CompanyApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
+import { createCompany, getAllTopics } from "../../api";
+import { TopicGetAllResponse } from "../../dtos/responses";
+import { CompanyCreateRequest } from "../../dtos/requests";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, Localitation } from "../../components";
 import "./CreateCompany.css";
-import { Topic } from "../../models/Topic.ts";
-import { CompanyCreateRequest } from "../../dtos/requests/Company";
-import Localitation from "../Localitation/Localitation.tsx";
 
 interface CreateCompanyProps {
   onClose: () => void;
 }
 
 export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   
   const [company, setCompany] = useState<CompanyCreateRequest>({
@@ -30,7 +25,7 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
   const [localitation, setLocalitation] = useState<{ address: string; latitude: number; longitude: number } | undefined >(undefined);
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
 
   const allSubtopics = topics.flatMap(topic => topic.subtopics);
@@ -63,10 +58,8 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="create-company__content">
-      <button className="create-company__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+    <div className="create-company">
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-company__title">Crear Empresa</h2>
       <form className="create-company__form" onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="Nombre de la empresa" value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} required />
