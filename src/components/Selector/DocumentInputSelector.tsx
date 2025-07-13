@@ -8,9 +8,10 @@ interface DocumentInputSelectorProps {
   onFileSelected: (file: File | null) => void;
   urlLabel?: string;
   fileLabel?: string;
+  documentUploaderKey?: number; 
 }
 
-export const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel }) => {
+export const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel, documentUploaderKey }) => {
   const [documentOption, setDocumentOption] = useState<"url" | "file">(value.startsWith("http") ? "url" : "file");
 
   return (
@@ -39,7 +40,7 @@ export const DocumentInputSelector: React.FC<DocumentInputSelectorProps> = ({ va
       )}
 
       {documentOption === "file" && (
-        <DocumentUploader onFileSelect={onFileSelected} />
+        <DocumentUploader key={documentUploaderKey} onFileSelect={onFileSelected} />
       )}
     </div>
   );

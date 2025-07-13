@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { EducationalOfferGetAllResponse } from "../../dtos/responses/EducationalOffer";
+import { EducationalOfferGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllEducationalOffer } from "../../api/EducationalOfferApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllEducationalOffer } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllEducationalOffer.css";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllEducationalOffer: React.FC = () => {
     const [educationalOfferList, setEducationalOfferList] = useState<EducationalOfferGetAllResponse[]>([]);

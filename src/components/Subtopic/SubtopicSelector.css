@@ -1,45 +1,80 @@
-.subtopics-list {
-    margin-top: 0.5rem;
-    max-height: 300px; /* Aumenta el espacio */
-    border: 1px solid #ccc;
-    padding: 1rem; /* Más espacio interno */
-    border-radius: 0.5rem;
-    background: #ffffff; /* Fondo blanco */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Mayor tamaño de los subtemas */
-    gap: 12px; /* Más espacio entre los elementos */
+.subtopics-selector-list {
+  margin-top: 1rem;
+  height: auto;
+  overflow-y: visible;
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
 }
 
-/* Personaliza la apariencia del scrollbar */
-.subtopics-list::-webkit-scrollbar {
-    width: 8px;
+
+.subtopics-selector-list::-webkit-scrollbar {
+  width: 8px;
 }
 
-.subtopics-list::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 6px;
+.subtopics-selector-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
 }
 
-.subtopics-list::-webkit-scrollbar-thumb:hover {
-    background: #666;
+.subtopics-selector-list::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }
 
 .subtopic {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px; /* Más espacio interno */
-    background: #eef2f7;
-    border-radius: 6px;
-    transition: background 0.2s ease-in-out;
-    font-size: 14px; /* Ajusta el tamaño de fuente */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #eef2f7;
+  border-radius: 6px;
+  transition: background 0.2s ease-in-out;
+  font-size: 14px;
 }
 
 .subtopic:hover {
-    background: #dae0e6;
+  background: #dae0e6;
 }
 
 .subtopic input[type="checkbox"] {
-    transform: scale(1.3);
-    cursor: pointer;
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .subtopics-selector-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    min-height: 150px;     
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0.75rem;
+  }
+
+  .subtopic {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .subtopic input[type="checkbox"] {
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .subtopics-selector-list {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    min-height: 230px;    
+    max-height: 300px;
+    overflow-y: auto;
+    gap: 8px;
+  }
+
+  .subtopic {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

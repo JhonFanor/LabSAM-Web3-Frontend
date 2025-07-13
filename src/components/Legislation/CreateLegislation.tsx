@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createLegislation } from "../../api/LegislationApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
+import { LegislationCreateRequest } from "../../dtos/requests";
+import { createLegislation, getAllTopics, uploadDocumentFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
 import "./CreateLegislation.css";
-import { Topic } from "../../models/Topic.ts";
-import { LegislationCreateRequest } from "../../dtos/requests/Legislation";
-import DocumentInputSelector from "../Selector/DocumentInputSelector.tsx";
-import { uploadDocumentFile } from "../../api/Upload.ts";
 
 interface CreateLegislationProps {
   onClose: () => void;
 }
 
 export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+  const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
 
   const [legislation, setLegislation] = useState<LegislationCreateRequest>({
     title: "",
@@ -30,7 +25,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
   });
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
   
   const allSubtopics = topics.flatMap(topic => topic.subtopics);
@@ -63,6 +58,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
       setSelectedTopic(null);
       setUploading(false)
       setSelectedDocumentFile(null);
+      setDocumentUploaderKey(Date.now());
       
       setLegislation({
         title: "",
@@ -79,16 +75,14 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 
   return (
     <div className="create-legislation">
-      <button className="create-legislation__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-legislation__title">Crear Legislación</h2>
       <form className="create-legislation__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={legislation.title} onChange={(e) => setLegislation({ ...legislation, title: e.target.value })} required />
         
         <JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
         
-        <DocumentInputSelector value={legislation.link} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" />
+        <DocumentInputSelector value={legislation.link} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" documentUploaderKey={documentUploaderKey} />
 
         <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={legislation} setData={setLegislation} subtopicsKey="subtopic_ids" />

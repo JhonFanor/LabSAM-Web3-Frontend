@@ -1,9 +1,9 @@
 import React from "react";
-import { Topic } from "../../models/Topic";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import "./SubtopicSelector.css";
 
 interface SubtopicSelectorProps<T extends object, K extends keyof T> {
-  topics: Topic[];
+  topics: TopicGetAllResponse[];
   selectedTopic: number | null;
   data: T;
   setData: React.Dispatch<React.SetStateAction<T>>;
@@ -24,21 +24,13 @@ export const SubtopicSelector = <T extends object, K extends keyof T>({ topics, 
   };
 
   return selectedTopic ? (
-    <div className="subtopics-list">
+    <div className="subtopics-selector-list">
       <label>Seleccionar subtemas:</label>
       {topics
         .find((topic) => topic.id === selectedTopic)
         ?.subtopics.map((sub) => (
           <div key={sub.id} className="subtopic">
-            <input
-              type="checkbox"
-              checked={subtopicIds.includes(sub.id)}
-              onChange={() =>
-                subtopicIds.includes(sub.id)
-                  ? handleDeselectSubtopic(sub.id)
-                  : handleSelectSubtopic(sub.id)
-              }
-            />
+            <input type="checkbox" checked={subtopicIds.includes(sub.id)} onChange={() => subtopicIds.includes(sub.id) ? handleDeselectSubtopic(sub.id) : handleSelectSubtopic(sub.id) } />
             <span>{sub.name}</span>
           </div>
         ))}

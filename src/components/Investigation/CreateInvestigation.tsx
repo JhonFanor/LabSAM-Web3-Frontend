@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createInvestigation } from "../../api/InvestigationApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
-import "./CreateInvestigation.css";
-import { Topic } from "../../models/Topic.ts";
 import { InvestigationCreateRequest } from "../../dtos/requests/Investigation";
-import DocumentInputSelector from "../Selector/DocumentInputSelector";
-import { uploadDocumentFile } from "../../api/Upload.ts";
+import { createInvestigation, getAllTopics, uploadDocumentFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
+import "./CreateInvestigation.css";
 
 interface CreateInvestigationProps {
   onClose: () => void;
 }
 
 export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+  const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
 
   const [investigation, setInvestigation] = useState<InvestigationCreateRequest>({
     title: "",
@@ -31,7 +26,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
   });
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
   
   const allSubtopics = topics.flatMap(topic => topic.subtopics);
@@ -67,6 +62,8 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
       setSelectedTopic(null);
       setUploading(false);
       setSelectedDocumentFile(null);
+      setDocumentUploaderKey(Date.now());
+
       setInvestigation({
         title: "",
         description: "",
@@ -83,9 +80,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 
   return (
     <div className="create-investigation">
-      <button className="create-investigation__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-investigation__title">Crear Investigación</h2>
       <form className="create-investigation__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={investigation.title} onChange={(e) => setInvestigation({ ...investigation, title: e.target.value })} required />
@@ -94,7 +89,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         
         <input type="date" name="date" placeholder="Fecha" value={investigation.date} onChange={(e) => setInvestigation({ ...investigation, date: e.target.value })} required />
         
-        <DocumentInputSelector value={investigation.link} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" />
+        <DocumentInputSelector value={investigation.link} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" documentUploaderKey={documentUploaderKey} />
 
         <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={investigation} setData={setInvestigation} subtopicsKey="subtopic_ids" />

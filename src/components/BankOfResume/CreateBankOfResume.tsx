@@ -16,6 +16,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+  const [uploaderKey, setUploaderKey] = useState<number>(Date.now());
 
   const [bankOfResume, setBankOfResume] = useState<BankOfResumeCreateRequest>({
     photo: "",
@@ -75,6 +76,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
       setUploading(false);
       setSelectedImageFile(null);
       setSelectedDocumentFile(null);
+      setUploaderKey(Date.now());
 
       setBankOfResume({
         photo: "",
@@ -96,13 +98,13 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
       <h2 className="create-bank-of-resume__title">Crear Hoja de vida</h2>
       <form className="create-bank-of-resume__form" onSubmit={handleSubmit}>
 
-        <ImageInputSelector value={bankOfResume.photo} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" />
+        <ImageInputSelector value={bankOfResume.photo} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" imageUploaderKey={uploaderKey} />
 
         <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
         
         <JoditEditor value={bankOfResume.summary} onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} className="jodit-container"/>
                 
-        <DocumentInputSelector value={bankOfResume.link} onChange={(document) => setBankOfResume({...bankOfResume, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" />
+        <DocumentInputSelector value={bankOfResume.link} onChange={(document) => setBankOfResume({...bankOfResume, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" documentUploaderKey={uploaderKey} />
 
         <TopicSelector topics={topics}  selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={bankOfResume} setData={setBankOfResume} subtopicsKey="subtopic_ids" />

@@ -16,7 +16,7 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({ onFileSelect
 
   return (
     <div>
-      <input type="file" accept="application/pdf" onChange={handleFileChange} />
+      <input type="file" accept="application/pdf" onChange={handleFileChange} required />
     </div>
   );
 };

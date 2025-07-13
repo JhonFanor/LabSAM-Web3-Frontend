@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BankOfResumeGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getAllBankOfResume } from "../../api";
-import { Pagination } from "../Pagination/Pagination";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllBankOfResume.css";
 
 export const GetAllBankOfResume: React.FC = () => {
@@ -38,13 +38,13 @@ export const GetAllBankOfResume: React.FC = () => {
 
     return (
         <section className="get-all-bank-of-resume">
-            {error && <p className="error-message">{error}</p>}
+            <GetAllError message={error}/>
             <div className="get-all-bank-of-resume__list">
                 {bankOfResumeList.map((BankOfResume) => (
                     <Link to={`/bank-of-resume/${BankOfResume.id}`} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
                         <img src={BankOfResume.photo} alt={BankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
                         <p className="get-all-bank-of-resume__list-item-title">{BankOfResume.title}</p>
-                        <p className="get-all-bank-of-resume__list-item-user">Subido por: {BankOfResume.user.regular_user?.name || "Anónimo"}</p>
+                        <p className="get-all-bank-of-resume__list-item-user">{BankOfResume.user.regular_user?.name || "Anónimo"}</p>
                     </Link>
                 ))}
             </div>

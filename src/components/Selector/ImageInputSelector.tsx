@@ -8,9 +8,10 @@ interface ImageInputSelectorProps {
   onFileSelected: (file: File | null) => void;
   urlLabel?: string;
   fileLabel?: string;
+  imageUploaderKey?: number; 
 }
 
-export const ImageInputSelector: React.FC<ImageInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel }) => {
+export const ImageInputSelector: React.FC<ImageInputSelectorProps> = ({ value, onChange, onFileSelected, urlLabel, fileLabel, imageUploaderKey }) => {
   const [imageOption, setImageOption] = useState<"url" | "file">(value.startsWith("http") ? "url" : "file");
 
   return (
@@ -39,8 +40,9 @@ export const ImageInputSelector: React.FC<ImageInputSelectorProps> = ({ value, o
       )}
 
       {imageOption === "file" && (
-        <ImageUploader onFileSelect={onFileSelected} />
+        <ImageUploader key={imageUploaderKey} onFileSelect={onFileSelected} />
       )}
+
     </div>
   );
 };

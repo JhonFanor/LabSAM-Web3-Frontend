@@ -38,13 +38,13 @@
   transition: transform 0.3s ease;
 }
 
-.get-all-job-board__list-item-name {
+.get-all-job-board__list-item-title {
   font-size: 1.2rem;
   margin: 0;
 }
 
 .get-all-job-board__list-item-company {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   margin: 0;
 }
 

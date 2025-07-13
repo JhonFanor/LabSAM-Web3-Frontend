@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { DocumentationGetAllResponse } from "../../dtos/responses/Documentation";
+import { DocumentationGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllDocumentation } from "../../api/DocumentationApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllDocumentation } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllDocumentation.css";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllDocumentation: React.FC = () => {
     const [documentationList, setDocumentationList] = useState<DocumentationGetAllResponse[]>([]);
@@ -43,7 +42,7 @@ export const GetAllDocumentation: React.FC = () => {
             <div className="get-all-documentation__list">
                 {documentationList.map((documentation) => (
                     <Link to={`/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
-                        <p className="get-all-documentation__list-item-title">{documentation.id}</p>
+                        <p className="get-all-documentation__list-item-title">{documentation.title}</p>
                         <p className="get-all-documentation__list-item-user">
                             Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }
                         </p>

@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createJobBoard } from "../../api/JobBoardApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
+import { JobBoardCreateRequest } from "../../dtos/requests";
+import { createJobBoard, getAllTopics } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics } from "../../components";
 import "./CreateJobBoard.css";
-import { Topic } from "../../models/Topic.ts";
-import { JobBoardCreateRequest } from "../../dtos/requests/JobBoard";
 
 interface CreateJobBoardProps {
   onClose: () => void;
 }
 
 export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [jobBoard, setJobBoard] = useState<JobBoardCreateRequest>({
     title: "",
@@ -24,22 +20,62 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
     type: "",
     salary_range: "",
     link: "",
-    subtopic_ids: [] as number[],
+    subtopic_ids: [],
   });
 
+  const [salaryType, setSalaryType] = useState<"none" | "fixed" | "range">("none");
+  const [salaryFixed, setSalaryFixed] = useState("");
+  const [salaryMin, setSalaryMin] = useState("");
+  const [salaryMax, setSalaryMax] = useState("");
+  const [salaryError, setSalaryError] = useState("");
+
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
-  
+
   const allSubtopics = topics.flatMap(topic => topic.subtopics);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validación del salario tipo rango
+    if (salaryType === "range") {
+      const min = parseFloat(salaryMin);
+      const max = parseFloat(salaryMax);
+
+      if (isNaN(min) || isNaN(max)) {
+        setSalaryError("Los valores deben ser números válidos.");
+        return;
+      }
+
+      if (min > max) {
+        setSalaryError("El salario mínimo no puede ser mayor que el máximo.");
+        return;
+      }
+
+      setSalaryError("");
+    }
+
+    const preparedJobBoard: JobBoardCreateRequest = {
+      ...jobBoard,
+      salary_range:
+        salaryType === "fixed"
+          ? salaryFixed
+          : salaryType === "range"
+          ? `${salaryMin} - ${salaryMax}`
+          : "",
+    };
+
     try {
-      await createJobBoard(jobBoard);
+      await createJobBoard(preparedJobBoard);
 
       setSelectedTopic(null);
+      setSalaryFixed("");
+      setSalaryMin("");
+      setSalaryMax("");
+      setSalaryType("none");
+      setSalaryError("");
+
       setJobBoard({
         title: "",
         company: "",
@@ -56,24 +92,40 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
 
   return (
     <div className="create-job-board">
-      <button className="create-job-board__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+      <ButtonClose onClick={onClose} />
       <h2 className="create-job-board__title">Crear Oferta de Trabajo</h2>
       <form className="create-job-board__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={jobBoard.title} onChange={(e) => setJobBoard({ ...jobBoard, title: e.target.value })} required />
         <input type="text" name="company" placeholder="Empresa" value={jobBoard.company} onChange={(e) => setJobBoard({ ...jobBoard, company: e.target.value })} required />
-        
-        <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container"/>
-        
+
+        <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container" />
+
         <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} required />
-        <input type="text" name="salary_range" placeholder="Rango Salarial" value={jobBoard.salary_range} onChange={(e) => setJobBoard({ ...jobBoard, salary_range: e.target.value })} required />
         <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
-        
+
+        <label>Tipo de salario:</label>
+        <select className="create-job-board__select" value={salaryType} onChange={(e) => { const value = e.target.value as "none" | "fixed" | "range"; setSalaryType(value); setSalaryError(""); if (value === "none") { setSalaryFixed(""); setSalaryMin(""); setSalaryMax(""); } }} >
+          <option value="none">No especificar</option>
+          <option value="fixed">Valor fijo</option>
+          <option value="range">Rango</option>
+        </select>
+
+        {salaryType === "fixed" && (
+          <input type="text" name="salary_fixed" placeholder="Salario fijo" value={salaryFixed} onChange={(e) => setSalaryFixed(e.target.value)} required />
+        )}
+
+        {salaryType === "range" && (
+          <div className="salary-range-fields">
+            <input type="number" min="0" placeholder="Salario mínimo" value={salaryMin} onChange={(e) => setSalaryMin(e.target.value)} required />
+            <input type="number" min="0" placeholder="Salario máximo" value={salaryMax} onChange={(e) => setSalaryMax(e.target.value)} required />
+            {salaryError && <p className="error">{salaryError}</p>}
+          </div>
+        )}
+
         <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
-        
+
         <button className="create-job-board__submit" type="submit">
           Guardar Oferta
         </button>

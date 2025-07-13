@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { NewsGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Pagination } from "../Pagination/Pagination";
-import { getAllNews } from "../../api/NewsApi";
+import { getAllNews } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllNews.css";
-import { NewsGetAllResponse } from "../../dtos/responses/News";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllNews: React.FC = () => {
   const [newsList, setNewsList] = useState<NewsGetAllResponse[]>([]);
@@ -46,12 +45,10 @@ export const GetAllNews: React.FC = () => {
           <Link to={`/news/${news.id}`} key={news.id} className="get-all-news__list-item">
             <h3 className="get-all-news__list-item-title">{news.title}</h3>
             <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
-            <div className="get-all-news__list-item__content">
-              <p className="get-all-news__list-item__content-date">{new Date(news.date).toLocaleDateString()}</p>
-              <p className="get-all-news__list-item__content-user">
-                Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
-              </p>
-            </div>
+            <p className="get-all-news__list-item-date">{new Date(news.date).toLocaleDateString()}</p>
+            <p className="get-all-news__list-item-user">
+              Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
+            </p>
           </Link>
         ))}
       </div>

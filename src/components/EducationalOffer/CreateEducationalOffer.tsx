@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createEducationalOffer } from "../../api/EducationalOfferApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
+import { EducationalOfferCreateRequest } from "../../dtos/requests";
+import { createEducationalOffer, getAllTopics } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics } from "../../components";
 import "./CreateEducationalOffer.css";
-import { Topic } from "../../models/Topic.ts";
-import { EducationalOfferCreateRequest } from "../../dtos/requests/EducationalOffer";
-import { ButtonClose } from "../index.ts";
 
 interface CreateEducationalOfferProps {
   onClose: () => void;
 }
 
 export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [educationalOffer, setEducationalOffer] = useState<EducationalOfferCreateRequest>({
     title: "",
     institution: "",
@@ -26,23 +23,71 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
     cost: 0,
     description: "",
     link: "",
-    subtopic_ids: [] as number[],
+    subtopic_ids: [],
   });
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
-  
+
   const allSubtopics = topics.flatMap(topic => topic.subtopics);
-  
+
+  const getTodayDate = (): string => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const getMinEndDate = (): string => {
+    if (educationalOffer.start_date) {
+      return educationalOffer.start_date;
+    }
+    return getTodayDate();
+  };
+
+  const handleStartDateChange = (newStartDate: string) => {
+    const currentEndDate = educationalOffer.end_date;
+
+    const shouldResetEndDate =
+      currentEndDate && new Date(newStartDate) > new Date(currentEndDate);
+
+    setEducationalOffer({
+      ...educationalOffer,
+      start_date: newStartDate,
+      end_date: shouldResetEndDate ? "" : currentEndDate,
+    });
+  };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const startDate = new Date(educationalOffer.start_date);
+    const endDate = new Date(educationalOffer.end_date);
+
+    if (startDate.getTime() < today.getTime()) {
+      setErrorMessage("La fecha de inicio no puede ser anterior al día de hoy.");
+      return;
+    }
+
+    if (endDate.getTime() < today.getTime()) {
+      setErrorMessage("La fecha final no puede ser anterior al día de hoy.");
+      return;
+    }
+
+    if (endDate.getTime() < startDate.getTime()) {
+      setErrorMessage("La fecha final no puede ser anterior a la fecha de inicio.");
+      return;
+    }
 
     try {
       const educationalOfferToSend: EducationalOfferCreateRequest = {
         ...educationalOffer,
-        start_date: educationalOffer.start_date ? new Date(educationalOffer.start_date).toISOString() : "",
-        end_date: educationalOffer.end_date ? new Date(educationalOffer.end_date).toISOString() : "", 
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString(),
       };
 
       await createEducationalOffer(educationalOfferToSend);
@@ -59,30 +104,42 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
         subtopic_ids: [],
       });
     } catch (error) {
-      console.error("Error al guardar la oferta educativa:", error)
+      console.error("Error al guardar la oferta educativa:", error);
+      setErrorMessage("Ocurrió un error al guardar la oferta educativa.");
     }
   };
 
   return (
     <div className="create-educational-offer">
-      <ButtonClose onClick={onClose}/>
+      <ButtonClose onClick={onClose} />
       <h2 className="create-educational-offer__title">Crear Oferta Educativa</h2>
+
+      {errorMessage && (
+        <div className="create-educational-offer__error">
+          {errorMessage}
+        </div>
+      )}
+
       <form className="create-educational-offer__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={educationalOffer.title} onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} required />
         <input type="text" name="institution" placeholder="Institución" value={educationalOffer.institution} onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} required />
-        <input type="date" name="start_date" value={educationalOffer.start_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, start_date: e.target.value })} required />
-        <input type="date" name="end_date" value={educationalOffer.end_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
-        <input type="number" name="cost" placeholder="Costo" value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
-        
-        <JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container"/>
+        <label className="create-educational-offer__label" htmlFor="start_date">Fecha de inicio</label>
+        <input type="date" name="start_date" min={getTodayDate()} value={educationalOffer.start_date} onChange={(e) => handleStartDateChange(e.target.value)} required />
+        <label className="create-educational-offer__label" htmlFor="start_date">Fecha de finalización</label>
+        <input type="date" name="end_date" min={getMinEndDate()} disabled={!educationalOffer.start_date} value={educationalOffer.end_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
+        <input type="number" name="cost" placeholder="Costo" min={0} value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
+
+        <JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container" />
 
         <input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} />
-        
+
         <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" />
         <SelectedSubtopics data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
-        
-        <button className="create-educational-offer__submit" type="submit">Guardar Oferta Educativa</button>
+
+        <button className="create-educational-offer__submit" type="submit">
+          Guardar Oferta Educativa
+        </button>
       </form>
     </div>
   );

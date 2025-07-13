@@ -52,6 +52,7 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
         localitation: undefined,
         subtopic_ids: [],
       });
+      setLocalitation(undefined);
     } catch (error) {
       console.error("Error al guardar la Empresa:", error);
     }

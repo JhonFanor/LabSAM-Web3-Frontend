@@ -16,7 +16,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect }) =>
 
   return (
     <div>
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <input type="file" accept="image/*" onChange={handleFileChange} required />
     </div>
   );
 };

@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import { createEvent } from "../../api/EventApi.ts";
-import { GetAllTopics } from "../../api/TopicApi";
-import { FaTimes } from "react-icons/fa";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
-import Localitation from "../Localitation/Localitation.tsx";
+import { EventCreateRequest } from "../../dtos/requests";
+import { createEvent, getAllTopics, uploadImageFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, ImageInputSelector, Localitation} from "../../components";
 import "./CreateEvent.css";
-import { Topic } from "../../models/Topic.ts";
-import { EventCreateRequest } from "../../dtos/requests/Event";
-import ImageInputSelector from "../Selector/ImageInputSelector.tsx";
-import { uploadImageFile } from "../../api/Upload.ts";
 
 interface CreateEventProps {
   onClose: () => void;
 }
 
 export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
 
   const [event, setEvent] = useState<EventCreateRequest>({
     title: "",
@@ -36,10 +30,15 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
   const [localitation, setLocalitation] = useState< { address: string; latitude: number; longitude: number } | undefined >(undefined);
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
 
   const allSubtopics = topics.flatMap((topic) => topic.subtopics);
+
+  const getTodayDate = (): string => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +71,8 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
       setSelectedTopic(null);
       setUploading(false);
       setSelectedImageFile(null);
+      setImageUploaderKey(Date.now());
+
       setEvent({ 
         title: "", 
         description: "", 
@@ -80,6 +81,8 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
         localitation: undefined, 
         subtopic_ids: [], 
       });
+      setLocalitation(undefined);
+      return ;
     } catch (error) {
       console.error("Error al guardar evento:", error);
     } finally {
@@ -89,20 +92,18 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 
   return (
     <div className="create-event">
-      <button className="create-event__close-button" onClick={onClose}>
-        <FaTimes />
-      </button>
+      <ButtonClose onClick={onClose}/>
       <h2 className="create-event__title">Crear Evento</h2>
       <form className="create-event__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={event.title} onChange={(e) => setEvent({ ...event, title: e.target.value })} required/>
 
-        <ImageInputSelector value={event.image} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" />
+        <ImageInputSelector value={event.image} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
 
         <JoditEditor value={event.description} onChange={(content) => setEvent({ ...event, description: content })} className="jodit-container" />
 
         <input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} required />
 
-        <input type="date" name="date" value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
+        <input type="date" name="date" min={getTodayDate()} value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
 
         <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
         <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={event} setData={setEvent} subtopicsKey="subtopic_ids"/>

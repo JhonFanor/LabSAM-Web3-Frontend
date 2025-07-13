@@ -38,7 +38,7 @@
   transition: transform 0.3s ease;
 }
 
-.get-all-investigation__list-item .get-all-investigation__list-item-title {
+.get-all-investigation__list-item-title {
   font-size: 1.2rem;
   margin: 0;
 }

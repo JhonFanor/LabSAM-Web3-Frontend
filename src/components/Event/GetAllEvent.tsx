@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { EventGetAllResponse } from "../../dtos/responses/Event";
+import { EventGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllEvent } from "../../api/EventApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllEvent } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllEvent.css";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllEvent: React.FC = () => {
     const [eventList, setEventList] = useState<EventGetAllResponse[]>([]);
@@ -38,7 +37,7 @@ export const GetAllEvent: React.FC = () => {
     };
 
     return (
-        <section className="get-all-eent">
+        <section className="get-all-event">
             <GetAllError message={error}/>
             <div className="get-all-event__list">
                 {eventList.map((event) => (

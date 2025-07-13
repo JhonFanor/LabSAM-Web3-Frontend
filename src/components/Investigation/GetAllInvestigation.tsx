@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { InvestigationGetAllResponse } from "../../dtos/responses/Investigation";
+import { InvestigationGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllInvestigation } from "../../api/InvestigationApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllInvestigation } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllInvestigation.css";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllInvestigation: React.FC = () => {
     const [investigationList, setInvestigationList] = useState<InvestigationGetAllResponse[]>([]);

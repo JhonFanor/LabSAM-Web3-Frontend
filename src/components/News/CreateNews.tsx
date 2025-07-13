@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
-import TopicSelector from "../Topic/TopicSelector";
-import SubtopicSelector from "../Subtopic/SubtopicSelector";
-import SelectedSubtopics from "../Subtopic/SelectedSubtopics";
-import { createNews } from "../../api/NewsApi";
-import { GetAllTopics } from "../../api/TopicApi";
-import { NewsCreateRequest } from "../../dtos/requests/News";
-import { Topic } from "../../models/Topic";
+import { NewsCreateRequest } from "../../dtos/requests";
+import { createNews, getAllTopics, uploadImageFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, ImageInputSelector} from "../../components";
 import "./CreateNews.css";
-import ImageInputSelector from "../Selector/ImageInputSelector";
-import { uploadImageFile } from "../../api/Upload";
-import { ButtonClose } from "../../components";
 
 interface CreateNewsProps {
   onClose: () => void;
 }
 
 export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
 
   const [news, setNews] = useState<NewsCreateRequest>({
     title: "",
@@ -32,7 +27,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
   });
 
   useEffect(() => {
-    GetAllTopics(setTopics);
+    getAllTopics(setTopics);
   }, []);
 
   const allSubtopics = topics.flatMap((topic) => topic.subtopics);
@@ -66,6 +61,8 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
       setSelectedTopic(null);
       setUploading(false);
       setSelectedImageFile(null);
+      setImageUploaderKey(Date.now());
+      
       setNews({ 
         title: "", 
         description: "", 
@@ -74,6 +71,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
         date: "", 
         subtopic_ids: [] 
       });
+      return;
     } catch (error) {
       console.error("Error al guardar noticia:", error);
     } finally {
@@ -88,7 +86,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
       <form className="create-news__form" onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
 
-        <ImageInputSelector value={news.image} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" />
+        <ImageInputSelector value={news.image} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
 
         <JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
 

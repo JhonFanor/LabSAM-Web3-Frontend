@@ -1,6 +1,6 @@
 import { TopicGetAllResponse } from "../dtos/responses";
 
-export const getAllTopics = async (setTopics: React.Dispatch<React.SetStateAction<TopicGetAllResponse[]>>): Promise<void> => {
+export const getAllTopics = async ( setTopics: React.Dispatch<React.SetStateAction<TopicGetAllResponse[]>> ): Promise<void> => {
   try {
     const response = await fetch("http://localhost:8080/api/topic");
     const data = await response.json();
@@ -8,9 +8,9 @@ export const getAllTopics = async (setTopics: React.Dispatch<React.SetStateActio
     const formattedTopics = data.map((topic: any) => ({
       id: topic.id,
       name: topic.name,
-      subtopics: topic.subtopic.map((sub: any) => ({
-        id: sub.ID,
-        name: sub.Name,
+      subtopics: topic.subtopics.map((sub: any) => ({
+        id: sub.id,
+        name: sub.name,
       })),
     }));
 

@@ -38,12 +38,12 @@
   transition: transform 0.3s ease;
 }
 
-.get-all-bank-of-resume__list-item .get-all-bank-of-resume__list-item-title {
+.get-all-bank-of-resume__list-item-title {
   font-size: 1.2rem;
   margin: 0;
 }
 
-.get-all-bank-of-resume__list-item .get-all-bank-of-resume__list-item-photo {
+.get-all-bank-of-resume__list-item-photo {
   width: 180px;
   height: 180px;
   object-fit: cover;

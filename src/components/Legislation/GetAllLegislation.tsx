@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { LegislationGetAllResponse } from "../../dtos/responses/Legislation";
+import { LegislationGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllLegislation } from "../../api/LegislationApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllLegislation } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllLegislation.css";
-import { GetAllError } from "../Error/GetAll";
 
 export const GetAllLegislation: React.FC = () => {
     const [legislationList, setLegislationList] = useState<LegislationGetAllResponse[]>([]);

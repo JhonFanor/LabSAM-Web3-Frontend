@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { JobBoardGetAllResponse } from "../../dtos/responses/JobBoard";
+import { JobBoardGetAllResponse } from "../../dtos/responses";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllJobBoard } from "../../api/JobBoardApi";
-import { Pagination } from "../Pagination/Pagination";
+import { getAllJobBoard } from "../../api";
+import { Pagination, GetAllError } from "../../components";
 import "./GetAllJobBoard.css";
-import { GetAllError } from "../Error/GetAll";
-import JobBoard from "../../pages/JobBoard";
 
 export const GetAllJobBoard: React.FC = () => {
     const [jobBoardList, setJobBoardList] = useState<JobBoardGetAllResponse[]>([]);
@@ -44,7 +42,7 @@ export const GetAllJobBoard: React.FC = () => {
             <div className="get-all-job-board__list">
                 {jobBoardList.map((jobBoard) => (
                     <Link to={`/job-board/${jobBoard.id}`} key={jobBoard.id} className="get-all-job-board__list-item">
-                        <p className="get-all-job-board__list-item-name">{JobBoard.name}</p>
+                        <p className="get-all-job-board__list-item-title">{jobBoard.title}</p>
                         <p className="get-all-job-board__list-item-company">Empresa: {jobBoard.company}</p>
                         <p className="get-all-job-board__list-item-user">
                             Subido por:{" "}{ jobBoard.user.regular_user?.name || jobBoard.user.university_user?.name || jobBoard.user.business_user?.name || "Anónimo" }

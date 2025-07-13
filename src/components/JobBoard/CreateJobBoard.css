@@ -1,108 +1,159 @@
 .create-job-board {
-    position: relative;
-    background: white;
-    padding: 2.5rem;
-    border-radius: 1rem;
-    width: 95%;
-    max-width: 750px; 
-    max-height: 90vh; 
-    min-height: 500px; 
-    overflow-y: auto; 
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-    animation: animate-news 0.4s ease-in-out;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 95%;
+  max-width: 750px;
+  max-height: 90vh;
+  min-height: 500px;
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+  animation: animate-news 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes animate-news {
-    0% { transform: scale(1, 1); }
-    50% { transform: scale(1.05, 1.05); }
-    100% { transform: scale(1, 1); }
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.05, 1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }
 
 .create-job-board__close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
 }
 
 .create-job-board__close-button:hover {
-    color: #000;
+  color: #000;
 }
 
 .create-job-board__title {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    color: #000;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #000;
 }
 
 .create-job-board__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
 }
 
 .create-job-board__form input,
-.create-job-board__form textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    background: #fff;
-    color: #818181;
+.create-job-board__form textarea,
+.create-job-board__select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: #fff;
+  color: #333;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.create-job-board__form input:focus,
+.create-job-board__form textarea:focus,
+.create-job-board__select:focus {
+  border-color: var(--first-color, #007bff);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.create-job-board__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+}
+
+.create-job-board__label {
+  font-weight: 600;
+  text-align: left;
+  color: #444;
+  margin-top: 0.5rem;
+  margin-bottom: -0.25rem;
+  font-size: 0.95rem;
 }
 
 .create-job-board__submit {
-    background: var(--first-color, #007bff);
-    color: #fff;
-    font-weight: 600;
-    padding: 0.85rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.3s;
+  background: var(--first-color, #007bff);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s;
+  border: none;
 }
 
 .create-job-board__submit:hover {
-    background: var(--first-color-dark, #0056b3);
+  background: var(--first-color-dark, #0056b3);
 }
 
 .create-job-board__topics {
-    margin-top: 1rem;
-    text-align: left;
+  margin-top: 1rem;
+  text-align: left;
+}
+
+/* Salario por rango */
+.salary-range-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: left;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {
-    .create-job-board {
-        width: 100%;
-        max-width: 95%;
-        max-height: 95vh;
-        padding: 1.5rem;
-    }
+  .create-job-board {
+    width: 100%;
+    max-width: 95%;
+    max-height: 95vh;
+    padding: 1.5rem;
+  }
 
-    .create-job-board__title {
-        font-size: 1.5rem;
-    }
+  .create-job-board__title {
+    font-size: 1.5rem;
+  }
 
-    .create-job-board__submit {
-        padding: 0.75rem;
-    }
+  .create-job-board__submit {
+    padding: 0.75rem;
+  }
 }
 
 @media screen and (min-width: 1024px) {
-    .create-job-board {
-        max-width: 95%; 
-        max-height: 90vh;
-    }
+  .create-job-board {
+    max-width: 95%;
+    max-height: 90vh;
+  }
 }
