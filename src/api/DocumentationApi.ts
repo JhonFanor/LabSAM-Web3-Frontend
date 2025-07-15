@@ -1,27 +1,13 @@
 import { DocumentationCreateRequest } from "../dtos/requests/Documentation";
 import { DocumentationGetResponse } from "../dtos/responses/Documentation";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 export const createDocumentation = async (documentation: DocumentationCreateRequest) => { 
-  const token = localStorage.getItem("access_token");
-  if (!token) {
-    alert("No tienes una sesión activa.");
-    return;
-  }
-  
   try {
-    const response = await fetch("http://localhost:8080/api/documentation", {
+    const response = await FetchWithAuth("http://localhost:8080/api/documentation", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json", 
-        "Authorization": `Bearer ${token}` 
-      },
       body: JSON.stringify(documentation), 
     });
-
-    if (response.status === 401) {
-      alert("Sesión expirada. Inicia sesión nuevamente.");
-      return;
-    }
 
     if (!response.ok) {
       throw new Error("Error al crear la documentación");
@@ -29,7 +15,7 @@ export const createDocumentation = async (documentation: DocumentationCreateRequ
 
     alert("Documentación creado con éxito!");
   } catch (error) {
-    alert("Hubo un error al crear el documentación.");
+    alert((error as Error).message || "Hubo un error al crear el documentación.");
   }
 };
 
@@ -46,7 +32,9 @@ export const getAllDocumentation = async (page: number, limit: number) => {
 
 
 export const getDocumentationById = async (id: number): Promise<DocumentationGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/news/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/documentation/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener la documentación");

@@ -11,7 +11,7 @@ const formatDate = (dateString: string) => {
   return date.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
 };
 
-const GetNews: React.FC<GetNewsProps> = ({ news }) => {
+export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
   return (
     <div className="news-container">
       <h1 className="news-title">{news.title}</h1>
@@ -47,6 +47,3 @@ const GetNews: React.FC<GetNewsProps> = ({ news }) => {
     </div>
   );
 };
-
-
-export default GetNews;

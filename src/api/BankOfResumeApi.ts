@@ -1,27 +1,13 @@
 import { BankOfResumeCreateRequest } from "../dtos/requests/BankOfResume";
 import { BankOfResumeGetResponse } from "../dtos/responses/BankOfResume";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 export const createBankOfResume = async (bankOfResume: BankOfResumeCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-  
     try {
-      const response = await fetch("http://localhost:8080/api/bank-of-resume", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
-        body: JSON.stringify(bankOfResume), 
+      const response = await FetchWithAuth("http://localhost:8080/api//bank-of-resume", {
+          method: "POST",
+          body: JSON.stringify(bankOfResume),
       });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
   
       if (!response.ok) {
         throw new Error("Error al crear la hoja de vida");
@@ -29,7 +15,7 @@ export const createBankOfResume = async (bankOfResume: BankOfResumeCreateRequest
   
       alert("Hoja de vida creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear la hoja de vida.");
+      alert((error as Error).message || "Hubo un error al crear la hoja de vida.");
     }
 };
 
@@ -46,7 +32,9 @@ export const getAllBankOfResume = async (page: number, limit: number) => {
 
 
 export const getBankOfResumeById = async (id: number): Promise<BankOfResumeGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/bank-of-resume/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/bank-of-resume/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener la hoja de vida");

@@ -1,27 +1,13 @@
 import { JobBoardCreateRequest } from "../dtos/requests/JobBoard";
 import { JobBoardGetResponse } from "../dtos/responses/JobBoard";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 export const createJobBoard = async (jobBoard: JobBoardCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-  
     try {
-      const response = await fetch("http://localhost:8080/api/job-board", {
+      const response = await FetchWithAuth("http://localhost:8080/api/job-board", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
         body: JSON.stringify(jobBoard), 
       });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
   
       if (!response.ok) {
         throw new Error("Error al crear la empleo");
@@ -29,7 +15,7 @@ export const createJobBoard = async (jobBoard: JobBoardCreateRequest) => {
   
       alert("Empleo creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear  el empleo.");
+      alert((error as Error).message || "Hubo un error al crear  el empleo.");
     }
 };
 
@@ -46,7 +32,9 @@ export const getAllJobBoard = async (page: number, limit: number) => {
 
 
 export const getJobBoardById = async (id: number): Promise<JobBoardGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/job-board/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/job-board/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener el empleo");

@@ -1,6 +1,6 @@
 import { EducationalOfferCreateRequest } from "../dtos/requests/EducationalOffer";
 import { EducationalOfferGetResponse } from "../dtos/responses/EducationalOffer";
-import { FetchWithAuth } from "../utils/FetchWithAuth";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 export const createEducationalOffer = async (educationalOffer: EducationalOfferCreateRequest) => { 
   try {
@@ -30,7 +30,9 @@ export const getAllEducationalOffer = async (page: number, limit: number) => {
 
 
 export const getEducationalOfferById = async (id: number): Promise<EducationalOfferGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/educational-offer/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/educational-offer/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener Oferta educativa");

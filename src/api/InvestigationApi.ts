@@ -1,27 +1,13 @@
 import { InvestigationCreateRequest } from "../dtos/requests/Investigation";
 import { InvestigationGetResponse } from "../dtos/responses/Investigation";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
-export const createInvestigation = async (investigation: InvestigationCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-  
+export const createInvestigation = async (investigation: InvestigationCreateRequest) => {   
     try {
-      const response = await fetch("http://localhost:8080/api/investigation", {
+      const response = await FetchWithAuth("http://localhost:8080/api/investigation", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
         body: JSON.stringify(investigation), 
       });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
   
       if (!response.ok) {
         throw new Error("Error al crear la investigación");
@@ -29,7 +15,7 @@ export const createInvestigation = async (investigation: InvestigationCreateRequ
   
       alert("Investigación creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear la investigación.");
+      alert((error as Error).message || "Hubo un error al crear la investigación.");
     }
 };
 
@@ -46,7 +32,9 @@ export const getAllInvestigation = async (page: number, limit: number) => {
 
 
 export const getInvestigationById = async (id: number): Promise<InvestigationGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/investigation/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/investigation/${id}`, { 
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener la investigación");

@@ -1,27 +1,13 @@
 import { CompanyCreateRequest } from "../dtos/requests/Company";
 import { CompanyGetResponse } from "../dtos/responses/Company";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
-export const createCompany = async (company: CompanyCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-  
+export const createCompany = async (company: CompanyCreateRequest) => {   
     try {
-      const response = await fetch("http://localhost:8080/api/company", {
+      const response = await FetchWithAuth("http://localhost:8080/api/company", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
         body: JSON.stringify(company), 
       });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
   
       if (!response.ok) {
         throw new Error("Error al crear la compañia");
@@ -29,7 +15,7 @@ export const createCompany = async (company: CompanyCreateRequest) => {
   
       alert("Compañia creada con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear la compañia.");
+      alert((error as Error).message || "Hubo un error al crear la compañia.");
     }
 };
 
@@ -46,7 +32,9 @@ export const getAllCompany = async (page: number, limit: number) => {
 
 
 export const getCompanyById = async (id: number): Promise<CompanyGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/company/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/company/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener la compañia");

@@ -11,10 +11,10 @@ export interface JobBoardGetAllResponse {
 export interface JobBoardGetResponse {
     id: number;
     title: string;
-    company: string;
+    company?: string;
     description: string;
-    type: string;
-    salary_range: string;
+    type?: string;
+    salary_range?: string;
     link: string;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];

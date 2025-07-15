@@ -18,6 +18,6 @@ export interface EventGetResponse {
     link: string;
     date: string;
     user: UserMinimalResponse;
-    localitation: LocalitationResponse;
+    localitation?: LocalitationResponse;
     subtopics: SubtopicMinimalResponse[];
 }

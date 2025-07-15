@@ -1,27 +1,13 @@
 import { EventCreateRequest } from "../dtos/requests/Event";
 import { EventGetResponse } from "../dtos/responses/Event";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 export const createEvent = async (event: EventCreateRequest) => { 
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("No tienes una sesión activa.");
-      return;
-    }
-  
     try {
-      const response = await fetch("http://localhost:8080/api/event", {
+      const response = await FetchWithAuth("http://localhost:8080/api/event", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${token}` 
-        },
         body: JSON.stringify(event), 
       });
-  
-      if (response.status === 401) {
-        alert("Sesión expirada. Inicia sesión nuevamente.");
-        return;
-      }
   
       if (!response.ok) {
         throw new Error("Error al crear el evento");
@@ -29,7 +15,7 @@ export const createEvent = async (event: EventCreateRequest) => {
   
       alert("Evento creado con éxito!");
     } catch (error) {
-      alert("Hubo un error al crear el evento.");
+      alert((error as Error).message || "Hubo un error al crear el evento.");
     }
 };
 
@@ -46,7 +32,9 @@ export const getAllEvent = async (page: number, limit: number) => {
 
 
 export const getEventById = async (id: number): Promise<EventGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/event/${id}`);
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/event/${id}`,{
+    method: "GET",
+  });
   
   if (!response.ok) {
     throw new Error("Error al obtener el evento");

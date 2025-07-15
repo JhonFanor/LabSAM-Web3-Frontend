@@ -58,7 +58,7 @@ export const menuItems: MenuItem[] = [
     icon: FaBriefcase,
   },
   {
-    route: '/resume-bank',
+    route: '/bank-of-resume',
     label: 'Banco de hojas de vida',
     icon: FaFileAlt,
   },

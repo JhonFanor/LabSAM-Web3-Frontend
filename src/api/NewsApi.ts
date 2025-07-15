@@ -1,4 +1,4 @@
-import { FetchWithAuth } from "../utils/FetchWithAuth";
+import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 import { NewsCreateRequest } from "../dtos/requests/News";
 import { NewsGetResponse } from "../dtos/responses/News";
 
@@ -15,7 +15,6 @@ export const createNews = async (news: NewsCreateRequest) => {
     alert("Noticia creada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al crear la noticia.");
-    console.error(error);
   }
 };
 
@@ -32,8 +31,11 @@ export const getAllNews = async (page: number, limit: number) => {
 
 
 export const getNewsById = async (id: number): Promise<NewsGetResponse> => {
-  const response = await fetch(`http://localhost:8080/api/news/${id}`);
-  
+
+  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/news/${id}`, {
+      method: "GET",
+  });
+
   if (!response.ok) {
     throw new Error("Error al obtener la noticia");
   }

@@ -10,7 +10,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
-  const { isAuthenticated, isLoading, logout } = useAuth(); // Obtener usuario y función logout
+  const { isAuthenticated, isLoading, logout } = useAuth(); 
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (label: string) => {

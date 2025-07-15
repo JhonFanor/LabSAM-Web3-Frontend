@@ -1,0 +1,153 @@
+.event-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.event-title {
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 1.8rem;
+}
+
+.event-meta-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: -10px;
+  flex-wrap: wrap;
+}
+
+.event-meta {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.news-meta {
+  font-size: 14px;
+  color: gray;
+  margin: 10px 0;
+}
+
+.event-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.event-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.event-description {
+  flex: 1;
+  text-align: justify;
+  min-width: 250px;
+  margin-top: 10px;
+}
+
+.event-link {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: left;
+}
+
+.event-link a {
+  color: #1a73e8;
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #1a73e8;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.event-link a:hover {
+  background-color: #1a73e8;
+  color: white;
+  text-decoration: none;
+}
+
+.event-map-container {
+  margin-top: 30px;
+}
+
+.event-map-container h3 {
+  margin-bottom: 8px;
+}
+
+.event-map {
+  height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  z-index: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .event-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .event-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .event-description {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .event-meta-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .event-title {
+    font-size: 1.5rem;
+  }
+
+  .event-link {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-title {
+    font-size: 1.2rem;
+  }
+
+  .event-meta,
+  .news-meta {
+    font-size: 12px;
+  }
+
+  .event-description {
+    font-size: 14px;
+  }
+
+  .event-map {
+    height: 200px;
+  }
+
+  .event-link a {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}

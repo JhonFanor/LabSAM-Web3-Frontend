@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import GetNews from "../components/News/GetNews";
+import { GetNews } from "../components";
 import { getNewsById } from "../api/NewsApi";
 import { NewsGetResponse } from "../dtos/responses/News";
 
@@ -21,7 +21,6 @@ const NewsDetail: React.FC = () => {
       setLoading(true);
       try {
         const data = await getNewsById(Number(id));
-        console.log(data)
         setNews(data);
       } catch (err) {
         console.error(err);
