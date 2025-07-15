@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "./Header.css";
-import { useAuth } from "../../providers/Auth"; // Importar el contexto de autenticación
+import { useAuth } from "../../providers/Auth"; 
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -12,10 +12,15 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({toggleMenu, menuVisible, onLoginClick, onRegisterClick,}) => {
   const { isAuthenticated, isLoading  } = useAuth();
+  const { user } = useAuth();
   return (
     <header className="header">
       <div className="header__container">
-        <img src="assets/img/perfil.jpg" alt="Profile" className="header__img" />
+        {user && (
+          <img src={user.avatar ? user.avatar : "assets/img/perfil.jpg"} alt="Profile" className="header__img" />
+        )}
+
+        
         <a href="#" className="header__logo">LamSamWeb3</a>
 
         <div className="right-aligned">

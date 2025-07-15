@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { UserResponse } from "../dtos/responses";
 
 interface AuthContextType {
-  user: any;
+  user: UserResponse;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;

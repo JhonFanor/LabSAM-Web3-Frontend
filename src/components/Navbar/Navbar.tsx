@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { menuItems } from '../../constants/MenuItems';
 import { FaSignOutAlt, FaChevronDown, FaCircle } from 'react-icons/fa'; 
 import { useAuth } from '../../providers/Auth';
+import { adminMenuItems } from '../../constants/AdminMenuItems';
 
 interface NavbarProps {
   menuVisible: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
-  const { isAuthenticated, isLoading, logout } = useAuth(); 
+  const { isAuthenticated, isLoading, user, logout } = useAuth(); 
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
 
   const handleDropdownToggle = (label: string) => {
     setActiveDropdown(activeDropdown === label ? null : label);
@@ -28,7 +33,12 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
 
           <div className="nav__list">
             <div className="nav__items">
-              {menuItems.map((item) => (
+              {(isAdminRoute ? adminMenuItems : menuItems)
+                .filter((item) => {
+                  if (!isAuthenticated && item.label === 'Perfil') return false;
+                  if (item.label === 'Panel de Administración' && user?.role !== 'admin') return false;
+                  return true;
+              }).map((item) => (
                 <div key={item.route}>
                   {
                     item.children ? (

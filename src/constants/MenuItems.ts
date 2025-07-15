@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaUser, FaNewspaper, FaCalendarAlt, FaSearch, FaBriefcase, FaFileAlt, FaBuilding, FaGraduationCap, FaBalanceScale, FaBook, FaSignOutAlt, FaCircle } from 'react-icons/fa';
+import { FaHome, FaUser, FaNewspaper, FaCalendarAlt, FaSearch, FaBriefcase, FaFileAlt, FaBuilding, FaGraduationCap, FaBalanceScale, FaBook, FaSignOutAlt, FaCircle, FaUserShield } from 'react-icons/fa';
 
 export const logoutItem = {
   route: '/logout',
@@ -82,4 +82,9 @@ export const menuItems: MenuItem[] = [
     label: 'Documentaciones',
     icon: FaBook,
   },
+  {
+    route: '/admin/dashboard',
+    label: 'Panel de Administración',
+    icon: FaUserShield,
+  }
 ];

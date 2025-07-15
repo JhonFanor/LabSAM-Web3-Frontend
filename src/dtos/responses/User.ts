@@ -1,3 +1,10 @@
+export interface UserResponse {
+    id: number;
+    email: string;
+    avatar: string;
+    role: string; 
+}
+
 export interface UserMinimalResponse {
     avatar: string;
     regular_user?: {
