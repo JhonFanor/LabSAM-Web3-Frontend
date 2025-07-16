@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateInvestigation, GetAllInvestigation } from '../components';
+import { ButtonCreate, CreateInvestigation, GetAllInvestigation } from '../../components';
 
 const Investigation: React.FC = () => {
   const [showCreateInvestigation, setShowCreateInvestigation] = useState(false);

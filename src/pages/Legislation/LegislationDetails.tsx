@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetLegislation } from "../components";
-import { getLegislationById } from "../api/LegislationApi";
-import { LegislationGetResponse } from "../dtos/responses/Legislation";
+import { GetLegislation } from "../../components";
+import { getLegislationById } from "../../api/LegislationApi";
+import { LegislationGetResponse } from "../../dtos/responses/Legislation";
 
 const LegislationDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

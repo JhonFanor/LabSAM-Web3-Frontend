@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetCompany } from "../components";
-import { getCompanyById } from "../api/CompanyApi";
-import { CompanyGetResponse } from "../dtos/responses/Company";
+import { GetCompany } from "../../components";
+import { getCompanyById } from "../../api/CompanyApi";
+import { CompanyGetResponse } from "../../dtos/responses/Company";
 
 const CompanyDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

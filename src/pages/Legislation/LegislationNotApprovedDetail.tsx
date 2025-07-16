@@ -1,14 +1,14 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetLegislation } from "../components";
-import { getLegislationById } from "../api/LegislationApi";
-import { LegislationGetResponse } from "../dtos/responses/Legislation";
+import { GetLegislation } from "../../components";
+import { getAllLegislationsNotApproved, getLegislationById } from "../../api/LegislationApi";
+import { LegislationGetResponse } from "../../dtos/responses/Legislation";
 
-const LegislationDetail: React.FC = () => {
+const LegislationNotApprovedDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || "1";
+  const page = parseInt(searchParams.get("legislationsPage") || "1");
 
   const [legislation, setLegislation] = useState<LegislationGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -33,8 +33,26 @@ const LegislationDetail: React.FC = () => {
     fetchLegislation();
   }, [id]);
 
-  const handleBack = () => {
-    navigate(`/legislations?page=${page}`);
+  const handleBack = async () => {
+    try {
+      const currentPageData = await getAllLegislationsNotApproved(page, 10);
+
+      if (currentPageData.data.length > 0) {
+        navigate(`/admin/pending-approvals?legislationsPage=${page}`);
+      } else if (page > 1) {
+        const prevPageData = await getAllLegislationsNotApproved(page - 1, 10);
+        if (prevPageData.data.length > 0) {
+          navigate(`/admin/pending-approvals?legislationsPage=${page - 1}`);
+        } else {
+          navigate("/admin/pending-approvals");
+        }
+      } else {
+        navigate("/admin/pending-approvals");
+      }
+    } catch (err) {
+      console.error("Error al verificar páginas disponibles", err);
+      navigate("/admin/pending-approvals");
+    }
   };
 
   if (loading) return <p>Cargando legislación...</p>;
@@ -49,4 +67,4 @@ const LegislationDetail: React.FC = () => {
   );
 };
 
-export default LegislationDetail;
+export default LegislationNotApprovedDetail;

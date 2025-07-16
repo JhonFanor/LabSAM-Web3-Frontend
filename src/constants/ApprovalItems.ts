@@ -1,8 +1,13 @@
-import { countBankOfResumesNotApproved, countCompaniesNotApproved, countDocumentationsNotApproved, countEducationalOffersNotApproved } from "../api";
+import { countBankOfResumesNotApproved, countCompaniesNotApproved, countDocumentationsNotApproved, countEducationalOffersNotApproved, countEventsNotApproved, countInvestigationsNotApproved, countJobsBoardNotApproved, countLegislationsNotApproved, countNewsNotApproved } from "../api";
 import { GetAllBankOfResumesNotApproved } from "../components";
 import { GetAllCompaniesNotApproved } from "../components/Company/GetAllNewsNotApproved";
 import { GetAllDocumentationsNotApproved } from "../components/Documentation/GetAllDocumentationsNotApproved";
 import { GetAllEducationalOffersNotApproved } from "../components/EducationalOffer/GetAllEducationalOffersNotApproved";
+import { GetAllEventsNotApproved } from "../components/Event/GetAllEventsNotApproved";
+import { GetAllInvestigationsNotApproved } from "../components/Investigation/GetAllInvestigationsNotApproved";
+import { GetAllJobsBoardNotApproved } from "../components/JobBoard/GetAllJobsBoardNotApproved";
+import { GetAllLegislationsNotApproved } from "../components/Legislation/GetAllLegislationsNotApproved";
+import { GetAllNewsNotApproved } from "../components/News/GetAllNewsNotApproved";
 
 type ApprovalItem = {
   name: string;
@@ -12,6 +17,30 @@ type ApprovalItem = {
 };
 
 export const approvalItems: ApprovalItem[] = [
+  {
+    name: "news",
+    label: "Noticias",
+    fetchFn: countNewsNotApproved,
+    component: GetAllNewsNotApproved,
+  },
+  {
+    name: "events",
+    label: "Eventos",
+    fetchFn: countEventsNotApproved,
+    component: GetAllEventsNotApproved,
+  },
+  {
+    name: "investigations",
+    label: "Investigaciones",
+    fetchFn: countInvestigationsNotApproved,
+    component: GetAllInvestigationsNotApproved,
+  },
+  {
+    name: "jobs-board",
+    label: "Bola de empleos",
+    fetchFn: countJobsBoardNotApproved,
+    component: GetAllJobsBoardNotApproved,
+  },
   {
     name: "bankOfResumes",
     label: "Hojas de vida",
@@ -29,6 +58,12 @@ export const approvalItems: ApprovalItem[] = [
     label: "Ofertas educativas",
     fetchFn: countEducationalOffersNotApproved,
     component: GetAllEducationalOffersNotApproved, 
+  },
+  {
+    name: "legislations",
+    label: "Legislaciones",
+    fetchFn: countLegislationsNotApproved,
+    component: GetAllLegislationsNotApproved,
   },
   {
     name: "documentations",

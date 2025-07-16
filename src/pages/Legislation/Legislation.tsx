@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateLegislation, GetAllLegislation } from '../components';
+import { ButtonCreate, CreateLegislation, GetAllLegislation } from '../../components';
 
 const Legislation: React.FC = () => {
   const [showCreateLegislation, setShowCreateLegislation] = useState(false);

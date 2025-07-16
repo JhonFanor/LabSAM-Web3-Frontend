@@ -1,52 +1,52 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetEvent } from "../components";
-import { getEventById } from "../api/EventApi";
-import { EventGetResponse } from "../dtos/responses/Event";
+import { GetJobBoard } from "../../components";
+import { getJobBoardById } from "../../api/JobBoardApi";
+import { JobBoardGetResponse } from "../../dtos/responses/JobBoard";
 
-const EventDetail: React.FC = () => {
+const JobBoardDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
 
-  const [event, setEvent] = useState<EventGetResponse | null>(null);
+  const [job, setJob] = useState<JobBoardGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchEvent = async () => {
+    const fetchJob = async () => {
       setLoading(true);
       try {
-        const data = await getEventById(Number(id));
-        setEvent(data);
+        const data = await getJobBoardById(Number(id));
+        setJob(data);
       } catch (err) {
         console.error(err);
-        setError("No se pudo cargar el evento");
+        setError("No se pudo cargar la oferta");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEvent();
+    fetchJob();
   }, [id]);
 
   const handleBack = () => {
-    navigate(`/events?page=${page}`);
+    navigate(`/job-board?page=${page}`);
   };
 
-  if (loading) return <p>Cargando evento...</p>;
+  if (loading) return <p>Cargando oferta...</p>;
   if (error) return <p>{error}</p>;
-  if (!event) return <p>🔍 Evento no encontrado...</p>;
+  if (!job) return <p>🔍 Oferta no encontrada...</p>;
 
   return (
     <div>
       <button onClick={handleBack}>← Volver</button>
-      <GetEvent event={event} />
+      <GetJobBoard job={job} />
     </div>
   );
 };
 
-export default EventDetail;
+export default JobBoardDetail;

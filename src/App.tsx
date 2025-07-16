@@ -2,30 +2,36 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
 import { Navbar, Header } from './components';
 import { Login, Register } from './components'; 
-import News from './pages/News';
-import Events from './pages/Event';
+import News from './pages/News/News';
+import Events from './pages/Event/Event';
 import './App.css';
 import Companies from './pages/Company/Company';
-import Investigations from './pages/Investigation';
-import JobBoard from './pages/JobBoard';
-import BankOfResume from './pages/BankOfResume';
+import JobBoard from './pages/JobBoard/JobBoard';
 import EducationalOffers from './pages/EducationalOffer/EducationalOffer';
-import Legislations from './pages/Legislation';
+import Legislations from './pages/Legislation/Legislation';
 import Documentation from './pages/Documentation/Documentation';
 import { useAuth } from './providers/Auth';
-import NewsDetail from './pages/NewsDetails';
-import EventsDetail from './pages/EventDetails';
-import InvestigationDetails from './pages/InvestigationDetails';
-import JobBoardDetail from './pages/JobBoardDetails';
-import BankOfResumeDetail from './pages/BankOfResumeDetails';
-import CompanyDetail from './pages/CompanyDetails';
+import NewsDetail from './pages/News/NewsDetails';
+import EventsDetail from './pages/Event/EventDetails';
+import JobBoardDetail from './pages/JobBoard/JobBoardDetails';
 import EducationalOfferDetail from './pages/EducationalOffer/EducationalOfferDetails';
-import LegislationDetail from './pages/LegislationDetails';
+import LegislationDetail from './pages/Legislation/LegislationDetails';
 import DocumentationDetail from './pages/Documentation/DocumentationDetails';
 import PendingApprovals from './pages/PendingApprovals';
 import BankOfResumeNotApprovedDetail from './pages/BankOfResume/BankOfResumeNotApprovedDetail';
-import CompanyNotApprovedDetail from './pages/CompanyNotApprovedDetail';
 import DocumentationNotApprovedDetail from './pages/Documentation/DocumentationNotApprovedDetail';
+import InvestigationDetail from './pages/Investigation/InvestigationDetails';
+import Investigation from './pages/Investigation/Investigation';
+import BankOfResume from './pages/BankOfResume/BankOfResume';
+import BankOfResumeDetail from './pages/BankOfResume/BankOfResumeDetails';
+import CompanyDetail from './pages/Company/CompanyDetails';
+import CompanyNotApprovedDetail from './pages/Company/CompanyNotApprovedDetail';
+import NewsNotApprovedDetail from './pages/News/NewsNotApprovedDetail';
+import EventNotApprovedDetail from './pages/Event/EventNotApprovedDetail';
+import InvestigationNotApprovedDetail from './pages/Investigation/InvestigationNotApprovedDetail';
+import JobBoardNotApprovedDetail from './pages/JobBoard/JobBoardNotApprovedDetail';
+import EducationalOfferNotApprovedDetail from './pages/EducationalOffer/EducationalOfferNotApprovedDetail';
+import LegislationNotApprovedDetail from './pages/Legislation/LegislationNotApprovedDetail';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -66,13 +72,17 @@ const App: React.FC = () => {
           <Routes>  
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/admin/news/:id" element={<NewsNotApprovedDetail />} />
             <Route path="/events" element={<Events />} /> 
             <Route path="/event/:id" element={<EventsDetail />} />
-            <Route path="/investigations" element={<Investigations />} />
-            <Route path="/investigation/:id" element={<InvestigationDetails />} />
-            <Route path="/job-board" element={<JobBoard />} /> 
+            <Route path="/admin/event/:id" element={<EventNotApprovedDetail />} />
+            <Route path="/investigations" element={<Investigation />} />
+            <Route path="/investigation/:id" element={<InvestigationDetail />} />
+            <Route path="/admin/investigation/:id" element={<InvestigationNotApprovedDetail />} />
+            <Route path="/jobs-board" element={<JobBoard />} /> 
             <Route path="/job-board/:id" element={<JobBoardDetail />} /> 
-            <Route path="/bank-of-resume" element={<BankOfResume />} />  
+            <Route path="/admin/job-board/:id" element={<JobBoardNotApprovedDetail />} />
+            <Route path="/bank-of-resumes" element={<BankOfResume />} />  
             <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
             <Route path="/admin/bank-of-resume/:id" element={<BankOfResumeNotApprovedDetail />} />
             <Route path="/companies" element={<Companies />} /> 
@@ -80,8 +90,10 @@ const App: React.FC = () => {
             <Route path="/admin/company/:id" element={<CompanyNotApprovedDetail />} />
             <Route path="/educational-offers" element={<EducationalOffers />} /> 
             <Route path="/educational-offer/:id" element={<EducationalOfferDetail />} />
+            <Route path="/admin/educational-offer/:id" element={<EducationalOfferNotApprovedDetail />} />
             <Route path="/legislations" element={<Legislations />} /> 
             <Route path="/legislation/:id" element={<LegislationDetail />} />
+            <Route path="/admin/legislation/:id" element={<LegislationNotApprovedDetail />} />
             <Route path="/documentations" element={<Documentation />} /> 
             <Route path="/documentation/:id" element={<DocumentationDetail />} />
             <Route path="/admin/documentation/:id" element={<DocumentationNotApprovedDetail />} />

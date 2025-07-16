@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetEvent } from "../components";
-import { getEventById } from "../api/EventApi";
-import { EventGetResponse } from "../dtos/responses/Event";
+import { GetEvent } from "../../components";
+import { getEventById } from "../../api/EventApi";
+import { EventGetResponse } from "../../dtos/responses/Event";
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

@@ -1,52 +1,52 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetJobBoard } from "../components";
-import { getJobBoardById } from "../api/JobBoardApi";
-import { JobBoardGetResponse } from "../dtos/responses/JobBoard";
+import { GetNews } from "../../components";
+import { getNewsById } from "../../api/NewsApi";
+import { NewsGetResponse } from "../../dtos/responses/News";
 
-const JobBoardDetail: React.FC = () => {
+const NewsDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
 
-  const [job, setJob] = useState<JobBoardGetResponse | null>(null);
+  const [news, setNews] = useState<NewsGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchJob = async () => {
+    const fetchNews = async () => {
       setLoading(true);
       try {
-        const data = await getJobBoardById(Number(id));
-        setJob(data);
+        const data = await getNewsById(Number(id));
+        setNews(data);
       } catch (err) {
         console.error(err);
-        setError("No se pudo cargar la oferta");
+        setError("No se pudo cargar la noticia");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchJob();
+    fetchNews();
   }, [id]);
 
   const handleBack = () => {
-    navigate(`/job-board?page=${page}`);
+    navigate(`/news?page=${page}`);
   };
 
-  if (loading) return <p>Cargando oferta...</p>;
+  if (loading) return <p>Cargando noticia...</p>;
   if (error) return <p>{error}</p>;
-  if (!job) return <p>🔍 Oferta no encontrada...</p>;
+  if (!news) return <p>🔍 Noticia no encontrada...</p>;
 
   return (
     <div>
       <button onClick={handleBack}>← Volver</button>
-      <GetJobBoard job={job} />
+      <GetNews news={news} />
     </div>
   );
 };
 
-export default JobBoardDetail;
+export default NewsDetail;

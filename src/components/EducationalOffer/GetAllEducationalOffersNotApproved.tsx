@@ -12,7 +12,7 @@ export const GetAllEducationalOffersNotApproved: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = Number(searchParams.get("bankOfResumesPage")) || 1;
+    const page = Number(searchParams.get("educationalOffersPage")) || 1;
     
     useEffect(() => {
         const getEducationaOffer = async () => {
@@ -40,7 +40,7 @@ export const GetAllEducationalOffersNotApproved: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-educational-offer__list">
                 {educationalOfferList.map((educationalOffer) => (
-                    <Link to={`/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
+                    <Link to={`/admin/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
                         <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
                         <p className="get-all-educational-offer__list-item-dates">
                             Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}

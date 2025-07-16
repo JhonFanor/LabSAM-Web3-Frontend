@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateJobBoard, GetAllJobBoard } from '../components';
+import { ButtonCreate, CreateJobBoard, GetAllJobBoard } from '../../components';
 
 const JobBoard: React.FC = () => {
   const [showCreateJobBoard, setShowCreateJobBoard] = useState(false);

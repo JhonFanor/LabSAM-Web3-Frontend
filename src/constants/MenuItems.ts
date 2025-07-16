@@ -53,12 +53,12 @@ export const menuItems: MenuItem[] = [
     icon: FaSearch,
   },
   {
-    route: '/job-board',
+    route: '/jobs-board',
     label: 'Bolsa de empleos',
     icon: FaBriefcase,
   },
   {
-    route: '/bank-of-resume',
+    route: '/bank-of-resumes',
     label: 'Banco de hojas de vida',
     icon: FaFileAlt,
   },

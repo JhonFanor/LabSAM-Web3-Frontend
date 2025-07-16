@@ -1,14 +1,14 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetInvestigation } from "../components";
-import { getInvestigationById } from "../api/InvestigationApi";
-import { InvestigationGetResponse } from "../dtos/responses/Investigation";
+import { GetInvestigation } from "../../components";
+import { getAllInvestigationsNotApproved, getInvestigationById } from "../../api/InvestigationApi";
+import { InvestigationGetResponse } from "../../dtos/responses/Investigation";
 
-const InvestigationDetail: React.FC = () => {
+const InvestigationNotApprovedDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || "1";
+  const page = parseInt(searchParams.get("investigationsPage") || "1");
 
   const [investigation, setInvestigation] = useState<InvestigationGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -33,8 +33,26 @@ const InvestigationDetail: React.FC = () => {
     fetchInvestigation();
   }, [id]);
 
-  const handleBack = () => {
-    navigate(`/investigations?page=${page}`);
+  const handleBack = async () => {
+    try {
+      const currentPageData = await getAllInvestigationsNotApproved(page, 10);
+
+      if (currentPageData.data.length > 0) {
+        navigate(`/admin/pending-approvals?investigationsPage=${page}`);
+      } else if (page > 1) {
+        const prevPageData = await getAllInvestigationsNotApproved(page - 1, 10);
+        if (prevPageData.data.length > 0) {
+          navigate(`/admin/pending-approvals?investigationsPage=${page - 1}`);
+        } else {
+          navigate("/admin/pending-approvals");
+        }
+      } else {
+        navigate("/admin/pending-approvals");
+      }
+    } catch (err) {
+      console.error("Error al verificar páginas disponibles", err);
+      navigate("/admin/pending-approvals");
+    }
   };
 
   if (loading) return <p>Cargando investigación...</p>;
@@ -49,4 +67,4 @@ const InvestigationDetail: React.FC = () => {
   );
 };
 
-export default InvestigationDetail;
+export default InvestigationNotApprovedDetail;

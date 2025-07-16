@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateEvent, GetAllEvent } from '../components';
+import { ButtonCreate, CreateEvent, GetAllEvent } from '../../components';
 
 const Event: React.FC = () => {
   const [showCreateEvent, setShowCreateEvent] = useState(false);

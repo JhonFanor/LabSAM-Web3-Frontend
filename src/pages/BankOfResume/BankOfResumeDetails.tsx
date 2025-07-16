@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetBankOfResume } from "../components";
-import { getBankOfResumeById } from "../api/BankOfResumeApi";
-import { BankOfResumeGetResponse } from "../dtos/responses/BankOfResume";
+import { GetBankOfResume } from "../../components";
+import { getBankOfResumeById } from "../../api/BankOfResumeApi";
+import { BankOfResumeGetResponse } from "../../dtos/responses/BankOfResume";
 
 const BankOfResumeDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

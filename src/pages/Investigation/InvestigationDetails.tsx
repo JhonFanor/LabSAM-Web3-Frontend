@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetInvestigation } from "../components";
-import { getInvestigationById } from "../api/InvestigationApi";
-import { InvestigationGetResponse } from "../dtos/responses/Investigation";
+import { GetInvestigation } from "../../components";
+import { getInvestigationById } from "../../api/InvestigationApi";
+import { InvestigationGetResponse } from "../../dtos/responses/Investigation";
 
 const InvestigationDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

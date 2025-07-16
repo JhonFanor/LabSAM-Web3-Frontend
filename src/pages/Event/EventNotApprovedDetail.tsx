@@ -1,48 +1,48 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetCompany } from "../../components";
-import { getAllCompaniesNotApproved, getCompanyById } from "../../api";
-import { CompanyGetResponse } from "../../dtos/responses";
+import { GetEvent } from "../../components";
+import { getAllEventsNotApproved, getEventById } from "../../api/EventApi";
+import { EventGetResponse } from "../../dtos/responses/Event";
 
-const CompanyNotApprovedDetail: React.FC = () => {
+const EventNotApprovedDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("companiesPage") || "1");
+  const page = parseInt(searchParams.get("eventsPage") || "1");
 
-  const [company, setCompany] = useState<CompanyGetResponse | null>(null);
+  const [event, setEvent] = useState<EventGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchCompany = async () => {
+    const fetchEvent = async () => {
       setLoading(true);
       try {
-        const data = await getCompanyById(Number(id));
-        setCompany(data);
+        const data = await getEventById(Number(id));
+        setEvent(data);
       } catch (err) {
         console.error(err);
-        setError("No se pudo cargar la empresa");
+        setError("No se pudo cargar el evento");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCompany();
+    fetchEvent();
   }, [id]);
 
   const handleBack = async () => {
     try {
-      const currentPageData = await getAllCompaniesNotApproved(page, 10);
+      const currentPageData = await getAllEventsNotApproved(page, 10);
 
       if (currentPageData.data.length > 0) {
-        navigate(`/admin/pending-approvals?companiesPage=${page}`);
+        navigate(`/admin/pending-approvals?eventsPage=${page}`);
       } else if (page > 1) {
-        const prevPageData = await getAllCompaniesNotApproved(page - 1, 10);
+        const prevPageData = await getAllEventsNotApproved(page - 1, 10);
         if (prevPageData.data.length > 0) {
-          navigate(`/admin/pending-approvals?companiesPage=${page - 1}`);
+          navigate(`/admin/pending-approvals?eventsPage=${page - 1}`);
         } else {
           navigate("/admin/pending-approvals");
         }
@@ -55,16 +55,16 @@ const CompanyNotApprovedDetail: React.FC = () => {
     }
   };
 
-  if (loading) return <p>Cargando empresa...</p>;
+  if (loading) return <p>Cargando evento...</p>;
   if (error) return <p>{error}</p>;
-  if (!company) return <p>🔍 Empresa no encontrada...</p>;
+  if (!event) return <p>🔍 Evento no encontrado...</p>;
 
   return (
     <div>
       <button onClick={handleBack}>← Volver</button>
-      <GetCompany company={company} />
+      <GetEvent event={event} />
     </div>
   );
 };
 
-export default CompanyNotApprovedDetail;
+export default EventNotApprovedDetail;

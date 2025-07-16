@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateBankOfResume, GetAllBankOfResume } from '../components';
+import { ButtonCreate, CreateBankOfResume, GetAllBankOfResume } from '../../components';
 
 const BankOfResume: React.FC = () => {
 

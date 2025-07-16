@@ -1,14 +1,14 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetNews } from "../components";
-import { getNewsById } from "../api/NewsApi";
-import { NewsGetResponse } from "../dtos/responses/News";
+import { GetNews } from "../../components";
+import { getAllNewsNotApproved, getNewsById } from "../../api/NewsApi";
+import { NewsGetResponse } from "../../dtos/responses/News";
 
-const NewsDetail: React.FC = () => {
+const NewsNotApprovedDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || "1";
+  const page = parseInt(searchParams.get("bewsPage") || "1");
 
   const [news, setNews] = useState<NewsGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -33,8 +33,26 @@ const NewsDetail: React.FC = () => {
     fetchNews();
   }, [id]);
 
-  const handleBack = () => {
-    navigate(`/news?page=${page}`);
+  const handleBack = async () => {
+    try {
+      const currentPageData = await getAllNewsNotApproved(page, 10);
+
+      if (currentPageData.data.length > 0) {
+        navigate(`/admin/pending-approvals?newsPage=${page}`);
+      } else if (page > 1) {
+        const prevPageData = await getAllNewsNotApproved(page - 1, 10);
+        if (prevPageData.data.length > 0) {
+          navigate(`/admin/pending-approvals?newsPage=${page - 1}`);
+        } else {
+          navigate("/admin/pending-approvals");
+        }
+      } else {
+        navigate("/admin/pending-approvals");
+      }
+    } catch (err) {
+      console.error("Error al verificar páginas disponibles", err);
+      navigate("/admin/pending-approvals");
+    }
   };
 
   if (loading) return <p>Cargando noticia...</p>;
@@ -49,4 +67,4 @@ const NewsDetail: React.FC = () => {
   );
 };
 
-export default NewsDetail;
+export default NewsNotApprovedDetail;
