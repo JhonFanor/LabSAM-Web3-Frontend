@@ -7,6 +7,13 @@ export interface DocumentationGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface DocumentationGetAllByUserIDResponse {
+    id: number;
+    title: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface DocumentationGetResponse {
     id: number;
     title: string;

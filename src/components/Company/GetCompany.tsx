@@ -26,7 +26,7 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
         {company.email && <p className="company-meta">Correo: {company.email}</p>}
 
         <p className="company-meta">
-          Registrada por:{" "}
+          Subido por:{" "}
           {company.user.regular_user?.name ||
             company.user.university_user?.name ||
             company.user.business_user?.name ||

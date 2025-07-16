@@ -8,6 +8,14 @@ export interface BankOfResumeGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface BankOfResumeGetAllByUserIDResponse {
+    id: number;
+    photo: string;
+    title: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface BankOfResumeGetResponse {
     id: number;
     photo: string;
@@ -17,3 +25,4 @@ export interface BankOfResumeGetResponse {
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }
+

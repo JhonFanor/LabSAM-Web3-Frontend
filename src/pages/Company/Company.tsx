@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateCompany, GetAllCompany } from '../components';
+import { ButtonCreate, CreateCompany, GetAllCompany } from '../../components';
 
 const Conpanies: React.FC = () => {
   const [showCreateCompany, setShowCreateCompany] = useState(false);

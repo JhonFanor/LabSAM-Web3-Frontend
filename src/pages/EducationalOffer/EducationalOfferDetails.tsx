@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetEducationalOffer } from "../components";
-import { getEducationalOfferById } from "../api/EducationalOfferApi";
-import { EducationalOfferGetResponse } from "../dtos/responses/EducationalOffer";
+import { GetEducationalOffer } from "../../components";
+import { getEducationalOfferById } from "../../api/EducationalOfferApi";
+import { EducationalOfferGetResponse } from "../../dtos/responses/EducationalOffer";
 
 const EducationalOfferDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();

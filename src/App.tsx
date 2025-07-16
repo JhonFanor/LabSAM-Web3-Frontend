@@ -5,13 +5,13 @@ import { Login, Register } from './components';
 import News from './pages/News';
 import Events from './pages/Event';
 import './App.css';
-import Companies from './pages/Company';
+import Companies from './pages/Company/Company';
 import Investigations from './pages/Investigation';
 import JobBoard from './pages/JobBoard';
 import BankOfResume from './pages/BankOfResume';
-import EducationalOffers from './pages/EducationalOffer';
+import EducationalOffers from './pages/EducationalOffer/EducationalOffer';
 import Legislations from './pages/Legislation';
-import Documentation from './pages/Documentation';
+import Documentation from './pages/Documentation/Documentation';
 import { useAuth } from './providers/Auth';
 import NewsDetail from './pages/NewsDetails';
 import EventsDetail from './pages/EventDetails';
@@ -19,9 +19,13 @@ import InvestigationDetails from './pages/InvestigationDetails';
 import JobBoardDetail from './pages/JobBoardDetails';
 import BankOfResumeDetail from './pages/BankOfResumeDetails';
 import CompanyDetail from './pages/CompanyDetails';
-import EducationalOfferDetail from './pages/EducationalOfferDetails';
+import EducationalOfferDetail from './pages/EducationalOffer/EducationalOfferDetails';
 import LegislationDetail from './pages/LegislationDetails';
-import DocumentationDetail from './pages/DocumentationDetails';
+import DocumentationDetail from './pages/Documentation/DocumentationDetails';
+import PendingApprovals from './pages/PendingApprovals';
+import BankOfResumeNotApprovedDetail from './pages/BankOfResume/BankOfResumeNotApprovedDetail';
+import CompanyNotApprovedDetail from './pages/CompanyNotApprovedDetail';
+import DocumentationNotApprovedDetail from './pages/Documentation/DocumentationNotApprovedDetail';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -70,14 +74,18 @@ const App: React.FC = () => {
             <Route path="/job-board/:id" element={<JobBoardDetail />} /> 
             <Route path="/bank-of-resume" element={<BankOfResume />} />  
             <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
+            <Route path="/admin/bank-of-resume/:id" element={<BankOfResumeNotApprovedDetail />} />
             <Route path="/companies" element={<Companies />} /> 
             <Route path="/company/:id" element={<CompanyDetail />} />
+            <Route path="/admin/company/:id" element={<CompanyNotApprovedDetail />} />
             <Route path="/educational-offers" element={<EducationalOffers />} /> 
             <Route path="/educational-offer/:id" element={<EducationalOfferDetail />} />
             <Route path="/legislations" element={<Legislations />} /> 
             <Route path="/legislation/:id" element={<LegislationDetail />} />
             <Route path="/documentations" element={<Documentation />} /> 
             <Route path="/documentation/:id" element={<DocumentationDetail />} />
+            <Route path="/admin/documentation/:id" element={<DocumentationNotApprovedDetail />} />
+            <Route path="/admin/pending-approvals" element={<PendingApprovals />} />
           </Routes>
         </div>
         {!user && showLogin && (

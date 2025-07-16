@@ -8,6 +8,13 @@ export interface CompanyGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface CompanyGetAllByUserIDResponse {
+    id: number;
+    name: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface CompanyGetResponse {
     id: number;
     name: string;

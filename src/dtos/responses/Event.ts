@@ -10,6 +10,16 @@ export interface EventGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface EventGetAllByUserIDResponse {
+    id: number;
+    title: string;
+    image: string;
+    date: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
+
 export interface EventGetResponse {
     id: number;
     title: string;

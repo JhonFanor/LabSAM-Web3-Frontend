@@ -1,10 +1,14 @@
-import { EducationalOfferCreateRequest } from "../dtos/requests/EducationalOffer";
+import { EducationalOfferCreateRequest, EducationalOfferUpdateRequest } from "../dtos/requests/EducationalOffer";
 import { EducationalOfferGetResponse } from "../dtos/responses/EducationalOffer";
+import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
+
+const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/educational-offer`;
 
 export const createEducationalOffer = async (educationalOffer: EducationalOfferCreateRequest) => { 
   try {
-    const response = await FetchWithAuth("http://localhost:8080/api/educational-offer", {
+    const response = await FetchWithAuth(BASE_URL, {
       method: "POST",
       body: JSON.stringify(educationalOffer),
     });
@@ -18,7 +22,7 @@ export const createEducationalOffer = async (educationalOffer: EducationalOfferC
 };
 
 export const getAllEducationalOffer = async (page: number, limit: number) => {
-  const response = await fetch(`http://localhost:8080/api/educational-offer?page=${page}&limit=${limit}`);
+  const response = await fetch(`${BASE_URL}?page=${page}&limit=${limit}`);
   console.log("STATUS:", response.status);
   if (!response.ok) {
     throw new Error("Error al obtener las ofertas educativas");
@@ -28,17 +32,71 @@ export const getAllEducationalOffer = async (page: number, limit: number) => {
   return data;
 };
 
-
-export const getEducationalOfferById = async (id: number): Promise<EducationalOfferGetResponse> => {
-  const response = await FetchWithOptionalAuth(`http://localhost:8080/api/educational-offer/${id}`,{
+export const getAllEducationalOffersByUserID = async (page: number, limit: number) => {
+  const response = await FetchWithAuth(`${BASE_URL}/user/me?page=${page}&limit=${limit}`, {
     method: "GET",
   });
-  
+  if (!response.ok) {
+    throw new Error("Error al obtener las ofertas educativas del usuario");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const getAllEducationalOffersNotApproved = async (page: number, limit: number) => {
+  const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved?page=${page}&limit=${limit}`, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error("Error al obtener las ofertas educativas no aprobadas");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const countEducationalOffersNotApproved = async (): Promise<CountResponse> => {
+  const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved/count`, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error("Error al contar ofertas educativas no aprobadas");
+  }
+  const data = await response.json();
+  return data as CountResponse;
+};
+
+export const getEducationalOfferById = async (id: number): Promise<EducationalOfferGetResponse> => {
+  const response = await FetchWithOptionalAuth(`${BASE_URL}/${id}`, {
+    method: "GET",
+  });
   if (!response.ok) {
     throw new Error("Error al obtener Oferta educativa");
   }
-
   const data = await response.json();
   return data as EducationalOfferGetResponse;
 };
 
+export const updateEducationalOffer = async ( id: number, educationalOffer: EducationalOfferUpdateRequest ) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(educationalOffer),
+    });
+    if (!response.ok) {
+      throw new Error("Error al actualizar la oferta educativa");
+    }
+    alert("Oferta educativa actualizada con éxito!");
+  } catch (error) {
+    alert((error as Error).message || "Hubo un error al actualizar la oferta educativa.");
+  }
+};
+
+export const deleteEducationalOffer = async (id: number) => {
+  const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Error al eliminar la oferta educativa");
+  }
+  alert("Oferta educativa eliminada con éxito!");
+};

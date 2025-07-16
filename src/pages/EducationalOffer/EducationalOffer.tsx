@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonCreate, CreateEducationalOffer, GetAllEducationalOffer } from '../components';
+import { ButtonCreate, CreateEducationalOffer, GetAllEducationalOffer } from '../../components';
 
 const EducationalOffer: React.FC = () => {
   const [showCreateEducationalOffer, setShowCreateEducationalOffer] = useState(false);

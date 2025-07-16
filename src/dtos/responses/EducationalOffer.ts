@@ -10,6 +10,16 @@ export interface EducationalOfferGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface EducationalOfferGetAllByUserIDResponse {
+    id: number;
+    title: string;
+    start_date: string;
+    end_date: string;
+    cost: number;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface EducationalOfferGetResponse {
     id: number;
     title: string;

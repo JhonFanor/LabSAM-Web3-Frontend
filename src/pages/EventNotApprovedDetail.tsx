@@ -1,52 +1,52 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetDocumentation } from "../components";
-import { getDocumentationById } from "../api/DocumentationApi";
-import { DocumentationGetResponse } from "../dtos/responses/Documentation";
+import { GetEvent } from "../components";
+import { getEventById } from "../api/EventApi";
+import { EventGetResponse } from "../dtos/responses/Event";
 
-const DocumentationDetail: React.FC = () => {
+const EventDetail: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
 
-  const [doc, setDoc] = useState<DocumentationGetResponse | null>(null);
+  const [event, setEvent] = useState<EventGetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchDoc = async () => {
+    const fetchEvent = async () => {
       setLoading(true);
       try {
-        const data = await getDocumentationById(Number(id));
-        setDoc(data);
+        const data = await getEventById(Number(id));
+        setEvent(data);
       } catch (err) {
         console.error(err);
-        setError("No se pudo cargar la documentación");
+        setError("No se pudo cargar el evento");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDoc();
+    fetchEvent();
   }, [id]);
 
   const handleBack = () => {
-    navigate(`/documentation?page=${page}`);
+    navigate(`/events?page=${page}`);
   };
 
-  if (loading) return <p>Cargando documentación...</p>;
+  if (loading) return <p>Cargando evento...</p>;
   if (error) return <p>{error}</p>;
-  if (!doc) return <p>🔍 Documentación no encontrada...</p>;
+  if (!event) return <p>🔍 Evento no encontrado...</p>;
 
   return (
     <div>
       <button onClick={handleBack}>← Volver</button>
-      <GetDocumentation documentation={doc} />
+      <GetEvent event={event} />
     </div>
   );
 };
 
-export default DocumentationDetail;
+export default EventDetail;

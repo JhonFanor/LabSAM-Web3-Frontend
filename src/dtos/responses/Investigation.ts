@@ -7,6 +7,13 @@ export interface InvestigationGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface InvestigationGetAllByUserIDResponse {
+    id: number;
+    title: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface InvestigationGetResponse {
     id: number;
     title: string;

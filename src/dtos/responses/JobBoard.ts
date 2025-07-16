@@ -8,6 +8,14 @@ export interface JobBoardGetAllResponse {
     user: UserMinimalResponse;
 }
 
+export interface JobBoardGetAllByUserIDResponse {
+    id: number;
+    title: string;
+    company: string;
+    is_approved: boolean;
+    user: UserMinimalResponse;
+}
+
 export interface JobBoardGetResponse {
     id: number;
     title: string;

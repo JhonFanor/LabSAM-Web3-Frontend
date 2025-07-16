@@ -22,7 +22,7 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
     <div className="resume-container">
       <h1 className="resume-title">{resume.title}</h1>
 
-      {userName && <h3 className="resume-subtitle">👤 {userName}</h3>}
+      {userName && <h3 className="resume-subtitle">{userName}</h3>}
 
       <p className="resume-meta">Subtemas: {resume.subtopics.map(s => s.name).join(", ")}</p>
 
