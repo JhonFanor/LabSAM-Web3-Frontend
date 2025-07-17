@@ -2,6 +2,7 @@ import { NewsCreateRequest, NewsUpdateRequest } from "../dtos/requests/News";
 import { NewsGetResponse } from "../dtos/responses/News";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/news`;
@@ -88,6 +89,26 @@ export const updateNews = async (id: number, news: NewsUpdateRequest) => {
     alert("Noticia actualizada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar la noticia.");
+  }
+};
+
+export const setNewsApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al actualizar estado de aprobación");
+    }
+
+    alert("Estado de aprobación de la noticia actualizado correctamente.");
+  } catch (error) {
+    alert(
+      (error as Error).message || "Hubo un error al actualizar el estado de aprobación."
+    );
   }
 };
 

@@ -2,6 +2,7 @@ import { InvestigationCreateRequest, InvestigationUpdateRequest } from "../dtos/
 import { InvestigationGetResponse } from "../dtos/responses/Investigation";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/investigation`;
@@ -88,6 +89,26 @@ export const updateInvestigation = async (id: number, investigation: Investigati
     alert("Investigación actualizada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar la investigación.");
+  }
+};
+
+export const setInvestigationApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al aprobar o rechazar la investigación");
+    }
+
+    alert("Estado de aprobación de la investigación actualizado correctamente.");
+  } catch (error) {
+    alert(
+      (error as Error).message || "Hubo un error al actualizar el estado de aprobación de la investigación."
+    );
   }
 };
 

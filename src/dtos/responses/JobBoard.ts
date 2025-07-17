@@ -12,7 +12,7 @@ export interface JobBoardGetAllByUserIDResponse {
     id: number;
     title: string;
     company: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -24,6 +24,7 @@ export interface JobBoardGetResponse {
     type?: string;
     salary_range?: string;
     link: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }

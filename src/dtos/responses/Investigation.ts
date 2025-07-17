@@ -10,7 +10,7 @@ export interface InvestigationGetAllResponse {
 export interface InvestigationGetAllByUserIDResponse {
     id: number;
     title: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -20,6 +20,7 @@ export interface InvestigationGetResponse {
     description: string;
     date: string;
     link: string
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }

@@ -15,7 +15,7 @@ export interface EventGetAllByUserIDResponse {
     title: string;
     image: string;
     date: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -27,6 +27,7 @@ export interface EventGetResponse {
     description: string;
     link: string;
     date: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     localitation?: LocalitationResponse;
     subtopics: SubtopicMinimalResponse[];

@@ -16,7 +16,7 @@ export interface EducationalOfferGetAllByUserIDResponse {
     start_date: string;
     end_date: string;
     cost: number;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -29,6 +29,7 @@ export interface EducationalOfferGetResponse {
     cost: number;
     description: string;
     link: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }

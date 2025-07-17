@@ -14,7 +14,7 @@ export interface NewsGetAllByUserIDResponse {
     title: string;
     image: string;
     date: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -25,6 +25,7 @@ export interface NewsGetResponse {
     description: string;
     date: string;
     link?: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }

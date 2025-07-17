@@ -1,4 +1,5 @@
 import { CompanyCreateRequest, CompanyUpdateRequest } from "../dtos/requests/Company";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 import { CompanyGetResponse } from "../dtos/responses/Company";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
@@ -110,6 +111,24 @@ export const updateCompany = async ( id: number, company: CompanyUpdateRequest )
     alert("Compañía actualizada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar la compañía.");
+  }
+};
+
+export const setCompanyApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al aprobar o rechazar la compañía");
+    }
+
+    alert("Estado de aprobación actualizado correctamente.");
+  } catch (error) {
+    alert((error as Error).message || "Hubo un error al actualizar el estado de aprobación.");
   }
 };
 

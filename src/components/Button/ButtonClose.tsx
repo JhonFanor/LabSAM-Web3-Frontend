@@ -7,8 +7,8 @@ interface ButtonCloseProps {
 }
 
 export const ButtonClose: React.FC<ButtonCloseProps> = ({ onClick}) => (
-  <button className={`button-close`} onClick={onClick}>
-    <FaTimes />
-  </button>
+    <button className={`button-close`} onClick={onClick}>
+      <FaTimes />
+    </button>
 );
 

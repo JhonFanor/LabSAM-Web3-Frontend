@@ -2,6 +2,7 @@ import { JobBoardCreateRequest, JobBoardUpdateRequest } from "../dtos/requests/J
 import { JobBoardGetResponse } from "../dtos/responses/JobBoard";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/job-board`;
@@ -88,6 +89,26 @@ export const updateJobBoard = async (id: number, jobBoard: JobBoardUpdateRequest
     alert("Empleo actualizado con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar el empleo.");
+  }
+};
+
+export const setJobBoardApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al aprobar o rechazar el empleo");
+    }
+
+    alert("Estado de aprobación del empleo actualizado correctamente.");
+  } catch (error) {
+    alert(
+      (error as Error).message || "Hubo un error al actualizar el estado de aprobación del empleo."
+    );
   }
 };
 

@@ -2,6 +2,7 @@ import { EducationalOfferCreateRequest, EducationalOfferUpdateRequest } from "..
 import { EducationalOfferGetResponse } from "../dtos/responses/EducationalOffer";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/educational-offer`;
@@ -88,6 +89,26 @@ export const updateEducationalOffer = async ( id: number, educationalOffer: Educ
     alert("Oferta educativa actualizada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar la oferta educativa.");
+  }
+};
+
+export const setEducationalOfferApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al aprobar o rechazar la oferta educativa");
+    }
+
+    alert("Estado de aprobación actualizado correctamente.");
+  } catch (error) {
+    alert(
+      (error as Error).message || "Hubo un error al actualizar el estado de aprobación."
+    );
   }
 };
 

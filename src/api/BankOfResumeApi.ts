@@ -1,4 +1,5 @@
 import { BankOfResumeCreateRequest, BankOfResumeUpdateRequest } from "../dtos/requests/BankOfResume";
+import { ApprovalRequest } from "../dtos/responses/Approval";
 import { BankOfResumeGetResponse} from "../dtos/responses/BankOfResume";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
@@ -118,6 +119,24 @@ export const updateBankOfResume = async ( id: number, bankOfResume: BankOfResume
     alert("Hoja de vida actualizada con éxito!");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar la hoja de vida.");
+  }
+};
+
+export const setBankOfResumeApproval = async (id: number, approvalData: ApprovalRequest) => {
+  try {
+    const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
+      method: "PUT",
+      body: JSON.stringify(approvalData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Error al aprobar o rechazar la hoja de vida");
+    }
+
+    alert("Estado de aprobación actualizado correctamente.");
+  } catch (error) {
+    alert((error as Error).message || "Hubo un error al actualizar el estado de aprobación.");
   }
 };
 

@@ -11,6 +11,7 @@ export * from "./JobBoard/index.ts";
 export * from "./Legislation/index.ts";
 export * from "./Localitation/index.ts";
 export * from "./Login/index.ts";
+export * from "./Modal/index.ts";
 export * from "./Navbar/index.ts";
 export * from "./News/index.ts";
 export * from "./Pagination/index.ts";

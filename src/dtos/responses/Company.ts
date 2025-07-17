@@ -11,7 +11,7 @@ export interface CompanyGetAllResponse {
 export interface CompanyGetAllByUserIDResponse {
     id: number;
     name: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -21,6 +21,7 @@ export interface CompanyGetResponse {
     industry: string;
     website?: string;
     email?: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     localitation?: LocalitationResponse;
     subtopics: SubtopicMinimalResponse[];

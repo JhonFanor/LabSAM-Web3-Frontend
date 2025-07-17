@@ -10,7 +10,7 @@ export interface LegislationGetAllResponse {
 export interface LegislationGetAllByUserIDResponse {
     id: number;
     title: string;
-    is_approved: boolean;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
 }
 
@@ -19,6 +19,7 @@ export interface LegislationGetResponse {
     title: string;
     description: string;
     link: string;
+    is_approved: boolean | null;
     user: UserMinimalResponse;
     subtopics: SubtopicMinimalResponse[];
 }

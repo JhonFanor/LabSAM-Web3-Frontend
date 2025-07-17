@@ -1,19 +1,19 @@
-
-/* Contenedor del contenido */
 .login__content {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap; /* Para mejor ajuste en pantallas pequeñas */
-  gap: 2rem; /* Espaciado entre la imagen y el formulario */
-  max-width: 900px; /* Limitar el ancho máximo */
+  flex-wrap: wrap; 
+  gap: 2rem;
+  max-width: 900px; 
+  width: 100%;
   margin: auto;
 }
 
-/* Imagen de login */
 .login__img {
   flex: 1;
-  max-width: 400px; /* Limitar su tamaño */
+  max-width: 400px; 
+  display: flex;
+  justify-content: center;
 }
 
 .login__img img {
@@ -22,7 +22,6 @@
   margin-top: 1.5rem;
 }
 
-/* Contenedor de los formularios */
 .login__forms {
   flex: 1;
   max-width: 400px;
@@ -31,10 +30,9 @@
   height: auto;
 }
 
-/* Caja de inicio de sesión */
 .login__registre {
   width: 100%;
-  max-width: 400px; /* Limitar su tamaño */
+  max-width: 400px; 
   background-color: rgb(224, 224, 250);
   padding: 2rem;
   border-radius: 1rem;
@@ -56,14 +54,12 @@
   }
 }
 
-/* Título del formulario */
 .login__title {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: #000;
 }
 
-/* Inputs */
 .login__box {
   display: flex;
   align-items: center;
@@ -75,8 +71,8 @@
 }
 
 .login__icon {
-  font-size: 1.5rem;
-  color: #6923D0; /* Color principal */
+  font-size: 1.2rem;
+  color: #6923D0; 
 }
 
 .login__input {
@@ -93,7 +89,6 @@
   color: #818181;
 }
 
-/* Enlace de recuperación de contraseña */
 .login__forgot {
   display: block;
   width: max-content;
@@ -104,11 +99,10 @@
   color: black;
 }
 
-/* Botón de inicio de sesión */
 .login__button {
   padding: 0.75rem;
   margin: 1.5rem 0;
-  background-color: #6923D0; /* Color principal */
+  background-color: #6923D0; 
   color: #fff;
   font-weight: 600;
   text-align: center;
@@ -120,10 +114,9 @@
 }
 
 .login__button:hover {
-  background-color: #4a1a96; /* Color oscuro para hover */
+  background-color: #4a1a96; 
 }
 
-/* Sección de registro */
 .login__account, .login__signin {
   font-weight: 600;
   font-size: 0.9rem;
@@ -138,7 +131,6 @@
   cursor: pointer;
 }
 
-/* Botón de cierre */
 .login__close-button {
   position: absolute;
   top: 10px;
@@ -154,8 +146,14 @@
   color: #000;
 }
 
-/* Responsividad */
-@media screen and (min-width: 576px) {
+@media screen and (max-width: 576px) {
+  .login__content {
+    flex-direction: column;
+  }
+
+  .login__img img {
+    max-width: 250px;
+  }
 
   .login__title {
     font-size: 1.5rem;
@@ -179,10 +177,6 @@
     margin: 1rem 0;
   }
 
-  .login__forms {
-    width: 348px;
-    justify-self: center;
-  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -196,9 +190,7 @@
   }
 
   .login__img {
-    display: flex;
     width: 400px;
-    justify-content: center;
   }
 
   .login__img img {
