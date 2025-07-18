@@ -5,6 +5,8 @@ import { useAuth } from "../../providers/Auth";
 import { setInvestigationApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { ApprovalButton } from "../Button/ApprovalButton";
+import { UpdateInvestigation } from "./UpdateInvestigation";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
 
 interface GetInvestigationProps {
 	investigation: InvestigationGetResponse;
@@ -38,6 +40,12 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 
 	return (
 		<div className="investigation-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
+				)}
+			</ButtonUpdate>
+
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta investigación?" />

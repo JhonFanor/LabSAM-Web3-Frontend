@@ -7,6 +7,8 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { setEventApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { useAuth } from "../../providers/Auth";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { UpdateEvent } from "./UpdateEvent";
 
 interface GetEventProps {
 	event: EventGetResponse;
@@ -14,7 +16,11 @@ interface GetEventProps {
 
 const formatDate = (dateString: string) => {
 	const date = new Date(dateString);
-	return date.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+	return date.toLocaleDateString("es-ES", { 
+		year: "numeric", 
+		month: "long", day: 
+		"numeric" 
+	});
 };
 
 export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
@@ -29,6 +35,12 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 
 	return (
 		<div className="event-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateEvent onClose={onClose} eventGetResponse={event} />
+				)}
+			</ButtonUpdate>
+		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar este evento?" />

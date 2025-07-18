@@ -34,7 +34,7 @@ const JobBoardDetail: React.FC = () => {
   }, [id]);
 
   const handleBack = () => {
-    navigate(`/job-board?page=${page}`);
+    navigate(`/jobs-board?page=${page}`);
   };
 
   if (loading) return <p>Cargando oferta...</p>;

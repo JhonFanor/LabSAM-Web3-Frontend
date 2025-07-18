@@ -5,6 +5,8 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setDocumentationApproval } from "../../api";
 import { useAuth } from "../../providers/Auth";
+import { UpdateDocumentation } from "./UpdateDocumentation";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
 
 interface GetDocumentationProps {
   documentation: DocumentationGetResponse;
@@ -32,6 +34,11 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 
 	return (
 		<div className="doc-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
+				)}
+			</ButtonUpdate>
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta documentación?" />

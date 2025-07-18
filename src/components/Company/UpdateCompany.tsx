@@ -8,37 +8,37 @@ import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
 
 interface UpdateCompanyProps {
     onClose: () => void;
-    companyGetRespone: CompanyGetResponse; 
+    companyGetResponse: CompanyGetResponse; 
 }
 
-export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGetRespone }) => {
+export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGetResponse }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [uploading, setUploading] = useState(false);
     
     const [company, setCompany] = useState<CompanyUpdateRequest>({
-        name: companyGetRespone.name,
-        industry: companyGetRespone.industry,
-        website: companyGetRespone.website,
-        email: companyGetRespone.email,
-        localitation: companyGetRespone.localitation,
+        name: companyGetResponse.name,
+        industry: companyGetResponse.industry,
+        website: companyGetResponse.website,
+        email: companyGetResponse.email,
+        localitation: companyGetResponse.localitation,
     });
 
     const [subtopicIds, setSubtopicIds] = useState<SubtopicIDsRequest>({
-        subtopic_ids: companyGetRespone.subtopics.map((s) => s.id),
+        subtopic_ids: companyGetResponse.subtopics.map((s) => s.id),
     });
 
     const [localitation, setLocalitation] = useState<{ 
         address: string; 
         latitude: number; 
         longitude: number 
-    } | undefined>(companyGetRespone.localitation ? {
-        address: companyGetRespone.localitation.address,
-        latitude: companyGetRespone.localitation.latitude,
-        longitude: companyGetRespone.localitation.longitude
+    } | undefined>(companyGetResponse.localitation ? {
+        address: companyGetResponse.localitation.address,
+        latitude: companyGetResponse.localitation.latitude,
+        longitude: companyGetResponse.localitation.longitude
     } : undefined);
 
-    const originalSubtopicIds = companyGetRespone.subtopics.map((s) => s.id);
+    const originalSubtopicIds = companyGetResponse.subtopics.map((s) => s.id);
     const allSubtopics = topics.flatMap(topic => topic.subtopics);
 
     useEffect(() => {
@@ -47,18 +47,18 @@ export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGe
 
     const handleReset = () => {
         setCompany({
-            name: companyGetRespone.name,
-            industry: companyGetRespone.industry,
-            website: companyGetRespone.website,
-            email: companyGetRespone.email,
-            localitation: companyGetRespone.localitation,
+            name: companyGetResponse.name,
+            industry: companyGetResponse.industry,
+            website: companyGetResponse.website,
+            email: companyGetResponse.email,
+            localitation: companyGetResponse.localitation,
         });
         setSubtopicIds({ subtopic_ids: originalSubtopicIds });
         setSelectedTopic(null);
-        setLocalitation(companyGetRespone.localitation ? {
-            address: companyGetRespone.localitation.address,
-            latitude: companyGetRespone.localitation.latitude,
-            longitude: companyGetRespone.localitation.longitude
+        setLocalitation(companyGetResponse.localitation ? {
+            address: companyGetResponse.localitation.address,
+            latitude: companyGetResponse.localitation.latitude,
+            longitude: companyGetResponse.localitation.longitude
         } : undefined);
     };
 
@@ -73,11 +73,11 @@ export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGe
             };
 
             const hasCompanyChanged = 
-                updatedCompany.name !== companyGetRespone.name ||
-                updatedCompany.industry !== companyGetRespone.industry ||
-                updatedCompany.website !== companyGetRespone.website ||
-                updatedCompany.email !== companyGetRespone.email ||
-                JSON.stringify(updatedCompany.localitation) !== JSON.stringify(companyGetRespone.localitation);
+                updatedCompany.name !== companyGetResponse.name ||
+                updatedCompany.industry !== companyGetResponse.industry ||
+                updatedCompany.website !== companyGetResponse.website ||
+                updatedCompany.email !== companyGetResponse.email ||
+                JSON.stringify(updatedCompany.localitation) !== JSON.stringify(companyGetResponse.localitation);
 
            
 
@@ -88,17 +88,17 @@ export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGe
             const removed = originalSubtopicIds.filter(id => !currentSet.has(id));
 
             if (added.length > 0) {
-                await CreateCompanySubtopic(companyGetRespone.id, { subtopic_ids: added });
+                await CreateCompanySubtopic(companyGetResponse.id, { subtopic_ids: added });
             }
 
             if (removed.length > 0) {
-                await DeleteCompanySubtopic(companyGetRespone.id, { subtopic_ids: removed });
+                await DeleteCompanySubtopic(companyGetResponse.id, { subtopic_ids: removed });
             }
 
             const subtopicsChanged = added.length > 0 || removed.length > 0;
 
             if (hasCompanyChanged ||subtopicsChanged ) {
-                await updateCompany(companyGetRespone.id, updatedCompany);
+                await updateCompany(companyGetResponse.id, updatedCompany);
             }
 
             onClose();

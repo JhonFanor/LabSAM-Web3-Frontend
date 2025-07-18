@@ -5,6 +5,8 @@ import { useAuth } from "../../providers/Auth";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setNewsApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { UpdateNews } from "./UpdateNews";
 
 interface GetNewsProps {
   news: NewsGetResponse;
@@ -27,6 +29,12 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 
 	return (
 		<div className="news-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateNews onClose={onClose} newsGetResponse={news} />
+				)}
+			</ButtonUpdate>
+			
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta noticia?" />

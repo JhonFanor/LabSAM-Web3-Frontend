@@ -6,6 +6,7 @@ export interface UserResponse {
 }
 
 export interface UserMinimalResponse {
+  	id: number;
     avatar: string;
     regular_user?: {
       name: string;

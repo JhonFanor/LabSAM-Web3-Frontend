@@ -123,6 +123,7 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
                     imageUploaderKey={uploaderKey}
                     resetKey={resetKey}
                 />
+
                 <input
                     type="text"
                     name="title"
@@ -135,6 +136,7 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
                 <JoditEditor
                     value={bankOfResume.summary}
                     onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })}
+                    className="jodit-container"
                 />
 
                 <DocumentInputSelector

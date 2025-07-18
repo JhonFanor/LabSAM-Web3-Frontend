@@ -1,5 +1,5 @@
 import { UserMinimalResponse } from "./User";
-import { SubtopicMinimalResponse } from "./Subtopic";
+import { SubtopicGetResponse } from "./Subtopic";
 
 export interface InvestigationGetAllResponse {
     id: number;
@@ -22,5 +22,5 @@ export interface InvestigationGetResponse {
     link: string
     is_approved: boolean | null;
     user: UserMinimalResponse;
-    subtopics: SubtopicMinimalResponse[];
+    subtopics: SubtopicGetResponse[];
 }

@@ -1,16 +1,77 @@
 .update-company {
-    position: relative;
-    background: white;
-    padding: 2.5rem; 
-    border-radius: 1rem;
-    width: 95%;
-    max-width: 750px; 
-    max-height: 90vh; 
-    min-height: 500px; 
-    overflow-y: auto; 
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-    animation: animate-news 0.4s ease-in-out;
-    display: flex;
-    flex-direction: column;
+  background-color: #fff;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.update-company__title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.update-company__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.update-company__form input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.update-company__form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.update-company__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.update-company__buttons button {
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.update-company__buttons button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.update-company__buttons button[type="submit"]:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+.update-company__buttons button[type="button"] {
+  background-color: #6c757d;
+  color: white;
+}
+
+.update-company__buttons button[type="button"]:disabled {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.remove-localitation-button:hover {
+  background-color: #d32f2f;
 }

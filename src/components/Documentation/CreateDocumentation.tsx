@@ -3,8 +3,7 @@ import { TopicGetAllResponse } from "../../dtos/responses";
 import { DocumentationCreateRequest } from "../../dtos/requests";
 import JoditEditor from "jodit-react";
 import { createDocumentation, getAllTopics, uploadDocumentFile } from "../../api";
-import { FaTimes } from "react-icons/fa";
-import { TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
+import { TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector, ButtonClose } from "../../components";
 import "./CreateDocumentation.css";
 
 interface CreateDocumentationProps {
@@ -76,9 +75,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 
 	return (
 		<div className="create-documentation__content">
-			<button className="create-documentation__close-button" onClick={onClose}>
-				<FaTimes />
-			</button>
+			<ButtonClose onClick={onClose} />
 			<h2 className="create-documentation__title">Crear Documentación</h2>
 			<form className="create-documentation__form" onSubmit={handleSubmit}>
 				<input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />

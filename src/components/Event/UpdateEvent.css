@@ -1,4 +1,4 @@
-.update-company {
+.update-event {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -21,7 +21,7 @@
     100% { transform: scale(1, 1); }
 }
 
-.update-company__close-button {
+.update-event__close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -32,18 +32,18 @@
     color: #333;
 }
 
-.update-company__close-button:hover {
+.update-event__close-button:hover {
     color: #000;
 }
 
-.update-company__title {
+.update-event__title {
     font-size: 1.8rem;
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
 }
 
-.update-company__form {
+.update-event__form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -52,8 +52,8 @@
     padding-bottom: 1rem;
 }
 
-.update-company__form input,
-.update-company__form textarea {
+.update-event__form input,
+.update-event__form textarea {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ccc;
@@ -63,70 +63,53 @@
     color: #818181;
 }
 
-.update-company__buttons {
+.update-event__buttons {
     display: flex;
-    justify-content: flex-end;
     gap: 1rem;
-    margin-top: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
-.update-company__buttons button {
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+.update-event__buttons button {
+    background: var(--first-color, #007bff);
+    color: #fff;
     font-weight: 600;
-    border: none;
+    padding: 0.85rem 1.5rem;
     border-radius: 0.5rem;
+    border: none;
     cursor: pointer;
     transition: background 0.3s;
 }
 
-.update-company__buttons button[type="submit"] {
-    background: var(--first-color, #007bff);
-    color: #fff;
-}
-
-.update-company__buttons button[type="submit"]:hover {
+.update-event__buttons button:hover {
     background: var(--first-color-dark, #0056b3);
 }
 
-.update-company__buttons button[type="button"] {
-    background: #6c757d;
-    color: #fff;
-}
-
-.update-company__buttons button[type="button"]:hover {
-    background: #495057;
-}
-
-.remove-localitation-button {
-    background-color: #f44336;
-    color: #fff;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.remove-localitation-button:hover {
-    background-color: #d32f2f;
+.update-event__buttons button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
 }
 
 @media screen and (max-width: 768px) {
-    .update-company {
+    .update-event {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
         padding: 1.5rem;
     }
 
-    .update-company__title {
+    .update-event__title {
         font-size: 1.5rem;
     }
 
-    .update-company__buttons button {
-        padding: 0.65rem 1rem;
-        font-size: 0.95rem;
+    .update-event__buttons button {
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .update-event {
+        max-width: 95%; 
+        max-height: 90vh;
     }
 }

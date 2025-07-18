@@ -5,6 +5,8 @@ import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setEducationalOfferApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { useAuth } from "../../providers/Auth";
+import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
 
 interface GetEducationalOfferProps {
 	offer: EducationalOfferGetResponse;
@@ -38,6 +40,11 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 
 	return (
 		<div className="offer-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
+				)}
+			</ButtonUpdate>
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta oferta educativa?" />

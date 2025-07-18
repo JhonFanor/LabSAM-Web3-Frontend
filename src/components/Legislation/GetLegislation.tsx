@@ -5,6 +5,8 @@ import { useAuth } from "../../providers/Auth";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setLegislationApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { UpdateLegislation } from "./UpdateLegislation";
 
 interface GetLegislationProps {
 	legislation: LegislationGetResponse;
@@ -32,6 +34,11 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 
 	return (
 		<div className="legislation-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} />
+				)}
+			</ButtonUpdate>
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta legislación?" />
