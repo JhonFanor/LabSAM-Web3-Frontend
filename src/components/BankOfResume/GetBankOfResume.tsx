@@ -20,7 +20,7 @@ const transformDownloadURL = (url: string) => {
 };
 
 export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(resume.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -35,11 +35,13 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 
  	 return (
 		<div className="resume-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateBankOfResume onClose={onClose} resume={resume} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == resume.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateBankOfResume onClose={onClose} resume={resume} />
+					)}
+				</ButtonUpdate>
+			)}
 
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

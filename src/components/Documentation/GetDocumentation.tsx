@@ -21,7 +21,7 @@ const transformDownloadURL = (url: string) => {
 };
 
 export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentation }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(documentation.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -34,11 +34,13 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 
 	return (
 		<div className="doc-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == documentation.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
+					)}
+				</ButtonUpdate>
+			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta documentación?" />

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ButtonCreate, CreateBankOfResume, GetAllBankOfResume } from '../../components';
+import { useAuth } from '../../providers/Auth';
 
 const BankOfResume: React.FC = () => {
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 
 	const [showCreateBankOfResume, setShowCreateBankOfResume] = useState(false);
 	
@@ -10,9 +12,12 @@ const BankOfResume: React.FC = () => {
 
 	return (
 		<>
+
 			<header>
 				<h1>Banco de hojas de vida</h1>
-				<ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
+				{isAuthenticated && !isLoading && user.role == "regular" &&(
+					<ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
+				)}
 			</header>
 
 			<GetAllBankOfResume />

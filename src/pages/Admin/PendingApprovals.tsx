@@ -1,5 +1,5 @@
 import React from "react";
-import { ApprovalTabs } from "../components/ApprovalTabs";
+import { ApprovalTabs } from "../../components/ApprovalTabs";
 
 const PendingApprovalsPage: React.FC = () => {
   return (

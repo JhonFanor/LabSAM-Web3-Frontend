@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import "./GetJobBoard.css";
 import { JobBoardGetResponse } from "../../dtos/responses/JobBoard";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateJobBoard } from "./UpdateJobBoard";
+import { ApprovalButton } from "../Button/ApprovalButton";
+import { setJobBoardApproval } from "../../api";
+import { ApprovalRequest } from "../../dtos/responses/Approval";
+import { useAuth } from "../../providers/Auth";
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
 }
 
 export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
+	const { isAuthenticated, isLoading, user } = useAuth(); 
+	const [isApproved, setIsApproved] = useState<boolean | null>(job.is_approved ?? null);
+
+	const handleApproval = async (approved: boolean) => {
+		const approvalData: ApprovalRequest = { approved };
+		await setJobBoardApproval(job.id, approvalData);
+		setIsApproved(approved);
+	};
 	return (
 		<div className="job-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateJobBoard onClose={onClose} jobBoardGetResponse={job} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == job.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateJobBoard onClose={onClose} jobBoardGetResponse={job} />
+					)}
+				</ButtonUpdate>
+			)}
+			{user?.role === "admin" && isApproved == null && (
+				<div className="resume-actions">
+					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta noticia?" />
+					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta noticia?" />
+				</div>
+			)}
 			<h1 className="job-title">{job.title}</h1>
 
 			<div className="job-meta-container">

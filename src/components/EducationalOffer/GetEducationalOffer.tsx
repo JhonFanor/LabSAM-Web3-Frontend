@@ -29,7 +29,7 @@ const formatCurrency = (value: number) =>
 	});
 
 export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(offer.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -40,11 +40,13 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 
 	return (
 		<div className="offer-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == offer.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
+					)}
+				</ButtonUpdate>
+			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta oferta educativa?" />

@@ -26,7 +26,7 @@ const transformDownloadURL = (url: string) => {
 };
 
 export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigation }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(investigation.is_approved ?? null);
 	
 	const handleApproval = async (approved: boolean) => {
@@ -40,11 +40,13 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 
 	return (
 		<div className="investigation-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == investigation.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
+					)}
+				</ButtonUpdate>
+			)}
 
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

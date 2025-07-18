@@ -15,7 +15,7 @@ interface GetCompanyProps {
 }
 
 export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(company.is_approved ?? null);
 	
 	const handleApproval = async (approved: boolean) => {
@@ -26,11 +26,13 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 
 	return (
 		<div className="company-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateCompany onClose={onClose} companyGetRespone={company} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == company.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateCompany onClose={onClose} companyGetResponse={company} />
+					)}
+				</ButtonUpdate>
+			)}
 		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

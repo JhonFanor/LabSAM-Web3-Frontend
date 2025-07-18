@@ -18,7 +18,7 @@ const formatDate = (dateString: string) => {
 };
 
 export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(news.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -29,11 +29,13 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 
 	return (
 		<div className="news-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateNews onClose={onClose} newsGetResponse={news} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == news.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateNews onClose={onClose} newsGetResponse={news} />
+					)}
+				</ButtonUpdate>
+			)}
 			
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

@@ -24,7 +24,7 @@ const formatDate = (dateString: string) => {
 };
 
 export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(event.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -35,11 +35,13 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 
 	return (
 		<div className="event-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateEvent onClose={onClose} eventGetResponse={event} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id == event.user.id || user.role == "admin") &&(
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateEvent onClose={onClose} eventGetResponse={event} />
+					)}
+				</ButtonUpdate>
+			)}
 		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
