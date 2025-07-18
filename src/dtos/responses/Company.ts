@@ -1,6 +1,6 @@
 import { UserMinimalResponse } from "./User";
 import { LocalitationResponse } from "./Localitation";
-import { SubtopicMinimalResponse } from "./Subtopic";
+import { SubtopicGetResponse } from "./Subtopic";
 
 export interface CompanyGetAllResponse {
     id: number;
@@ -24,5 +24,5 @@ export interface CompanyGetResponse {
     is_approved: boolean | null;
     user: UserMinimalResponse;
     localitation?: LocalitationResponse;
-    subtopics: SubtopicMinimalResponse[];
+    subtopics: SubtopicGetResponse[];
 }

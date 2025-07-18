@@ -1,0 +1,16 @@
+.update-company {
+    position: relative;
+    background: white;
+    padding: 2.5rem; 
+    border-radius: 1rem;
+    width: 95%;
+    max-width: 750px; 
+    max-height: 90vh; 
+    min-height: 500px; 
+    overflow-y: auto; 
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+    animation: animate-news 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}

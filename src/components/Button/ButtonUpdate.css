@@ -1,0 +1,27 @@
+import React, { useState } from "react";
+
+interface OpenUpdateButtonProps {
+  component: React.FC<{ onClose: () => void }>;
+  className?: string;
+  label?: string;
+}
+
+export const OpenUpdateButton: React.FC<OpenUpdateButtonProps> = ({
+  component: Component,
+  className = "btn btn-secondary",
+  label = "Actualizar",
+}) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className={className}>
+        {label}
+      </button>
+
+      {open && <Component onClose={handleClose} />}
+    </>
+  );
+};

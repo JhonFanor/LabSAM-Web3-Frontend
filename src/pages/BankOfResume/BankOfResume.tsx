@@ -3,31 +3,31 @@ import { ButtonCreate, CreateBankOfResume, GetAllBankOfResume } from '../../comp
 
 const BankOfResume: React.FC = () => {
 
-  const [showCreateBankOfResume, setShowCreateBankOfResume] = useState(false);
-  
-  const closeModals = () => setShowCreateBankOfResume(false);
-  const handleCreateClick = () => setShowCreateBankOfResume(true);
+	const [showCreateBankOfResume, setShowCreateBankOfResume] = useState(false);
+	
+	const closeModals = () => setShowCreateBankOfResume(false);
+	const handleCreateClick = () => setShowCreateBankOfResume(true);
 
-  return (
-    <>
-      <header>
-        <h1>Banco de hojas de vida</h1>
-        <ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
-      </header>
+	return (
+		<>
+			<header>
+				<h1>Banco de hojas de vida</h1>
+				<ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
+			</header>
 
-      <GetAllBankOfResume />
+			<GetAllBankOfResume />
 
-      {showCreateBankOfResume && (
-        <div className="modal-overlay" onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            closeModals();
-          }
-        }}>
-          <CreateBankOfResume onClose={closeModals} />
-        </div>
-      )}
-    </>
-  );
+			{showCreateBankOfResume && (
+				<div className="modal-overlay" onClick={(e) => {
+					if (e.target === e.currentTarget) {
+						closeModals();
+					}
+				}}>
+					<CreateBankOfResume onClose={closeModals} />
+				</div>
+			)}
+		</>
+	);
 };
 
 export default BankOfResume;

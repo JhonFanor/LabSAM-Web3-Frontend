@@ -1,5 +1,7 @@
 export * from "./BankOfResumeApi";
+export * from "./BankOfResumeSubtopicApi";
 export * from "./CompanyApi";
+export * from "./CompanySubtopicApi";
 export * from "./DocumentationApi";
 export * from "./EducationalOfferApi";
 export * from "./EventApi";

@@ -7,6 +7,8 @@ import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setCompanyApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { useAuth } from "../../providers/Auth";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { UpdateCompany } from "./UpdateCompany";
 
 interface GetCompanyProps {
   company: CompanyGetResponse;
@@ -24,6 +26,11 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 
 	return (
 		<div className="company-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateCompany onClose={onClose} companyGetRespone={company} />
+				)}
+			</ButtonUpdate>
 		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

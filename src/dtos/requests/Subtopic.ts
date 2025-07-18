@@ -1,3 +1,3 @@
 export interface SubtopicIDsRequest {
-  subtopicIDs: number[];
+	subtopic_ids: number[];
 }

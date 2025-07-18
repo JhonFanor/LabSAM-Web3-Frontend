@@ -5,6 +5,8 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { setBankOfResumeApproval } from "../../api";
 import { useAuth } from "../../providers/Auth";
+import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { UpdateBankOfResume } from "./UpdateBankOfResume";
 
 interface GetBankOfResumeProps {
 	resume: BankOfResumeGetResponse;
@@ -33,6 +35,11 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 
  	 return (
 		<div className="resume-container">
+			<ButtonUpdate>
+				{(onClose) => (
+					<UpdateBankOfResume onClose={onClose} resume={resume} />
+				)}
+			</ButtonUpdate>
 
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

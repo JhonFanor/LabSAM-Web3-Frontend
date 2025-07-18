@@ -34,7 +34,7 @@ const BankOfResumeDetail: React.FC = () => {
   }, [id]);
 
   const handleBack = () => {
-    navigate(`/bank-of-resume?page=${page}`);
+    navigate(`/bank-of-resumes?page=${page}`);
   };
 
   if (loading) return <p>Cargando hoja de vida...</p>;

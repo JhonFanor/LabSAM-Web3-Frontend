@@ -1,5 +1,5 @@
+import { SubtopicGetResponse } from "./Subtopic";
 import { UserMinimalResponse } from "./User";
-import { SubtopicMinimalResponse } from "./Subtopic";
 
 export interface BankOfResumeGetAllResponse {
     id: number;
@@ -24,6 +24,6 @@ export interface BankOfResumeGetResponse {
     link: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
-    subtopics: SubtopicMinimalResponse[];
+    subtopics: SubtopicGetResponse[];
 }
 
