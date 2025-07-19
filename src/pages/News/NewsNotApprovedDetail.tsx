@@ -5,66 +5,66 @@ import { getAllNewsNotApproved, getNewsById } from "../../api/NewsApi";
 import { NewsGetResponse } from "../../dtos/responses/News";
 
 const NewsNotApprovedDetail: React.FC = () => {
-  const { id } = useParams<{ id?: string }>();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("bewsPage") || "1");
+    const { id } = useParams<{ id?: string }>();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const page = parseInt(searchParams.get("newsPage") || "1");
 
-  const [news, setNews] = useState<NewsGetResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [news, setNews] = useState<NewsGetResponse | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!id) return;
+    useEffect(() => {
+        if (!id) return;
 
-    const fetchNews = async () => {
-      setLoading(true);
-      try {
-        const data = await getNewsById(Number(id));
-        setNews(data);
-      } catch (err) {
-        console.error(err);
-        setError("No se pudo cargar la noticia");
-      } finally {
-        setLoading(false);
-      }
+        const fetchNews = async () => {
+            setLoading(true);
+            try {
+                const data = await getNewsById(Number(id));
+                setNews(data);
+            } catch (err) {
+                console.error(err);
+                setError("No se pudo cargar la noticia");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchNews();
+    }, [id]);
+
+    const handleBack = async () => {
+        try {
+            const currentPageData = await getAllNewsNotApproved(page, 10);
+
+            if (currentPageData.data.length > 0) {
+                navigate(`/admin/pending-approvals?newsPage=${page}`);
+            } else if (page > 1) {
+                const prevPageData = await getAllNewsNotApproved(page - 1, 10);
+                if (prevPageData.data.length > 0) {
+                    navigate(`/admin/pending-approvals?newsPage=${page - 1}`);
+                } else {
+                    navigate("/admin/pending-approvals");
+                }
+            } else {
+                navigate("/admin/pending-approvals");
+            }
+        } catch (err) {
+            console.error("Error al verificar páginas disponibles", err);
+            navigate("/admin/pending-approvals");
+        }
     };
 
-    fetchNews();
-  }, [id]);
+    if (loading) return <p>Cargando noticia...</p>;
+    if (error) return <p>{error}</p>;
+    if (!news) return <p>🔍 Noticia no encontrada...</p>;
 
-  const handleBack = async () => {
-    try {
-      const currentPageData = await getAllNewsNotApproved(page, 10);
-
-      if (currentPageData.data.length > 0) {
-        navigate(`/admin/pending-approvals?newsPage=${page}`);
-      } else if (page > 1) {
-        const prevPageData = await getAllNewsNotApproved(page - 1, 10);
-        if (prevPageData.data.length > 0) {
-          navigate(`/admin/pending-approvals?newsPage=${page - 1}`);
-        } else {
-          navigate("/admin/pending-approvals");
-        }
-      } else {
-        navigate("/admin/pending-approvals");
-      }
-    } catch (err) {
-      console.error("Error al verificar páginas disponibles", err);
-      navigate("/admin/pending-approvals");
-    }
-  };
-
-  if (loading) return <p>Cargando noticia...</p>;
-  if (error) return <p>{error}</p>;
-  if (!news) return <p>🔍 Noticia no encontrada...</p>;
-
-  return (
-    <div>
-      <button onClick={handleBack}>← Volver</button>
-      <GetNews news={news} />
-    </div>
-  );
+    return (
+        <div>
+            <button onClick={handleBack}>← Volver</button>
+            <GetNews news={news} />
+        </div>
+    );
 };
 
 export default NewsNotApprovedDetail;

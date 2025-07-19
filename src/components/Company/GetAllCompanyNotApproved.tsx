@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { CompanyGetAllByUserIDResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllCompaniesByUserID } from "../../api";
-import { Pagination, GetAllError } from "../../components";
+import { CompanyGetAllResponse } from "../../dtos/responses";
+import { Link, useSearchParams } from "react-router-dom";
+import { getAllCompaniesNotApproved } from "../../api";
+import { Pagination, GetAllError } from "..";
 import "./GetAllCompany.css";
 
-export const GetAllCompaniesByUserID: React.FC = () => {
-    const [companyList, setCompanyList] = useState<CompanyGetAllByUserIDResponse[]>([]);
+export const GetAllCompaniesNotApproved: React.FC = () => {
+    const [companyList, setCompanyList] = useState<CompanyGetAllResponse[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState<string | null>(null);
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("companiesPage")) || 1;
 
     useEffect(() => {
         const getCompany = async () => {
             try {
-                const data = await getAllCompaniesByUserID(page, limit);
+                const data = await getAllCompaniesNotApproved(page, limit);
                 setCompanyList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay compañias disponibles.");
@@ -32,8 +31,8 @@ export const GetAllCompaniesByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
+        searchParams.set("companiesPage", newPage.toString());
         setSearchParams({ page: newPage.toString() });
-        navigate(`/company/user/me?page=${newPage}`);
     };
 
     return (
@@ -41,7 +40,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-company__list">
                 {companyList.map((company) => (
-                    <Link to={`/company/${company.id}`} key={company.id} className="get-all-company__list-item">
+                    <Link to={`/admin/company/${company.id}`} key={company.id} className="get-all-company__list-item">
                         <p className="get-all-company__list-item-name">{company.name}</p>
                         <p className="get-all-company__list-item-user">
                             Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }

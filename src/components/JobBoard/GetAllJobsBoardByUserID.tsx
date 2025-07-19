@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { JobBoardGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllJobBoard } from "../../api";
+import { Link, useSearchParams } from "react-router-dom";
+import { getAllJobsBoardByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllJobBoard.css";
 
@@ -12,13 +12,12 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("jobsBoardPage")) || 1;
 
     useEffect(() => {
         const getJobBoard = async () => {
             try {
-                const data = await getAllJobBoard(page, limit);
+                const data = await getAllJobsBoardByUserID(page, limit);
                 setJobBoardList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay ofertas de trabajo disponibles.");
@@ -32,8 +31,8 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
+        searchParams.set("jobsBoardPage", newPage.toString());
         setSearchParams({ page: newPage.toString() });
-        navigate(`/job-board?page=${newPage}`);
     };
 
     return (
@@ -41,7 +40,7 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-job-board__list">
                 {jobBoardList.map((jobBoard) => (
-                    <Link to={`/job-board/${jobBoard.id}`} key={jobBoard.id} className="get-all-job-board__list-item">
+                    <Link to={`/user/job-board/${jobBoard.id}`} key={jobBoard.id} className="get-all-job-board__list-item">
                         <p className="get-all-job-board__list-item-title">{jobBoard.title}</p>
                         <p className="get-all-job-board__list-item-company">Empresa: {jobBoard.company}</p>
                         <p className="get-all-job-board__list-item-user">

@@ -5,48 +5,47 @@ import { getBankOfResumeById } from "../../api/BankOfResumeApi";
 import { BankOfResumeGetResponse } from "../../dtos/responses/BankOfResume";
 
 const BankOfResumeDetail: React.FC = () => {
-  const { id } = useParams<{ id?: string }>();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || "1";
+    const { id } = useParams<{ id?: string }>();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const page = searchParams.get("page") || "1";
 
-  const [resume, setResume] = useState<BankOfResumeGetResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [resume, setResume] = useState<BankOfResumeGetResponse | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!id) return;
+    useEffect(() => {
+        if (!id) return;
+            const fetchResume = async () => {
+            setLoading(true);
+            try {
+                const data = await getBankOfResumeById(Number(id));
+                setResume(data);
+            } catch (err) {
+                console.error(err);
+                setError("No se pudo cargar la hoja de vida");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const fetchResume = async () => {
-      setLoading(true);
-      try {
-        const data = await getBankOfResumeById(Number(id));
-        setResume(data);
-      } catch (err) {
-        console.error(err);
-        setError("No se pudo cargar la hoja de vida");
-      } finally {
-        setLoading(false);
-      }
+        fetchResume();
+    }, [id]);
+
+    const handleBack = () => {
+        navigate(`/bank-of-resumes?page=${page}`);
     };
 
-    fetchResume();
-  }, [id]);
+    if (loading) return <p>Cargando hoja de vida...</p>;
+    if (error) return <p>{error}</p>;
+    if (!resume) return <p>🔍 Hoja de vida no encontrada...</p>;
 
-  const handleBack = () => {
-    navigate(`/bank-of-resumes?page=${page}`);
-  };
-
-  if (loading) return <p>Cargando hoja de vida...</p>;
-  if (error) return <p>{error}</p>;
-  if (!resume) return <p>🔍 Hoja de vida no encontrada...</p>;
-
-  return (
-    <div>
-      <button onClick={handleBack}>← Volver</button>
-      <GetBankOfResume resume={resume} />
-    </div>
-  );
+    return (
+        <div>
+            <button onClick={handleBack}>← Volver</button>
+            <GetBankOfResume resume={resume} />
+        </div>
+    );
 };
 
 export default BankOfResumeDetail;

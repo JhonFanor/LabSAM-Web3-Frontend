@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { EventGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllEvent } from "../../api";
+import { Link, useSearchParams } from "react-router-dom";
+import { getAllEventsByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllEvent.css";
 
@@ -12,13 +12,12 @@ export const GetAllEventsByUserID: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("eventsPage")) || 1;
 
     useEffect(() => {
         const getEvent = async () => {
             try {
-                const data = await getAllEvent(page, limit);
+                const data = await getAllEventsByUserID(page, limit);
                 setEventList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay Eventos disponibles.");
@@ -32,8 +31,8 @@ export const GetAllEventsByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
+        searchParams.set("eventsPage", newPage.toString());
         setSearchParams({ page: newPage.toString() });
-        navigate(`/event?page=${newPage}`);
     };
 
     return (
@@ -41,7 +40,7 @@ export const GetAllEventsByUserID: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-event__list">
                 {eventList.map((event) => (
-                    <Link to={`/event/${event.id}`} key={event.id} className="get-all-event__list-item">
+                    <Link to={`/user/event/${event.id}`} key={event.id} className="get-all-event__list-item">
                         <p className="get-all-event__list-item-title">{event.title}</p>
                         <img src={event.image} alt={event.title} className="get-all-event__list-item-image"/>
                         <p className="get-all-news__list-item-date">{new Date(event.date).toLocaleDateString()}</p>

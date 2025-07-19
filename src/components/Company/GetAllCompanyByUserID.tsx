@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { CompanyGetAllResponse } from "../../dtos/responses";
+import { CompanyGetAllByUserIDResponse } from "../../dtos/responses";
 import { Link, useSearchParams } from "react-router-dom";
-import { getAllCompaniesNotApproved } from "../../api";
-import { Pagination, GetAllError } from "../../components";
+import { getAllCompaniesByUserID } from "../../api";
+import { Pagination, GetAllError } from "..";
 import "./GetAllCompany.css";
 
-export const GetAllCompaniesNotApproved: React.FC = () => {
-    const [companyList, setCompanyList] = useState<CompanyGetAllResponse[]>([]);
+export const GetAllCompaniesByUserID: React.FC = () => {
+    const [companyList, setCompanyList] = useState<CompanyGetAllByUserIDResponse[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState<string | null>(null);
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = Number(searchParams.get("bankOfResumesPage")) || 1;
+    const page = Number(searchParams.get("companiesPage")) || 1;
 
     useEffect(() => {
         const getCompany = async () => {
             try {
-                const data = await getAllCompaniesNotApproved(page, limit);
+                const data = await getAllCompaniesByUserID(page, limit);
                 setCompanyList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay compañias disponibles.");
@@ -40,7 +40,7 @@ export const GetAllCompaniesNotApproved: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-company__list">
                 {companyList.map((company) => (
-                    <Link to={`/admin/company/${company.id}`} key={company.id} className="get-all-company__list-item">
+                    <Link to={`/user/company/${company.id}`} key={company.id} className="get-all-company__list-item">
                         <p className="get-all-company__list-item-name">{company.name}</p>
                         <p className="get-all-company__list-item-user">
                             Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }

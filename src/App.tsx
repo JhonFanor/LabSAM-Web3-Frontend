@@ -34,6 +34,8 @@ import EducationalOfferNotApprovedDetail from './pages/EducationalOffer/Educatio
 import LegislationNotApprovedDetail from './pages/Legislation/LegislationNotApprovedDetail';
 import Unauthorized from './pages/Admin/Unauthorized';
 import AdminRoute from './components/Admin/AdminRoute';
+import NewsByUserIDDetails from './pages/News/NewsByUserIDDetails';
+import PublicationPage from './pages/User/Publication';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -74,6 +76,7 @@ const App: React.FC = () => {
           <Routes>  
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/user/news/:id" element={<NewsByUserIDDetails />} />
             <Route path="/admin/news/:id" element={<AdminRoute><NewsNotApprovedDetail /></AdminRoute>} />
             <Route path="/events" element={<Events />} /> 
             <Route path="/event/:id" element={<EventsDetail />} />
@@ -101,6 +104,7 @@ const App: React.FC = () => {
             <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
             <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/me/publications" element={<PublicationPage />} />
           </Routes>
         </div>
         {!user && showLogin && (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EducationalOfferGetAllByUserIDResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllEducationalOffersByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllEducationalOffer.css";
@@ -12,8 +12,7 @@ export const GetAllEducationalOffersByUserID: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("educationalOffersPage")) || 1;
 
     useEffect(() => {
         const getEducationaOffer = async () => {
@@ -32,8 +31,8 @@ export const GetAllEducationalOffersByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
+        searchParams.set("educationalOffersPage", newPage.toString());
         setSearchParams({ page: newPage.toString() });
-        navigate(`/educational-offer?page=${newPage}`);
     };
 
     return (
@@ -41,7 +40,7 @@ export const GetAllEducationalOffersByUserID: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-educational-offer__list">
                 {educationalOfferList.map((educationalOffer) => (
-                    <Link to={`/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
+                    <Link to={`/user/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
                         <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
                         <p className="get-all-educational-offer__list-item-dates">
                             Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}

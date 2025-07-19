@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DocumentationGetAllByUserIDResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllDocumentationsByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllDocumentation.css";
@@ -12,8 +12,7 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("documentationsPage")) || 1;
 
     useEffect(() => {
         const getDocumentation = async () => {
@@ -32,8 +31,8 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
+        searchParams.set("documentationsPage", newPage.toString());
         setSearchParams({ page: newPage.toString() });
-        navigate(`/documentation?page=${newPage}`);
     };
 
     return (
@@ -41,7 +40,7 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-documentation__list">
                 {documentationList.map((documentation) => (
-                    <Link to={`/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
+                    <Link to={`/user/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
                         <p className="get-all-documentation__list-item-title">{documentation.title}</p>
                         <p className="get-all-documentation__list-item-user">
                             Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }

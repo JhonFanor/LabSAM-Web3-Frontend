@@ -8,7 +8,7 @@ const EducationalOfferNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const page = parseInt(searchParams.get("educationalOfferssPage") || "1");
+    const page = parseInt(searchParams.get("educationalOffersPage") || "1");
 
     const [offer, setOffer] = useState<EducationalOfferGetResponse | null>(null);
     const [loading, setLoading] = useState(false);
@@ -34,37 +34,37 @@ const EducationalOfferNotApprovedDetail: React.FC = () => {
     }, [id]);
 
     const handleBack = async () => {
-      try {
+    try {
         const currentPageData = await getAllEducationalOffersNotApproved(page, 10);
-  
+
         if (currentPageData.data.length > 0) {
-          navigate(`/admin/pending-approvals?educationalOffersPage=${page}`);
+            navigate(`/admin/pending-approvals?educationalOffersPage=${page}`);
         } else if (page > 1) {
-          const prevPageData = await getAllEducationalOffersNotApproved(page - 1, 10);
-          if (prevPageData.data.length > 0) {
-            navigate(`/admin/pending-approvals?educationalOffersPage=${page - 1}`);
-          } else {
+            const prevPageData = await getAllEducationalOffersNotApproved(page - 1, 10);
+            if (prevPageData.data.length > 0) {
+                navigate(`/admin/pending-approvals?educationalOffersPage=${page - 1}`);
+            } else {
+                navigate("/admin/pending-approvals");
+            }
+            } else {
             navigate("/admin/pending-approvals");
-          }
-        } else {
-          navigate("/admin/pending-approvals");
         }
-      } catch (err) {
+    } catch (err) {
         console.error("Error al verificar páginas disponibles", err);
         navigate("/admin/pending-approvals");
-      }
+    }
     };
 
-  if (loading) return <p>Cargando oferta educativa...</p>;
-  if (error) return <p>{error}</p>;
-  if (!offer) return <p>🔍 Oferta educativa no encontrada...</p>;
+    if (loading) return <p>Cargando oferta educativa...</p>;
+    if (error) return <p>{error}</p>;
+    if (!offer) return <p>🔍 Oferta educativa no encontrada...</p>;
 
-  return (
-    <div>
-      <button onClick={handleBack}>← Volver</button>
-      <GetEducationalOffer offer={offer} />
-    </div>
-  );
+    return (
+        <div>
+            <button onClick={handleBack}>← Volver</button>
+            <GetEducationalOffer offer={offer} />
+        </div>
+    );
 };
 
 export default EducationalOfferNotApprovedDetail;
