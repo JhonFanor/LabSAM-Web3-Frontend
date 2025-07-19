@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
 
                 <div className="nav__list">
                     <div className="nav__items">
-                    {(isAdminRoute ? adminMenuItems : menuItems)
+                    {((isAdminRoute && user?.role === 'admin') ? adminMenuItems : menuItems)
                         .filter((item) => {
                         if (!isAuthenticated && item.label === 'Perfil') return false;
                         if (item.label === 'Panel de Administración' && user?.role !== 'admin') return false;
