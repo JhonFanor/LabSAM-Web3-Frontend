@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { NewsGetAllResponse } from "../../dtos/responses";
+import { NewsGetAllByUserIDResponse } from "../../dtos/responses";
 import { Link, useSearchParams } from "react-router-dom";
 import { getAllNewsByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllNews.css";
 
 export const GetAllNewsByUserID: React.FC = () => {
-    const [newsList, setNewsList] = useState<NewsGetAllResponse[]>([]);
+    const [newsList, setNewsList] = useState<NewsGetAllByUserIDResponse[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState<string | null>(null);
 
@@ -40,16 +40,27 @@ export const GetAllNewsByUserID: React.FC = () => {
             <GetAllError message={error}/>
 
             <div className="get-all-news__list">
-                {newsList.map((news) => (
-                <Link to={`/news/${news.id}`} key={news.id} className="get-all-news__list-item">
-                    <h3 className="get-all-news__list-item-title">{news.title}</h3>
-                    <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
-                    <p className="get-all-news__list-item-date">{new Date(news.date).toLocaleDateString()}</p>
-                    <p className="get-all-news__list-item-user">
-                    Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
-                    </p>
-                </Link>
-                ))}
+                {newsList.map((news) => {
+                    let statusLabel = null;
+                    if (news.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (news.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return(
+                        <Link to={`/user/news/${news.id}`} key={news.id} className="get-all-news__list-item">
+                            <h3 className="get-all-news__list-item-title">{news.title}</h3>
+                            <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
+                            <p className="get-all-news__list-item-date">{new Date(news.date).toLocaleDateString()}</p>
+                            <p className="get-all-news__list-item-user">
+                            Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
+                            </p>
+                            {statusLabel && (
+                                <div className="get-all-news__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    );
+                })}
             </div>
 
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />

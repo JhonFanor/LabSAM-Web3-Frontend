@@ -32,9 +32,7 @@ export const menuItems: MenuItem[] = [
     label: 'Perfil',
     icon: FaUser,
     children: [
-      { route: '/me/publications', label: 'Publicaciones' },
-      { route: '/profile/mail', label: 'Mail' },
-      { route: '/profile/accounts', label: 'Accounts' },
+      { route: '/user/publications', label: 'Publicaciones' },
     ],
   },
   {

@@ -54,3 +54,26 @@
   margin-top: 4px;
   margin-bottom: 5px;
 }
+
+.get-all-job-board__status {
+  margin-top: 8px;
+}
+
+.status-label {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.status-label.disapproved {
+  background-color: #ffe0e0;
+  color: #d8000c;
+}
+
+.status-label.pending {
+  background-color: #fff5cc;
+  color: #a67c00;
+}

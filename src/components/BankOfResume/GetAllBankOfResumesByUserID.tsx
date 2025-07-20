@@ -40,13 +40,24 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
         <section className="get-all-bank-of-resume">
             <GetAllError message={error}/>
             <div className="get-all-bank-of-resume__list">
-                {bankOfResumeList.map((BankOfResume) => (
-                    <Link to={`/bank-of-resume/${BankOfResume.id}`} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
-                        <img src={BankOfResume.photo} alt={BankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
-                        <p className="get-all-bank-of-resume__list-item-title">{BankOfResume.title}</p>
-                        <p className="get-all-bank-of-resume__list-item-user">{BankOfResume.user.regular_user?.name || "Anónimo"}</p>
-                    </Link>
-                ))}
+                {bankOfResumeList.map((bankOfResume) => {
+                    let statusLabel = null;
+                    if (bankOfResume.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (bankOfResume.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return (
+                        <Link to={`/bank-of-resume/${bankOfResume.id}`} key={bankOfResume.id} className="get-all-bank-of-resume__list-item">
+                            <img src={bankOfResume.photo} alt={bankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
+                            <p className="get-all-bank-of-resume__list-item-title">{bankOfResume.title}</p>
+                            <p className="get-all-bank-of-resume__list-item-user">{bankOfResume.user.regular_user?.name || "Anónimo"}</p>
+                            {statusLabel && (
+                                <div className="get-all-bank-of-resume__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    );
+                })}
             </div>
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>

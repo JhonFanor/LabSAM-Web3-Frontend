@@ -10,7 +10,7 @@ export const Publication: React.FC = () => {
     const { user } = useAuth();
     
     const filteredItems = publicationItems.filter((item) => {
-        if (item.name === "bankOfResumes" && user.role !== "regular") return false;
+        if (item.name === "bankOfResumes" && user?.role !== "regular") return false;
         return true;
     });
 

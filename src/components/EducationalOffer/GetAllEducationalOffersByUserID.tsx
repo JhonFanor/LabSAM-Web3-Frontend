@@ -39,20 +39,31 @@ export const GetAllEducationalOffersByUserID: React.FC = () => {
         <section className="get-all-educational-offer">
             <GetAllError message={error}/>
             <div className="get-all-educational-offer__list">
-                {educationalOfferList.map((educationalOffer) => (
-                    <Link to={`/user/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
-                        <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
-                        <p className="get-all-educational-offer__list-item-dates">
-                            Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}
-                        </p>
-                        <p className="get-all-educational-offer__list-item-cost">
-                            Costo: {educationalOffer.cost}
-                        </p>
-                        <p className="get-all-educational-offer__list-item-user">
-                            Subido por:{" "}{ educationalOffer.user.regular_user?.name || educationalOffer.user.university_user?.name || educationalOffer.user.business_user?.name || "Anónimo" }
-                        </p>
-                    </Link>
-                ))}
+                {educationalOfferList.map((educationalOffer) => {
+                    let statusLabel = null;
+                    if (educationalOffer.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (educationalOffer.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return(
+                        <Link to={`/user/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
+                            <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
+                            <p className="get-all-educational-offer__list-item-dates">
+                                Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}
+                            </p>
+                            <p className="get-all-educational-offer__list-item-cost">
+                                Costo: {educationalOffer.cost}
+                            </p>
+                            <p className="get-all-educational-offer__list-item-user">
+                                Subido por:{" "}{ educationalOffer.user.regular_user?.name || educationalOffer.user.university_user?.name || educationalOffer.user.business_user?.name || "Anónimo" }
+                            </p>
+                            {statusLabel && (
+                                <div className="get-all-educational-offer__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    )
+                })}
             </div>
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>

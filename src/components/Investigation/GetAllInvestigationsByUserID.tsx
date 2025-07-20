@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { InvestigationGetAllResponse } from "../../dtos/responses";
+import { InvestigationGetAllByUserIDResponse } from "../../dtos/responses";
 import { Link, useSearchParams } from "react-router-dom";
 import { getAllInvestigationsByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllInvestigation.css";
 
 export const GetAllInvestigationsByUserID: React.FC = () => {
-    const [investigationList, setInvestigationList] = useState<InvestigationGetAllResponse[]>([]);
+    const [investigationList, setInvestigationList] = useState<InvestigationGetAllByUserIDResponse[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState<string | null>(null);
 
@@ -39,14 +39,25 @@ export const GetAllInvestigationsByUserID: React.FC = () => {
         <section className="get-all-investigation">
             <GetAllError message={error}/>
             <div className="get-all-investigation__list">
-                {investigationList.map((investigation) => (
-                    <Link to={`/user/investigation/${investigation.id}`} key={investigation.id} className="get-all-investigation__list-item">
-                        <p className="get-all-investigation__list-item-title">{investigation.title}</p>
-                        <p className="get-all-investigation__list-item-user">
-                            Subido por:{" "}{ investigation.user.regular_user?.name || investigation.user.university_user?.name || investigation.user.business_user?.name || "Anónimo" }
-                        </p>
-                    </Link>
-                ))}
+                {investigationList.map((investigation) => {
+                    let statusLabel = null;
+                    if (investigation.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (investigation.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return(
+                        <Link to={`/user/investigation/${investigation.id}`} key={investigation.id} className="get-all-investigation__list-item">
+                            <p className="get-all-investigation__list-item-title">{investigation.title}</p>
+                            <p className="get-all-investigation__list-item-user">
+                                Subido por:{" "}{ investigation.user.regular_user?.name || investigation.user.university_user?.name || investigation.user.business_user?.name || "Anónimo" }
+                            </p>
+                            {statusLabel && (
+                                <div className="get-all-investigation__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    )
+                })}
             </div>
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>

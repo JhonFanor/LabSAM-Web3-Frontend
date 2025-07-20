@@ -39,14 +39,25 @@ export const GetAllCompaniesByUserID: React.FC = () => {
         <section className="get-all-company">
             <GetAllError message={error}/>
             <div className="get-all-company__list">
-                {companyList.map((company) => (
-                    <Link to={`/user/company/${company.id}`} key={company.id} className="get-all-company__list-item">
-                        <p className="get-all-company__list-item-name">{company.name}</p>
-                        <p className="get-all-company__list-item-user">
-                            Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }
-                        </p>
-                    </Link>
-                ))}
+                {companyList.map((company) => {
+                    let statusLabel = null;
+                    if (company.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (company.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return(
+                        <Link to={`/user/company/${company.id}`} key={company.id} className="get-all-company__list-item">
+                            <p className="get-all-company__list-item-name">{company.name}</p>
+                            <p className="get-all-company__list-item-user">
+                                Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }
+                            </p>
+                            {statusLabel && (
+                                <div className="get-all-bank-of-resume__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    )
+                })}
             </div>
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>

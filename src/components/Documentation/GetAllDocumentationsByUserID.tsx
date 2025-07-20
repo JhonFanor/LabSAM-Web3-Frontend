@@ -39,14 +39,25 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
         <section className="get-all-documentation">
             <GetAllError message={error}/>
             <div className="get-all-documentation__list">
-                {documentationList.map((documentation) => (
-                    <Link to={`/user/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
-                        <p className="get-all-documentation__list-item-title">{documentation.title}</p>
-                        <p className="get-all-documentation__list-item-user">
-                            Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }
-                        </p>
-                    </Link>
-                ))}
+                {documentationList.map((documentation) => {
+                    let statusLabel = null;
+                    if (documentation.is_approved === false) {
+                        statusLabel = <span className="status-label disapproved">Desaprobado</span>;
+                    } else if (documentation.is_approved === null) {
+                        statusLabel = <span className="status-label pending">En espera de aprobación</span>;
+                    }
+                    return(
+                        <Link to={`/user/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
+                            <p className="get-all-documentation__list-item-title">{documentation.title}</p>
+                            <p className="get-all-documentation__list-item-user">
+                                Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }
+                            </p>
+                            {statusLabel && (
+                                <div className="get-all-bank-of-resume__status">{statusLabel}</div>
+                            )}
+                        </Link>
+                    )
+                })}
             </div>
             <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>

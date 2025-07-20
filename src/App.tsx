@@ -104,7 +104,7 @@ const App: React.FC = () => {
             <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
             <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/me/publications" element={<PublicationPage />} />
+            <Route path="/user/publications" element={<PublicationPage />} />
           </Routes>
         </div>
         {!user && showLogin && (
