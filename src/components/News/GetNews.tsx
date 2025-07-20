@@ -3,10 +3,11 @@ import "./GetNews.css";
 import { NewsGetResponse } from "../../dtos/responses/News";
 import { useAuth } from "../../providers/Auth";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setNewsApproval } from "../../api";
+import { deleteNews, setNewsApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateNews } from "./UpdateNews";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetNewsProps {
   news: NewsGetResponse;
@@ -30,11 +31,17 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 	return (
 		<div className="news-container">
 			{isAuthenticated && !isLoading && (user.id == news.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdateNews onClose={onClose} newsGetResponse={news} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateNews onClose={onClose} newsGetResponse={news} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteNews(news.id)}
+						message="¿Estás seguro de que deseas eliminar esta noticia?"
+					/>
+				</>
 			)}
 			
 			{user?.role === "admin" && isApproved == null && (

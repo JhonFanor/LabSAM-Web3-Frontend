@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./GetEducationalOffer.css";
 import { EducationalOfferGetResponse } from "../../dtos/responses/EducationalOffer";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setEducationalOfferApproval } from "../../api";
+import { deleteEducationalOffer, setEducationalOfferApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { useAuth } from "../../providers/Auth";
 import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetEducationalOfferProps {
 	offer: EducationalOfferGetResponse;
@@ -41,11 +42,17 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 	return (
 		<div className="offer-container">
 			{isAuthenticated && !isLoading && (user.id == offer.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteEducationalOffer(offer.id)}
+						message="¿Estás seguro de que deseas eliminar esta oferta educativa?"
+					/>
+				</>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

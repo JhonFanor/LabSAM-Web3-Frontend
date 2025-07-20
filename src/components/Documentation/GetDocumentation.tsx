@@ -3,10 +3,11 @@ import "./GetDocumentation.css";
 import { DocumentationGetResponse } from "../../dtos/responses/Documentation";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setDocumentationApproval } from "../../api";
+import { deleteDocumentation, setDocumentationApproval } from "../../api";
 import { useAuth } from "../../providers/Auth";
 import { UpdateDocumentation } from "./UpdateDocumentation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetDocumentationProps {
   documentation: DocumentationGetResponse;
@@ -35,11 +36,17 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 	return (
 		<div className="doc-container">
 			{isAuthenticated && !isLoading && (user.id == documentation.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteDocumentation(documentation.id)}
+						message="¿Estás seguro de que deseas eliminar esta documentación?"
+					/>
+				</>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

@@ -4,11 +4,12 @@ import { CompanyGetResponse } from "../../dtos/responses/Company";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setCompanyApproval } from "../../api";
+import { deleteCompany, setCompanyApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateCompany } from "./UpdateCompany";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetCompanyProps {
   company: CompanyGetResponse;
@@ -27,11 +28,17 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 	return (
 		<div className="company-container">
 			{isAuthenticated && !isLoading && (user.id == company.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdateCompany onClose={onClose} companyGetResponse={company} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateCompany onClose={onClose} companyGetResponse={company} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteCompany(company.id)}
+						message="¿Estás seguro de que deseas eliminar esta empresa?"
+					/>
+				</>
 			)}
 		
 			{user?.role === "admin" && isApproved == null && (

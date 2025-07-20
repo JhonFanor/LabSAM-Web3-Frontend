@@ -4,11 +4,12 @@ import { EventGetResponse } from "../../dtos/responses/Event";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { ApprovalButton } from "../Button/ApprovalButton";
-import { setEventApproval } from "../../api";
+import { deleteEvent, setEventApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateEvent } from "./UpdateEvent";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetEventProps {
 	event: EventGetResponse;
@@ -36,11 +37,17 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 	return (
 		<div className="event-container">
 			{isAuthenticated && !isLoading && (user.id == event.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdateEvent onClose={onClose} eventGetResponse={event} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateEvent onClose={onClose} eventGetResponse={event} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteEvent(event.id)}
+						message="¿Estás seguro de que deseas eliminar este evento?"
+					/>
+				</>
 			)}
 		
 			{user?.role === "admin" && isApproved == null && (

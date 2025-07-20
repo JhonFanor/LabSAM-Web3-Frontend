@@ -3,10 +3,11 @@ import "./GetBankOfResume.css";
 import { BankOfResumeGetResponse } from "../../dtos/responses/BankOfResume";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setBankOfResumeApproval } from "../../api";
+import { deleteBankOfResume, setBankOfResumeApproval } from "../../api";
 import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateBankOfResume } from "./UpdateBankOfResume";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetBankOfResumeProps {
 	resume: BankOfResumeGetResponse;
@@ -35,12 +36,19 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 
  	 return (
 		<div className="resume-container">
-			{isAuthenticated && !isLoading && (user.id == resume.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id === resume.user.id || user.role === "admin") && (
+				<>
+					<ButtonUpdate>
 					{(onClose) => (
 						<UpdateBankOfResume onClose={onClose} resume={resume} />
 					)}
-				</ButtonUpdate>
+					</ButtonUpdate>
+
+					<ButtonDelete
+						onDelete={() => deleteBankOfResume(resume.id)}
+						message="¿Estás seguro de que deseas eliminar esta hoja de vida?"
+					/>
+				</>
 			)}
 
 			{user?.role === "admin" && isApproved == null && (

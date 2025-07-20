@@ -3,10 +3,11 @@ import "./GetLegislation.css";
 import { LegislationGetResponse } from "../../dtos/responses/Legislation";
 import { useAuth } from "../../providers/Auth";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
-import { setLegislationApproval } from "../../api";
+import { deleteLegislation, setLegislationApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateLegislation } from "./UpdateLegislation";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetLegislationProps {
 	legislation: LegislationGetResponse;
@@ -20,7 +21,7 @@ const transformDownloadURL = (url: string) => {
 };
 
 export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) => {
-	const { user } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth();
 	const [isApproved, setIsApproved] = useState<boolean | null>(legislation.is_approved ?? null);
 
 	const handleApproval = async (approved: boolean) => {
@@ -34,11 +35,19 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 
 	return (
 		<div className="legislation-container">
-			<ButtonUpdate>
-				{(onClose) => (
-					<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} />
-				)}
-			</ButtonUpdate>
+			{isAuthenticated && !isLoading && (user.id === legislation.user.id || user.role === "admin") && (
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteLegislation(legislation.id)}
+						message="¿Estás seguro de que deseas eliminar esta legislación?"
+					/>
+				</>
+			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
 					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta legislación?" />

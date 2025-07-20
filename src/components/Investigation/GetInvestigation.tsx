@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./GetInvestigation.css";
 import { InvestigationGetResponse } from "../../dtos/responses/Investigation";
 import { useAuth } from "../../providers/Auth";
-import { setInvestigationApproval } from "../../api";
+import { deleteInvestigation, setInvestigationApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { UpdateInvestigation } from "./UpdateInvestigation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
+import { ButtonDelete } from "../Button/ButtonDelete";
 
 interface GetInvestigationProps {
 	investigation: InvestigationGetResponse;
@@ -41,11 +42,17 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 	return (
 		<div className="investigation-container">
 			{isAuthenticated && !isLoading && (user.id == investigation.user.id || user.role == "admin") &&(
-				<ButtonUpdate>
-					{(onClose) => (
-						<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
-					)}
-				</ButtonUpdate>
+				<>
+					<ButtonUpdate>
+						{(onClose) => (
+							<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
+						)}
+					</ButtonUpdate>
+					<ButtonDelete
+						onDelete={() => deleteInvestigation(investigation.id)}
+						message="¿Estás seguro de que deseas eliminar esta investigación?"
+					/>
+				</>
 			)}
 
 			{user?.role === "admin" && isApproved == null && (
