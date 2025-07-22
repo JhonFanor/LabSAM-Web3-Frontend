@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetEducationalOffer } from "../../components";
 import { getAllEducationalOffersNotApproved, getEducationalOfferById } from "../../api/EducationalOfferApi";
 import { EducationalOfferGetResponse } from "../../dtos/responses/EducationalOffer";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const EducationalOfferNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const EducationalOfferNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetEducationalOffer offer={offer} />
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Register.css';
-import registerImage from '../../assets/img/img-login.svg';
+import registerImage from '../../assets/img/Logo.jpeg';
 import { PersonForm } from './Forms/PersonForm';
 import { BusinessForm } from './Forms/BusinessForm';
 import { UniversityForm } from './Forms/UniversityForm';

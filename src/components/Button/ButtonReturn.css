@@ -1,4 +1,4 @@
-.button-update {
+.button-return {
     background-color: var(--first-color);
     color: white;
     font-weight: 600;
@@ -11,12 +11,12 @@
     cursor: pointer;
 }
 
-.button-update:hover {
+.button-return:hover {
     background-color: var(--color-red-button);
 }
 
 @media (min-width: 640px) {
-    .button-update {
+    .button-return {
         width: auto;
     }
 }

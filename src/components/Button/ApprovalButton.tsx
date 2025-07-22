@@ -32,6 +32,6 @@ export const ApprovalButton: React.FC<ApprovalButtonProps> = ({ approved, onClic
             {showModal && (
                 <ConfirmModal message={message} onConfirm={handleConfirm} onCancel={handleCancel} onClose={handleCancel}  />
             )}
-            </>
+        </>
     );
 };

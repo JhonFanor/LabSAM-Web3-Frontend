@@ -10,6 +10,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateEvent } from "./UpdateEvent";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetEventProps {
 	event: EventGetResponse;
@@ -37,7 +38,7 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 	return (
 		<div className="event-container">
 			{isAuthenticated && !isLoading && (user.id == event.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateEvent onClose={onClose} eventGetResponse={event} />
@@ -47,7 +48,7 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 						onDelete={() => deleteEvent(event.id)}
 						message="¿Estás seguro de que deseas eliminar este evento?"
 					/>
-				</>
+				</div>
 			)}
 		
 			{user?.role === "admin" && isApproved == null && (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Navbar.css';
 import { Link, useLocation } from 'react-router-dom';
 import { menuItems } from '../../constants/MenuItems';
-import { FaSignOutAlt, FaChevronDown, FaCircle } from 'react-icons/fa'; 
+import { FaSignOutAlt, FaChevronDown } from 'react-icons/fa'; 
 import { useAuth } from '../../providers/Auth';
 import { adminMenuItems } from '../../constants/AdminMenuItems';
 
@@ -27,7 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible }) => {
             <nav className="nav__container">
                 <div>
                 <Link to="/" className="nav__link nav__logo">
-                    <FaCircle className="nav__icon" />
+                    <img src="/src/assets/img/Logo.jpeg" alt="icono" className="nav__logo-img" />
                     <span className="nav__logo-name">LamSamWeb3</span>
                 </Link>
 

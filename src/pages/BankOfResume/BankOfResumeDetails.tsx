@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetBankOfResume } from "../../components";
 import { getBankOfResumeById } from "../../api/BankOfResumeApi";
 import { BankOfResumeGetResponse } from "../../dtos/responses/BankOfResume";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const BankOfResumeDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -42,7 +43,7 @@ const BankOfResumeDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetBankOfResume resume={resume} />
         </div>
     );

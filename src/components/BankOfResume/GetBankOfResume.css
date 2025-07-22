@@ -32,9 +32,12 @@
   flex-wrap: wrap;
 }
 
+/* Imagen responsiva */
 .resume-photo {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -107,5 +110,10 @@
   .resume-link a {
     font-size: 14px;
     padding: 6px 12px;
+  }
+
+  .resume-photo {
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
   }
 }

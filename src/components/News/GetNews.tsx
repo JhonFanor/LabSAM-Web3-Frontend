@@ -8,6 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateNews } from "./UpdateNews";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetNewsProps {
   news: NewsGetResponse;
@@ -31,7 +32,7 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 	return (
 		<div className="news-container">
 			{isAuthenticated && !isLoading && (user.id == news.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateNews onClose={onClose} newsGetResponse={news} />
@@ -41,7 +42,7 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 						onDelete={() => deleteNews(news.id)}
 						message="¿Estás seguro de que deseas eliminar esta noticia?"
 					/>
-				</>
+				</div>
 			)}
 			
 			{user?.role === "admin" && isApproved == null && (

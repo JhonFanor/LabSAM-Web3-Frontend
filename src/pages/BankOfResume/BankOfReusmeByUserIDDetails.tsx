@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetBankOfResume } from "../../components";
 import { getBankOfResumeById, getAllBankOfResumesByUserID } from "../../api";
 import { BankOfResumeGetResponse } from "../../dtos/responses";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const BankOfReusmeByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -49,7 +50,7 @@ const BankOfReusmeByUserIDDetails: React.FC = () => {
             } else {
                 navigate("/user/publications");
             }
-            } catch (err) {
+        } catch (err) {
             console.error("Error al verificar páginas disponibles", err);
             navigate("/user/publications");
         }
@@ -61,8 +62,8 @@ const BankOfReusmeByUserIDDetails: React.FC = () => {
 
     return (
         <div>
-        <button onClick={handleBack}>← Volver</button>
-        <GetBankOfResume resume={resume} />
+            <ButtonReturn onClick={handleBack}/>
+            <GetBankOfResume resume={resume} />
         </div>
     );
 };

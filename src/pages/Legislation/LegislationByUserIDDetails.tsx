@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetLegislation } from "../../components";
 import { getAllLegislationsByUserID, getLegislationById } from "../../api/LegislationApi";
 import { LegislationGetResponse } from "../../dtos/responses/Legislation";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const LegislationByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,8 +62,8 @@ const LegislationByUserIDDetails: React.FC = () => {
 
     return (
         <div>
-        <button onClick={handleBack}>← Volver</button>
-        <GetLegislation legislation={legislation} />
+            <ButtonReturn onClick={handleBack}/>
+            <GetLegislation legislation={legislation} />
         </div>
     );
 };

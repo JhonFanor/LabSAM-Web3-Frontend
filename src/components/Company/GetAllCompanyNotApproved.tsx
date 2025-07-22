@@ -20,7 +20,7 @@ export const GetAllCompaniesNotApproved: React.FC = () => {
                 const data = await getAllCompaniesNotApproved(page, limit);
                 setCompanyList(data.data);
                 setTotalPages(data.total_page);
-                setError(data.data.length ? null : "No hay compañias disponibles.");
+                setError(data.data.length ? null : "No hay empresas disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las comapñias");
                 console.error(err);

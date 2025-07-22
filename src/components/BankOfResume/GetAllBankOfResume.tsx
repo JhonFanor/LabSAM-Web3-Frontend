@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BankOfResumeGetAllResponse } from "../../dtos/responses";
-import { Link, useSearchParams } from "react-router-dom";
-import { getAllBankOfResumesByUserID } from "../../api";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getAllBankOfResume } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllBankOfResume.css";
 
@@ -12,12 +12,13 @@ export const GetAllBankOfResume: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = Number(searchParams.get("bankOfResumepage")) || 1;
+    const navigate = useNavigate();
+    const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
         const getBankOfResume = async () => {
             try {
-                const data = await getAllBankOfResumesByUserID(page, limit);
+                const data = await getAllBankOfResume(page, limit);
                 setBankOfResumeList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay hojas de vida disponibles.");
@@ -31,8 +32,8 @@ export const GetAllBankOfResume: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        searchParams.set("bankOfResumesPage", newPage.toString());
-        setSearchParams(searchParams);
+        setSearchParams({ page: newPage.toString() });
+        navigate(`/bank-of-resumes?page=${newPage}`);
     };
 
     return (
@@ -40,7 +41,7 @@ export const GetAllBankOfResume: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-bank-of-resume__list">
                 {bankOfResumeList.map((BankOfResume) => (
-                    <Link to={`/user/bank-of-resume/${BankOfResume.id}`} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
+                    <Link to={`/bank-of-resume/${BankOfResume.id}`} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
                         <img src={BankOfResume.photo} alt={BankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
                         <p className="get-all-bank-of-resume__list-item-title">{BankOfResume.title}</p>
                         <p className="get-all-bank-of-resume__list-item-user">{BankOfResume.user.regular_user?.name || "Anónimo"}</p>

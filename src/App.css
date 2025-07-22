@@ -2,13 +2,9 @@
 
 :root {
 
-  --first-color: #6923D0;
-  --first-color-light: #F4F0FA;
   --title-color: #19181B;
-  --text-color: #58555E;
   --text-color-light: #A5A1AA;
-  --body-color: #F9F6FD;
-  --container-color: #FFFFFF;
+  --body-color: #F5F7FA;
 
   --body-font: 'Poppins', sans-serif;
   --normal-font-size: .938rem;
@@ -19,6 +15,21 @@
   --font-semi-bold: 600;
 
   --z-fixed: 100;
+  --nav-width: 219px;
+
+  --color-blue-main: #59B8F0;
+  --color-blue-dark: #112338;
+  --color-red-light: #C64035;
+  --color-red-button: #9e2e28;
+  --color-blue-medium: #2B5B8B;
+  --color-gray-dark: #0F1218;
+
+  --text-color: #ffffff;
+  --first-color: var(--color-blue-main);
+  --first-color-light: var(--color-blue-medium);
+  --container-color: var(--color-blue-dark);
+
+  --light-gray: #F5F7FA;
 }
 
 @media screen and (min-width: 1024px) {
@@ -37,6 +48,7 @@ body {
   padding: 1rem 1rem 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
+  background-color: var(--body-color);
 }
 
 @media screen and (min-width: 768px) {

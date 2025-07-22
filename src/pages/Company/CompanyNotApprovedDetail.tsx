@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetCompany } from "../../components";
 import { getAllCompaniesNotApproved, getCompanyById } from "../../api";
 import { CompanyGetResponse } from "../../dtos/responses";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const CompanyNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const CompanyNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetCompany company={company} />
         </div>
     );

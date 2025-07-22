@@ -32,12 +32,13 @@
 
 .register__create {
   width: 100%;
-  background-color: rgb(224, 224, 250);
+  background-color: var(--light-gray);
   padding: 2rem;
   border-radius: 1rem;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-  animation: animate-register 0.4s ease-in-out;
+  box-shadow: 0 8px 20px rgba(42, 76, 255, 0.1);
+  animation-duration: 0.4s;
+  animation-name: animate-register;
 }
 
 @keyframes animate-register {
@@ -96,10 +97,12 @@
   text-align: center;
   border-radius: 0.5rem;
   transition: 0.3s;
+  cursor: pointer; 
+  border: none;
 }
 
 .register__button:hover {
-  background-color: var(--first-color-dark);
+  background-color: var(--color-red-button);
 }
 
 .register__account,
@@ -125,23 +128,23 @@
 }
 
 .register__type-button {
-  background-color: #fff;
-  border: 2px solid var(--first-color);
-  color: var(--first-color);
   padding: 0.5rem 1rem;
+  background-color: var(--first-color);
+  color: #fff;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  border:none;
 }
 
 .register__type-button:hover {
-  background-color: var(--first-color-lighten);
+  background-color: var(--color-red-button);
 }
 
 .register__type-button.active {
-  background-color: var(--first-color);
+  background-color: var(--color-red-button);
   color: #fff;
   border-color: var(--first-color-dark);
 }

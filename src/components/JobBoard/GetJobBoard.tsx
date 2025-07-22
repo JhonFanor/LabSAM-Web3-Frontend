@@ -8,6 +8,7 @@ import { deleteJobBoard, setJobBoardApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { useAuth } from "../../providers/Auth";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
@@ -25,7 +26,7 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 	return (
 		<div className="job-container">
 			{isAuthenticated && !isLoading && (user.id == job.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateJobBoard onClose={onClose} jobBoardGetResponse={job} />
@@ -35,7 +36,7 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 						onDelete={() => deleteJobBoard(job.id)}
 						message="¿Estás seguro de que deseas eliminar este trabajo?"
 					/>
-				</>
+				</div>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

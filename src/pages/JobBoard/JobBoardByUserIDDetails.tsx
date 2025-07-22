@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetJobBoard } from "../../components";
 import { getAllJobsBoardByUserID, getJobBoardById } from "../../api/JobBoardApi";
 import { JobBoardGetResponse } from "../../dtos/responses/JobBoard";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const JobBoardByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const JobBoardByUserIDDetails: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetJobBoard job={job} />
         </div>
     );

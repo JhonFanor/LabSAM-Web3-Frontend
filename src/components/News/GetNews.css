@@ -50,11 +50,8 @@
     min-width: 250px;
 }
 
-/* Media Queries for responsiveness */
-
 @media (max-width: 768px) {
     .news-content {
-        flex-direction: column;
         align-items: center;
     }
 

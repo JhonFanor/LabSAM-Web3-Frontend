@@ -10,6 +10,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateCompany } from "./UpdateCompany";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetCompanyProps {
   company: CompanyGetResponse;
@@ -28,7 +29,7 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 	return (
 		<div className="company-container">
 			{isAuthenticated && !isLoading && (user.id == company.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateCompany onClose={onClose} companyGetResponse={company} />
@@ -38,7 +39,7 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 						onDelete={() => deleteCompany(company.id)}
 						message="¿Estás seguro de que deseas eliminar esta empresa?"
 					/>
-				</>
+				</div>
 			)}
 		
 			{user?.role === "admin" && isApproved == null && (

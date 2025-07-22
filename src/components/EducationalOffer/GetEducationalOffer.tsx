@@ -8,6 +8,7 @@ import { useAuth } from "../../providers/Auth";
 import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetEducationalOfferProps {
 	offer: EducationalOfferGetResponse;
@@ -42,7 +43,7 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 	return (
 		<div className="offer-container">
 			{isAuthenticated && !isLoading && (user.id == offer.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
@@ -52,7 +53,7 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 						onDelete={() => deleteEducationalOffer(offer.id)}
 						message="¿Estás seguro de que deseas eliminar esta oferta educativa?"
 					/>
-				</>
+				</div>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

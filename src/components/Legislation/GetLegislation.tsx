@@ -8,6 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateLegislation } from "./UpdateLegislation";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetLegislationProps {
 	legislation: LegislationGetResponse;
@@ -36,7 +37,7 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 	return (
 		<div className="legislation-container">
 			{isAuthenticated && !isLoading && (user.id === legislation.user.id || user.role === "admin") && (
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} />
@@ -46,7 +47,7 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 						onDelete={() => deleteLegislation(legislation.id)}
 						message="¿Estás seguro de que deseas eliminar esta legislación?"
 					/>
-				</>
+				</div>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

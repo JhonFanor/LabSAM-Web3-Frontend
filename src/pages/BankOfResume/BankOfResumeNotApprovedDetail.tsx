@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetBankOfResume } from "../../components";
 import { getBankOfResumeById, getAllBankOfResumesNotApproved } from "../../api";
 import { BankOfResumeGetResponse } from "../../dtos/responses";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const BankOfResumeNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,8 +62,8 @@ const BankOfResumeNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-        <button onClick={handleBack}>← Volver</button>
-        <GetBankOfResume resume={resume} />
+            <ButtonReturn onClick={handleBack}/>
+            <GetBankOfResume resume={resume} />
         </div>
     );
 };

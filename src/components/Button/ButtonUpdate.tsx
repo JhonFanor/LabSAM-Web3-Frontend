@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from "react";
+import "./ButtonUpdate.css";
 
 interface ButtonUpdateProps {
 		children: (onClose: () => void) => ReactNode;
@@ -20,12 +21,12 @@ export const ButtonUpdate: React.FC<ButtonUpdateProps> = ({
 			</button>
 			{open && (
 				<div
-				className="modal-overlay"
-				onClick={(e) => {
-					if (e.target === e.currentTarget) {
-					handleClose();
-					}
-				}}
+					className="modal-overlay"
+					onClick={(e) => {
+						if (e.target === e.currentTarget) {
+						handleClose();
+						}
+					}}
 				>
 				{children(handleClose)}
 				</div>

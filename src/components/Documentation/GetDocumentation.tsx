@@ -8,6 +8,7 @@ import { useAuth } from "../../providers/Auth";
 import { UpdateDocumentation } from "./UpdateDocumentation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetDocumentationProps {
   documentation: DocumentationGetResponse;
@@ -36,7 +37,7 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 	return (
 		<div className="doc-container">
 			{isAuthenticated && !isLoading && (user.id == documentation.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
@@ -46,7 +47,7 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 						onDelete={() => deleteDocumentation(documentation.id)}
 						message="¿Estás seguro de que deseas eliminar esta documentación?"
 					/>
-				</>
+				</div>
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetEvent } from "../../components";
 import { getAllEventsByUserID, getEventById } from "../../api/EventApi";
 import { EventGetResponse } from "../../dtos/responses/Event";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const EventByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const EventByUserIDDetails: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetEvent event={event} />
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { FaUser, FaLock } from "react-icons/fa";
-import loginImage from "../../assets/img/img-login.svg";
+import loginImage from "../../assets/img/Logo.jpeg";
 import { useAuth } from "../../providers/Auth"; 
 import { ButtonClose } from "../Button";
 interface LoginProps {

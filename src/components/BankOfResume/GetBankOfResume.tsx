@@ -8,6 +8,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateBankOfResume } from "./UpdateBankOfResume";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetBankOfResumeProps {
 	resume: BankOfResumeGetResponse;
@@ -37,7 +38,7 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
  	 return (
 		<div className="resume-container">
 			{isAuthenticated && !isLoading && (user.id === resume.user.id || user.role === "admin") && (
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 					{(onClose) => (
 						<UpdateBankOfResume onClose={onClose} resume={resume} />
@@ -48,7 +49,7 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 						onDelete={() => deleteBankOfResume(resume.id)}
 						message="¿Estás seguro de que deseas eliminar esta hoja de vida?"
 					/>
-				</>
+				</div>
 			)}
 
 			{user?.role === "admin" && isApproved == null && (

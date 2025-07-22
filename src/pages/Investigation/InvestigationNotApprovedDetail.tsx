@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetInvestigation } from "../../components";
 import { getAllInvestigationsNotApproved, getInvestigationById } from "../../api/InvestigationApi";
 import { InvestigationGetResponse } from "../../dtos/responses/Investigation";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const InvestigationNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const InvestigationNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetInvestigation investigation={investigation} />
         </div>
     );

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetDocumentation } from "../../components";
 import { getAllDocumentationsNotApproved, getDocumentationById } from "../../api/DocumentationApi";
 import { DocumentationGetResponse } from "../../dtos/responses/Documentation";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const DocumentationNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const DocumentationNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetDocumentation documentation={doc} />
         </div>
     );

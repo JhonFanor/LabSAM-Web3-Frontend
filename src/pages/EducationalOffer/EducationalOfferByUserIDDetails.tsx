@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetEducationalOffer } from "../../components";
 import { getAllEducationalOffersNotApproved, getEducationalOfferById } from "../../api/EducationalOfferApi";
 import { EducationalOfferGetResponse } from "../../dtos/responses/EducationalOffer";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const EducationalOfferByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -18,16 +19,16 @@ const EducationalOfferByUserIDDetails: React.FC = () => {
         if (!id) return;
 
         const fetchOffer = async () => {
-        setLoading(true);
-        try {
-            const data = await getEducationalOfferById(Number(id));
-            setOffer(data);
-        } catch (err) {
-            console.error(err);
-            setError("No se pudo cargar la oferta educativa");
-        } finally {
-            setLoading(false);
-        }
+            setLoading(true);
+            try {
+                const data = await getEducationalOfferById(Number(id));
+                setOffer(data);
+            } catch (err) {
+                console.error(err);
+                setError("No se pudo cargar la oferta educativa");
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchOffer();
@@ -61,7 +62,7 @@ const EducationalOfferByUserIDDetails: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetEducationalOffer offer={offer} />
         </div>
     );

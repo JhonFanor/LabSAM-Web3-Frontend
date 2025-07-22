@@ -46,15 +46,11 @@ export const Publication: React.FC = () => {
                     </div>
                 )}
             </div>
-            {!activeSection || !selectedItem ? (
-                <div className="publication__empty">
-                    No has publicado nada.
-                </div>
-            ) : (
+            {activeSection && selectedItem ? (
                 <div className="publication-tabs__content">
                     <selectedItem.component />
                 </div>
-            )}
+            )  : null}
 
         </div>
     );

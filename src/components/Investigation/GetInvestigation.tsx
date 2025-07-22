@@ -8,6 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { UpdateInvestigation } from "./UpdateInvestigation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
+import "../Button/ButtonsUpdateDelete.css"
 
 interface GetInvestigationProps {
 	investigation: InvestigationGetResponse;
@@ -42,7 +43,7 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 	return (
 		<div className="investigation-container">
 			{isAuthenticated && !isLoading && (user.id == investigation.user.id || user.role == "admin") &&(
-				<>
+				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
 							<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
@@ -52,7 +53,7 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 						onDelete={() => deleteInvestigation(investigation.id)}
 						message="¿Estás seguro de que deseas eliminar esta investigación?"
 					/>
-				</>
+				</div>
 			)}
 
 			{user?.role === "admin" && isApproved == null && (
