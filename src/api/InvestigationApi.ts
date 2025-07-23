@@ -3,6 +3,7 @@ import { InvestigationGetResponse } from "../dtos/responses/Investigation";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 import { ApprovalRequest } from "../dtos/responses/Approval";
+import { SubtopicCountResponse } from "../dtos/responses/SubtopicCount";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/investigation`;
@@ -64,6 +65,17 @@ export const countInvestigationsNotApproved = async (): Promise<CountResponse> =
 
   const data = await response.json();
   return data as CountResponse;
+};
+
+export const countInvestigationBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
+    const response = await fetch(`${BASE_URL}/count-by-subtopic`, {
+        method: "GET",
+    });
+
+    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+
+    const data = await response.json();
+    return data as SubtopicCountResponse[];
 };
 
 export const getInvestigationById = async (id: number): Promise<InvestigationGetResponse> => {

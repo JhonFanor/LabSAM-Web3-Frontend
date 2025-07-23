@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';  
 import { Navbar, Header } from './components';
 import { Login, Register } from './components'; 
 import News from './pages/News/News';
@@ -36,12 +36,17 @@ import Unauthorized from './pages/Admin/Unauthorized';
 import AdminRoute from './components/Admin/AdminRoute';
 import NewsByUserIDDetails from './pages/News/NewsByUserIDDetails';
 import PublicationPage from './pages/User/Publication';
+import { useNotificationCount } from './hooks/UseNotificationCount';
+import Notification from './pages/Notification/Notification';
+import ReportPage from './pages/Report/Report';
+import HomePage from './pages/Home/Home';
 
 const App: React.FC = () => {
   const { user } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const unreadCount = useNotificationCount();
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -70,10 +75,12 @@ const App: React.FC = () => {
           menuVisible={menuVisible} 
           onLoginClick={handleLoginClick} 
           onRegisterClick={handleRegisterClick} 
+          unreadCount={unreadCount}
         />
         <Navbar menuVisible={menuVisible} />
         <div className="main">
           <Routes>  
+            <Route path='/' element={<HomePage/>}/>
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/user/news/:id" element={<NewsByUserIDDetails />} />
@@ -105,6 +112,8 @@ const App: React.FC = () => {
             <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/user/publications" element={<PublicationPage />} />
+            <Route path="/notifications" element={<Notification />}/>
+            <Route path="/reports" element={<ReportPage />}/>
           </Routes>
         </div>
         {!user && showLogin && (

@@ -2,6 +2,7 @@ import { BankOfResumeCreateRequest, BankOfResumeUpdateRequest } from "../dtos/re
 import { ApprovalRequest } from "../dtos/responses/Approval";
 import { BankOfResumeGetResponse} from "../dtos/responses/BankOfResume";
 import { CountResponse } from "../dtos/responses/Count";
+import { SubtopicCountResponse } from "../dtos/responses/SubtopicCount";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -88,6 +89,17 @@ export const countBankOfResumesNotApproved = async (): Promise<CountResponse> =>
 
   const data = await response.json();
   return data as CountResponse;
+};
+
+export const countBankOfResumeBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
+    const response = await fetch(`${BASE_URL}/count-by-subtopic`, {
+        method: "GET",
+    });
+
+    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+
+    const data = await response.json();
+    return data as SubtopicCountResponse[];
 };
 
 export const getBankOfResumeById = async ( id: number ): Promise<BankOfResumeGetResponse> => {

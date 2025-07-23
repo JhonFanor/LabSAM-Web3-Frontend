@@ -51,7 +51,7 @@ body {
   color: var(--text-color);
 }
 
-.header__icon, 
+.header__icon,
 .header__toggle {
   font-size: 1.2rem;
 }
@@ -61,35 +61,31 @@ body {
   cursor: pointer;
 }
 
-
-.active {
+.header__notification {
+  position: relative;
+  cursor: pointer;
+  margin-right: 20px;
+  display: inline-flex;
+  align-items: center;
   color: var(--first-color);
 }
 
-@media screen and (min-width: 768px) {
-  .header {
-    padding: 0 3rem 0 6rem;
-  }
-  .header__container {
-    height: calc(var(--header-height) + .5rem);
-  }
-  .header__toggle {
-    display: none;
-  }
-  .header__logo {
-    display: block;
-  }
-  .header__img {
-    width: 40px;
-    height: 40px;
-    order: 1;
-  }
+.header__badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
 }
 
 .right-aligned {
-  display: flex; 
+  display: flex;
   margin-left: auto;
-  gap: 1rem; 
+  gap: 1rem;
   align-items: center;
 }
 
@@ -99,10 +95,10 @@ body {
   color: #ffffff;
   font-weight: 600;
   text-align: center;
-  border-radius: .5rem;
-  transition: .3s;
+  border-radius: 0.5rem;
+  transition: 0.3s;
   width: auto;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin-right: 0.5rem;
   margin-top: 0.5rem;
   border: none;
@@ -114,32 +110,273 @@ body {
   color: #ffffff;
 }
 
-.header__login__button {
-  margin-right: 0.5rem; 
+.active {
+  color: var(--first-color);
 }
 
-.header__login__button {
-  margin-top: 0.5rem; 
+/* 🔔 Notificación Panel */
+.notification-panel {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  cursor: default;
+  background-color: #f1f1f1; /* Gris */
+  width: 320px; /* Aumentado */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 12px;
+  animation: fadeIn 0.3s ease-in-out;
+  color: #000; /* Letras negras */
+}
+
+.notification-arrow {
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #f1f1f1; /* Gris */
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.notification-content {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #000;
+}
+
+.notification-item {
+  position: relative;
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item.unread::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: #007bff;
+  border-radius: 50%;
+}
+
+.notification-item:hover {
+  background-color: #e6e6e6;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.notification-item:hover .notification-delete {
+  background-color: transparent;
+}
+
+.notification-delete {
+  position: absolute;
+  top: 0.1px;
+  right: 8px;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+  padding: 2px;
+  background-color: transparent;
+  transition: color 0.2s ease;
+}
+
+.notification-delete:hover {
+  color: red;
+}
+
+
+.notification-item img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.notification-item strong {
+  font-weight: 600;
+  display: block;
+}
+
+.notification-item p {
+  margin: 0;
+}
+
+/* 🔄 Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsivo */
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 0 3rem 0 6rem;
+  }
+
+  .header__container {
+    height: calc(var(--header-height) + 0.5rem);
+  }
+
+  .header__toggle {
+    display: none;
+  }
+
+  .header__logo {
+    display: block;
+  }
+
+  .header__img {
+    width: 40px;
+    height: 40px;
+    order: 1;
+  }
 }
 
 @media (max-width: 1024px) {
   .header__login__button {
-    padding: 0.8rem 1.8rem; 
-    font-size: 14px; 
+    padding: 0.8rem 1.8rem;
+    font-size: 14px;
+  }
+
+  .notification-panel {
+    right: 10px;
+    width: 280px;
   }
 }
 
 @media (max-width: 768px) {
   .header__login__button {
-    padding: 0.6rem 1.5rem; 
-    font-size: 12px; 
-    margin-bottom: 0.25rem; 
+    padding: 0.6rem 1.5rem;
+    font-size: 12px;
+    margin-bottom: 0.25rem;
+  }
+
+  .notification-panel {
+    right: 0;
+    left: auto;
+    width: 230px;
   }
 }
 
 @media (max-width: 480px) {
   .header__login__button {
-    padding: 0.5rem 1rem; 
+    padding: 0.5rem 1rem;
     font-size: 12px;
   }
+
+  .notification-panel {
+    width: 80vw;
+    right: 0;
+    top: calc(100% + 10px);
+    border-radius: 8px;
+  }
+
 }
+.notification-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    position: relative;
+}
+
+.notification-options {
+    position: relative;
+}
+
+.notification-options button {
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 50%;
+}
+
+.notification-options button:hover {
+    background-color: white;
+}
+
+.notification-options button.active {
+    background-color: white;
+}
+
+.notification-options-menu {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    z-index: 3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 220px; /* Más ancho */
+}
+
+.notification-options-menu button {
+    background: none;
+    border: none;
+    padding: 12px 16px; /* Más padding */
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px; /* Más grande */
+    font-weight: 500;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+.notification-options-menu button:hover {
+    background-color: #f0f0f0;
+}
+
+.notification-history-container {
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    transition: background-color 0.2s ease;
+}
+
+.notification-history-container:hover {
+    background-color: #efefef;
+}
+
+.notification-history-container p {
+    margin: 0;
+    font-size: 14px;
+    color: #007bff;
+    font-weight: 500;
+}
+

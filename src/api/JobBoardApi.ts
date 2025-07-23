@@ -3,6 +3,7 @@ import { JobBoardGetResponse } from "../dtos/responses/JobBoard";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 import { ApprovalRequest } from "../dtos/responses/Approval";
+import { SubtopicCountResponse } from "../dtos/responses/SubtopicCount";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/job-board`;
@@ -64,6 +65,17 @@ export const countJobsBoardNotApproved = async (): Promise<CountResponse> => {
 
   const data = await response.json();
   return data as CountResponse;
+};
+
+export const countJobBoardBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
+    const response = await fetch(`${BASE_URL}/count-by-subtopic`, {
+        method: "GET",
+    });
+
+    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+
+    const data = await response.json();
+    return data as SubtopicCountResponse[];
 };
 
 export const getJobBoardById = async (id: number): Promise<JobBoardGetResponse> => {

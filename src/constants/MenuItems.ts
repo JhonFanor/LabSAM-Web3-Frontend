@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaUser, FaNewspaper, FaCalendarAlt, FaSearch, FaBriefcase, FaFileAlt, FaBuilding, FaGraduationCap, FaBalanceScale, FaBook, FaSignOutAlt, FaCircle, FaUserShield } from 'react-icons/fa';
+import { FaHome, FaUser, FaNewspaper, FaCalendarAlt, FaSearch, FaBriefcase, FaFileAlt, FaBuilding, FaGraduationCap, FaBalanceScale, FaBook, FaSignOutAlt, FaCircle, FaUserShield, FaChartBar } from 'react-icons/fa';
 
 export const logoutItem = {
   route: '/logout',
@@ -26,6 +26,11 @@ export const menuItems: MenuItem[] = [
     route: '/',
     label: 'Inicio',
     icon: FaHome,
+  },
+  {
+    route: '/reports',
+    label: 'Reportes',
+    icon: FaChartBar,
   },
   {
     route: '/profile',

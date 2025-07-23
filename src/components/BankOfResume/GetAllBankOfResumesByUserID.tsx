@@ -13,7 +13,7 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
-    const page = Number(searchParams.get("page")) || 1;
+    const page = Number(searchParams.get("bankOfResumesPage")) || 1;
 
     useEffect(() => {
         const getBankOfResume = async () => {
@@ -48,7 +48,7 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return (
-                        <Link to={`/bank-of-resume/${bankOfResume.id}`} key={bankOfResume.id} className="get-all-bank-of-resume__list-item">
+                        <Link to={`/user/bank-of-resume/${bankOfResume.id}`} key={bankOfResume.id} className="get-all-bank-of-resume__list-item">
                             <img src={bankOfResume.photo} alt={bankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
                             <p className="get-all-bank-of-resume__list-item-title">{bankOfResume.title}</p>
                             <p className="get-all-bank-of-resume__list-item-user">{bankOfResume.user.regular_user?.name || "Anónimo"}</p>

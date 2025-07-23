@@ -2,6 +2,7 @@ import { CompanyCreateRequest, CompanyUpdateRequest } from "../dtos/requests/Com
 import { ApprovalRequest } from "../dtos/responses/Approval";
 import { CompanyGetResponse } from "../dtos/responses/Company";
 import { CountResponse } from "../dtos/responses/Count";
+import { SubtopicCountResponse } from "../dtos/responses/SubtopicCount";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 
 const API_BASE = import.meta.env.VITE_API_URL;
@@ -81,6 +82,17 @@ export const countCompaniesNotApproved = async (): Promise<CountResponse> => {
   }
 
   return await response.json();
+};
+
+export const countCompanyBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
+    const response = await fetch(`${BASE_URL}/count-by-subtopic`, {
+        method: "GET",
+    });
+
+    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+
+    const data = await response.json();
+    return data as SubtopicCountResponse[];
 };
 
 export const getCompanyById = async ( id: number ): Promise<CompanyGetResponse> => {

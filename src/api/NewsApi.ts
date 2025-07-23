@@ -3,6 +3,7 @@ import { NewsGetResponse } from "../dtos/responses/News";
 import { CountResponse } from "../dtos/responses/Count";
 import { FetchWithAuth, FetchWithOptionalAuth } from "../utils/FetchWithAuth";
 import { ApprovalRequest } from "../dtos/responses/Approval";
+import { SubtopicCountResponse } from "../dtos/responses/SubtopicCount";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/news`;
@@ -66,15 +67,26 @@ export const countNewsNotApproved = async (): Promise<CountResponse> => {
   return data as CountResponse;
 };
 
+export const countNewsBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
+    const response = await fetch(`${BASE_URL}/count-by-subtopic`, {
+        method: "GET",
+    });
+
+    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+
+    const data = await response.json();
+    return data as SubtopicCountResponse[];
+};
+
 export const getNewsById = async (id: number): Promise<NewsGetResponse> => {
-  const response = await FetchWithOptionalAuth(`${BASE_URL}/${id}`, {
-    method: "GET",
-  });
+    const response = await FetchWithOptionalAuth(`${BASE_URL}/${id}`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al obtener la noticia");
+    if (!response.ok) throw new Error("Error al obtener la noticia");
 
-  const data = await response.json();
-  return data as NewsGetResponse;
+    const data = await response.json();
+    return data as NewsGetResponse;
 };
 
 export const updateNews = async (id: number, news: NewsUpdateRequest) => {
