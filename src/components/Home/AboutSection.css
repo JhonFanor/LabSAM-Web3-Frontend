@@ -1,0 +1,9 @@
+.about-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: white;
+  box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}

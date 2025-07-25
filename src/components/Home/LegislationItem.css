@@ -1,0 +1,41 @@
+.legislation-item__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.legislation-item__list-item {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  text-align: left;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.legislation-item__list-item:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+.legislation-item__list-item-title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.legislation-item__list-item-user {
+  font-size: 14px;
+  color: gray;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
