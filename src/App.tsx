@@ -41,6 +41,7 @@ import Notification from './pages/Notification/Notification';
 import ReportPage from './pages/Report/Report';
 import HomePage from './pages/Home/Home';
 import PermissionPage from './pages/Permission/Permission';
+import BankOfReusmeByUserIDDetails from './pages/BankOfResume/BankOfReusmeByUserIDDetails';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -97,6 +98,7 @@ const App: React.FC = () => {
             <Route path="/admin/job-board/:id" element={<AdminRoute><JobBoardNotApprovedDetail /></AdminRoute>} />
             <Route path="/bank-of-resumes" element={<BankOfResume />} />  
             <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
+            <Route path="/user/bank-of-resume/:id" element={<BankOfReusmeByUserIDDetails />} />
             <Route path="/admin/bank-of-resume/:id" element={<AdminRoute><BankOfResumeNotApprovedDetail /></AdminRoute>} />
             <Route path="/companies" element={<Companies />} /> 
             <Route path="/company/:id" element={<CompanyDetail />} />

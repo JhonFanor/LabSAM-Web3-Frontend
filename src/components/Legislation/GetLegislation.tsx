@@ -9,6 +9,7 @@ import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateLegislation } from "./UpdateLegislation";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetLegislationProps {
 	legislation: LegislationGetResponse;
@@ -25,10 +26,18 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 	const { isAuthenticated, isLoading, user } = useAuth();
 	const [isApproved, setIsApproved] = useState<boolean | null>(legislation.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setLegislationApproval(legislation.id, approvalData);
 		setIsApproved(approved);
+		
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "legislation",
+				resource_id: legislation.id,
+				comment,
+			});
+		}
 	};
 
 	const isDownload = isInternalLink(legislation.link);
@@ -51,8 +60,8 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta legislación?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta legislación?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta legislacion?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta legislación?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />				
 				</div>
 			)}
 			<h1 className="legislation-title">{legislation.title}</h1>

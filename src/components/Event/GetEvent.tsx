@@ -11,6 +11,7 @@ import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateEvent } from "./UpdateEvent";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetEventProps {
 	event: EventGetResponse;
@@ -29,10 +30,18 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(event.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setEventApproval(event.id, approvalData);
 		setIsApproved(approved);
+
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "event",
+				resource_id: event.id,
+				comment,
+			});
+		}
 	};
 
 	return (
@@ -53,8 +62,8 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar este evento?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar este evento?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este evento?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este evento?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
 

@@ -9,6 +9,7 @@ import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateNews } from "./UpdateNews";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetNewsProps {
   news: NewsGetResponse;
@@ -23,10 +24,18 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(news.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setNewsApproval(news.id, approvalData);
 		setIsApproved(approved);
+
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "news",
+				resource_id: news.id,
+				comment,
+			});
+		}
 	};
 
 	return (
@@ -47,8 +56,8 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 			
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta noticia?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta noticia?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este noticia?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este noticia?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
 

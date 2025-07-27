@@ -146,7 +146,6 @@ export const setBankOfResumeApproval = async (id: number, approvalData: Approval
       throw new Error(errorData.error || "Error al aprobar o rechazar la hoja de vida");
     }
 
-    alert("Estado de aprobación actualizado correctamente.");
   } catch (error) {
     alert((error as Error).message || "Hubo un error al actualizar el estado de aprobación.");
   }

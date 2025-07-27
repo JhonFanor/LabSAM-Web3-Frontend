@@ -9,6 +9,7 @@ import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetEducationalOfferProps {
 	offer: EducationalOfferGetResponse;
@@ -34,10 +35,18 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(offer.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setEducationalOfferApproval(offer.id, approvalData);
 		setIsApproved(approved);
+
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "educational_offer",
+				resource_id: offer.id,
+				comment,
+			});
+		}
 	};
 
 	return (
@@ -57,8 +66,8 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta oferta educativa?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta oferta educativa?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta oferta educativa?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta oferta educativa?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
 

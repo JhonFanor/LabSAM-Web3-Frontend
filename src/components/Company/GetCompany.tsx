@@ -11,6 +11,7 @@ import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateCompany } from "./UpdateCompany";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetCompanyProps {
   company: CompanyGetResponse;
@@ -20,10 +21,18 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(company.is_approved ?? null);
 	
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setCompanyApproval(company.id, approvalData);
 		setIsApproved(approved);
+		
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "company",
+				resource_id: company.id,
+				comment,
+			});
+		}
 	};
 
 	return (
@@ -44,8 +53,8 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 		
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta empresa?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta empresa?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta empresa?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta empresa?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
 			  

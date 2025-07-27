@@ -9,6 +9,7 @@ import { UpdateDocumentation } from "./UpdateDocumentation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetDocumentationProps {
   documentation: DocumentationGetResponse;
@@ -26,10 +27,18 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(documentation.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setDocumentationApproval(documentation.id, approvalData);
 		setIsApproved(approved);
+		
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "documentation",
+				resource_id: documentation.id,
+				comment,
+			});
+		}
 	};
 	const isDownload = isInternalLink(documentation.link);
 	const url = isDownload ? transformDownloadURL(documentation.link) : documentation.link;
@@ -51,8 +60,9 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar esta documentación?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar esta documentación?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta documentación?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta documentación?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
+
 				</div>
 			)}
 

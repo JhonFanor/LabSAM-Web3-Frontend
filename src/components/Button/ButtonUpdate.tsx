@@ -2,14 +2,11 @@ import React, { ReactNode, useState } from "react";
 import "./ButtonUpdate.css";
 
 interface ButtonUpdateProps {
-		children: (onClose: () => void) => ReactNode;
-		label?: string;
+	children: (onClose: () => void) => ReactNode;
+	label?: string;
 }
 
-export const ButtonUpdate: React.FC<ButtonUpdateProps> = ({
-	children,
-	label = "Actualizar",
-}) => {
+export const ButtonUpdate: React.FC<ButtonUpdateProps> = ({ children, label = "Actualizar" }) => {
 	const [open, setOpen] = useState(false);
 
 	const handleClose = () => setOpen(false);
@@ -20,15 +17,14 @@ export const ButtonUpdate: React.FC<ButtonUpdateProps> = ({
 				{label}
 			</button>
 			{open && (
-				<div
-					className="modal-overlay"
+				<div className="modal-overlay"
 					onClick={(e) => {
 						if (e.target === e.currentTarget) {
-						handleClose();
+							handleClose();
 						}
 					}}
 				>
-				{children(handleClose)}
+					{children(handleClose)}
 				</div>
 			)}
 		</>

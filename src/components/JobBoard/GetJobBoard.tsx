@@ -9,6 +9,7 @@ import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { useAuth } from "../../providers/Auth";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css"
+import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
@@ -18,10 +19,18 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(job.is_approved ?? null);
 
-	const handleApproval = async (approved: boolean) => {
+	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
 		await setJobBoardApproval(job.id, approvalData);
 		setIsApproved(approved);
+
+		if (!approved && comment) {
+			await createRejectionComment({
+				resource_type: "job_board",
+				resource_id: job.id,
+				comment,
+			});
+		}
 	};
 	return (
 		<div className="job-container">
@@ -40,8 +49,8 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 			)}
 			{user?.role === "admin" && isApproved == null && (
 				<div className="resume-actions">
-					<ApprovalButton approved={true} onClick={handleApproval} message="¿Estás seguro de que deseas aprobar este trabajo?" />
-					<ApprovalButton approved={false} onClick={handleApproval} message="¿Estás seguro de que deseas desaprobar este trabajo?" />
+					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este trabajo?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este trabajo?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
 			<h1 className="job-title">{job.title}</h1>
