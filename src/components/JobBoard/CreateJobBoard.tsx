@@ -94,19 +94,22 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
             <ButtonClose onClick={onClose} />
             <h2 className="create-job-board__title">Crear Oferta de Trabajo</h2>
             <form className="create-job-board__form" onSubmit={handleSubmit}>
+                <label>Título</label>
                 <input type="text" name="title" placeholder="Título" value={jobBoard.title} onChange={(e) => setJobBoard({ ...jobBoard, title: e.target.value })} required />
+                <label>Compañia</label>
                 <input type="text" name="company" placeholder="Empresa" value={jobBoard.company} onChange={(e) => setJobBoard({ ...jobBoard, company: e.target.value })} required />
-
+                <label>Descripción</label>
                 <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container" />
-
+                <label>Tipo de oferta</label>
                 <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} required />
+                <label>Link a la oferta</label>
                 <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
 
                 <label>Tipo de salario:</label>
                 <select className="create-job-board__select" value={salaryType} onChange={(e) => { const value = e.target.value as "none" | "fixed" | "range"; setSalaryType(value); setSalaryError(""); if (value === "none") { setSalaryFixed(""); setSalaryMin(""); setSalaryMax(""); } }} >
-                <option value="none">No especificar</option>
-                <option value="fixed">Valor fijo</option>
-                <option value="range">Rango</option>
+                    <option value="none">No especificar</option>
+                    <option value="fixed">Valor fijo</option>
+                    <option value="range">Rango</option>
                 </select>
 
                 {salaryType === "fixed" && (

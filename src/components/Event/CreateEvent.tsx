@@ -95,14 +95,15 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-event__title">Crear Evento</h2>
 			<form className="create-event__form" onSubmit={handleSubmit}>
+				<label>Título</label>
 				<input type="text" name="title" placeholder="Título" value={event.title} onChange={(e) => setEvent({ ...event, title: e.target.value })} required/>
-
+				<label>Imagen</label>
 				<ImageInputSelector value={event.image} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
-
+				<label>Descripción</label>
 				<JoditEditor value={event.description} onChange={(content) => setEvent({ ...event, description: content })} className="jodit-container" />
-
+				<label>Enlace</label>
 				<input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} required />
-
+				<label>Fecha</label>
 				<input type="date" name="date" min={getTodayDate()} value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
 
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
@@ -110,11 +111,11 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				<SelectedSubtopics data={event} setData={setEvent} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics}/>
 
 				{!localitation ? (
-					<button type="button" onClick={() => setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973,})} >
+					<button className="create-event__localitation" type="button" onClick={() => setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973,})} >
 						Añadir localización
 					</button>
 				) : (
-					<div style={{ marginBottom: "1rem" }}>
+					<div>
 						<Localitation value={localitation} onChange={setLocalitation} />
 						<button type="button" className="remove-localitation-button" onClick={() => setLocalitation(undefined)} style={{ marginTop: "0.5rem", backgroundColor: "#f44336", color: "#fff", border: "none", padding: "0.5rem", borderRadius: "4px", }} >
 							Quitar localización

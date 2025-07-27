@@ -1,4 +1,4 @@
-.update-company {
+.create-company {
     position: relative;
     background: white;
     padding: 2.5rem;
@@ -8,7 +8,6 @@
     max-height: 90vh; 
     min-height: 500px; 
     overflow-y: auto; 
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-news 0.4s ease-in-out;
     display: flex;
@@ -21,7 +20,7 @@
     100% { transform: scale(1, 1); }
 }
 
-.update-company__close-button {
+.create-company__close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -32,18 +31,19 @@
     color: #333;
 }
 
-.update-company__close-button:hover {
+.create-company__close-button:hover {
     color: #000;
 }
 
-.update-company__title {
+.create-company__title {
     font-size: 1.8rem;
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
-.update-company__form {
+.create-company__form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -52,8 +52,8 @@
     padding-bottom: 1rem;
 }
 
-.update-company__form input,
-.update-company__form textarea {
+.create-company__form input,
+.create-company__form textarea {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ccc;
@@ -63,70 +63,64 @@
     color: #818181;
 }
 
-.update-company__buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.update-company__buttons button {
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+.create-company__submit {
+    background: var(--first-color);
+    color: #fff;
     font-weight: 600;
-    border: none;
+    padding: 0.85rem;
     border-radius: 0.5rem;
     cursor: pointer;
+    text-align: center;
+    border: none;
     transition: background 0.3s;
 }
 
-.update-company__buttons button[type="submit"] {
-    background: var(--first-color, #007bff);
+.create-company__submit:hover {
+    background: var(--color-red-button);
+}
+
+.create-company__topics {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.create-company__localitation {
+    background: var(--first-color);
     color: #fff;
-}
-
-.update-company__buttons button[type="submit"]:hover {
-    background: var(--first-color-dark, #0056b3);
-}
-
-.update-company__buttons button[type="button"] {
-    background: #6c757d;
-    color: #fff;
-}
-
-.update-company__buttons button[type="button"]:hover {
-    background: #495057;
-}
-
-.remove-localitation-button {
-    background-color: #f44336;
-    color: #fff;
-    border: none;
-    padding: 0.5rem;
+    font-weight: 600;
+    padding: 0.85rem;
     border-radius: 0.5rem;
-    margin-top: 0.5rem;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-align: center;
+    transition: background 0.3s;
 }
 
-.remove-localitation-button:hover {
-    background-color: #d32f2f;
+.create-company__localitation:hover {
+    background: var(--color-red-button);
 }
+
 
 @media screen and (max-width: 768px) {
-    .update-company {
+    .create-company {
         width: 100%;
         max-width: 95%;
         max-height: 95vh;
         padding: 1.5rem;
     }
 
-    .update-company__title {
+    .create-company__title {
         font-size: 1.5rem;
     }
 
-    .update-company__buttons button {
-        padding: 0.65rem 1rem;
-        font-size: 0.95rem;
+    .create-company__submit {
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .create-company {
+        max-width: 95%; 
+        max-height: 90vh;
     }
 }

@@ -8,7 +8,6 @@
   max-height: 90vh;
   min-height: 500px;
   overflow-y: auto;
-  text-align: center;
   box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
   animation: animate-news 0.4s ease-in-out;
   display: flex;
@@ -99,11 +98,12 @@
 }
 
 .create-job-board__submit {
-  background: var(--first-color, #007bff);
+  background: var(--first-color);
   color: #fff;
   font-weight: 600;
   padding: 0.85rem;
   border-radius: 0.5rem;
+  border: none;
   cursor: pointer;
   text-align: center;
   transition: background 0.3s;
@@ -111,7 +111,7 @@
 }
 
 .create-job-board__submit:hover {
-  background: var(--first-color-dark, #0056b3);
+  background: var(--color-red-button);
 }
 
 .create-job-board__topics {

@@ -78,10 +78,11 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 			<ButtonClose onClick={onClose} />
 			<h2 className="create-documentation__title">Crear Documentación</h2>
 			<form className="create-documentation__form" onSubmit={handleSubmit}>
+				<label>Título</label>
 				<input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />
-				
+				<label>Descripción</label>
 				<JoditEditor value={documentation.description} onChange={(content) => setDocumentation({ ...documentation, description: content })} className="jodit-container"/>
-				
+				<label>Documento de la documentación</label>	
 				<DocumentInputSelector value={documentation.link} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" documentUploaderKey={documentUploaderKey} />
 
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />

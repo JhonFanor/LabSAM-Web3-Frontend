@@ -8,7 +8,6 @@
     max-height: 90vh; 
     min-height: 500px; 
     overflow-y: auto; 
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-news 0.4s ease-in-out;
     display: flex;
@@ -41,6 +40,7 @@
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
 .create-documentation__form {
@@ -64,10 +64,11 @@
 }
 
 .create-documentation__submit {
-    background: var(--first-color, #007bff);
+    background: var(--first-color);
     color: #fff;
     font-weight: 600;
     padding: 0.85rem;
+    border: none;
     border-radius: 0.5rem;
     cursor: pointer;
     text-align: center;
@@ -75,7 +76,7 @@
 }
 
 .create-documentation__submit:hover {
-    background: var(--first-color-dark, #0056b3);
+    background: var(--color-red-button);
 }
 
 .create-documentation__topics {

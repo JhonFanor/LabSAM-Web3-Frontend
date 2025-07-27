@@ -78,10 +78,11 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-legislation__title">Crear Legislación</h2>
 			<form className="create-legislation__form" onSubmit={handleSubmit}>
+				<label>Título</label>
 				<input type="text" name="title" placeholder="Título" value={legislation.title} onChange={(e) => setLegislation({ ...legislation, title: e.target.value })} required />
-				
+				<label>Descripción</label>
 				<JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
-				
+				<label>Documento de la legislación</label>	
 				<DocumentInputSelector value={legislation.link} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" documentUploaderKey={documentUploaderKey} />
 
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />

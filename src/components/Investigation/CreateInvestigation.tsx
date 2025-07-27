@@ -83,12 +83,13 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-investigation__title">Crear Investigación</h2>
 			<form className="create-investigation__form" onSubmit={handleSubmit}>
+				<label>Título</label>
 				<input type="text" name="title" placeholder="Título" value={investigation.title} onChange={(e) => setInvestigation({ ...investigation, title: e.target.value })} required />
-				
+				<label>Descripción</label>
 				<JoditEditor value={investigation.description} onChange={(content) => setInvestigation({ ...investigation, description: content })} className="jodit-container"/>
-				
+				<label>Fecha</label>
 				<input type="date" name="date" placeholder="Fecha" value={investigation.date} onChange={(e) => setInvestigation({ ...investigation, date: e.target.value })} required />
-				
+				<label>Documento de investigación</label>				
 				<DocumentInputSelector value={investigation.link} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" documentUploaderKey={documentUploaderKey} />
 
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />

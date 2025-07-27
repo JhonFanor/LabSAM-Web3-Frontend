@@ -13,7 +13,7 @@ const EducationalOffer: React.FC = () => {
         <>
         <header>
             <h1>Ofertas educativas</h1>
-            {isAuthenticated && !isLoading && user.permissions?.includes("educatioanl-offer:create") &&(
+            {isAuthenticated && !isLoading && user.permissions?.includes("educational-offer:create") &&(
                 <ButtonCreate onClick={handleCreateClick} label="Crear oferta educativa" />
             )}
         </header>

@@ -97,15 +97,15 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
             <ButtonClose onClick={onClose}/>
             <h2 className="create-bank-of-resume__title">Crear Hoja de vida</h2>
             <form className="create-bank-of-resume__form" onSubmit={handleSubmit}>
-
+                <label>Foto</label>
                 <ImageInputSelector value={bankOfResume.photo} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" imageUploaderKey={uploaderKey} />
-
+                <label>Título</label>
                 <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
-                
+                <label>Resumen</label>
                 <JoditEditor value={bankOfResume.summary} onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} className="jodit-container"/>
-                        
+                <label>Hoja de vida</label>
                 <DocumentInputSelector value={bankOfResume.link} onChange={(document) => setBankOfResume({...bankOfResume, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" documentUploaderKey={uploaderKey} />
-
+                
                 <TopicSelector topics={topics}  selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
                 <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={bankOfResume} setData={setBankOfResume} subtopicsKey="subtopic_ids" />
                 <SelectedSubtopics data={bankOfResume} setData={setBankOfResume} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
