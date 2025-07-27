@@ -3,7 +3,7 @@ import { ButtonCreate, CreateEvent, GetAllEvent } from '../../components';
 import { useAuth } from '../../providers/Auth';
 
 const Event: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateEvent, setShowCreateEvent] = useState(false);
         
     const closeModals = () => setShowCreateEvent(false);
@@ -13,7 +13,7 @@ const Event: React.FC = () => {
         <>
         <header>
             <h1>Eventos</h1>
-            {isAuthenticated && !isLoading &&(
+            {isAuthenticated && !isLoading && user.permissions?.includes("event:create") &&(
                 <ButtonCreate onClick={handleCreateClick} label="Crear Evento" />
             )}
         </header>

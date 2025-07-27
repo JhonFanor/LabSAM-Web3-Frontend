@@ -15,7 +15,7 @@ const BankOfResume: React.FC = () => {
 
 			<header>
 				<h1>Banco de hojas de vida</h1>
-				{isAuthenticated && !isLoading && user.role == "regular" &&(
+				{isAuthenticated && !isLoading && user.role == "regular" && user.permissions?.includes("bank-of-resume:create") &&(
 					<ButtonCreate onClick={handleCreateClick} label="Crear Hoja de vida" />
 				)}
 			</header>

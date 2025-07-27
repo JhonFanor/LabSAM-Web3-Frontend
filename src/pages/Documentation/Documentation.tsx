@@ -3,7 +3,7 @@ import { ButtonCreate, CreateDocumentation, GetAllDocumentation } from '../../co
 import { useAuth } from '../../providers/Auth';
 
 const Documentation: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateDocumentation, setShowCreateDocumentation] = useState(false);
         
     const closeModals = () => setShowCreateDocumentation(false);
@@ -13,7 +13,7 @@ const Documentation: React.FC = () => {
         <>
             <header>
                 <h1>Documentación</h1>
-                {isAuthenticated && !isLoading &&(
+                {isAuthenticated && !isLoading && user.permissions?.includes("documentation:create") &&(
                     <ButtonCreate onClick={handleCreateClick} label="Crear Documentación" />
                 )}
             </header>

@@ -42,7 +42,7 @@ const PublicationsSection: React.FC = () => {
         <div className="publications__container">
             <h2>Publicaciones</h2>
             <div className="publications-section">
-            {publications.map((pub, index) => {
+            {publications?.map((pub, index) => {
                 switch (pub.resource_type) {
                 case "news":
                     return <NewsItem key={index} news={pub.data as NewsGetAllResponse} />;

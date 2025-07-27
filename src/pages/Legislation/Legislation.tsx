@@ -3,7 +3,7 @@ import { ButtonCreate, CreateLegislation, GetAllLegislation } from '../../compon
 import { useAuth } from '../../providers/Auth';
 
 const Legislation: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateLegislation, setShowCreateLegislation] = useState(false);
         
     const closeModals = () => setShowCreateLegislation(false);
@@ -20,7 +20,7 @@ const Legislation: React.FC = () => {
 
             <GetAllLegislation />
 
-            {showCreateLegislation && (
+            {showCreateLegislation && user.permissions?.includes("legislation:create") &&(
                 <div className="modal-overlay" onClick={(e) => {
                 if (e.target === e.currentTarget) {
                     closeModals();

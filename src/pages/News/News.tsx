@@ -3,7 +3,7 @@ import { ButtonCreate, CreateNews, GetAllNews } from '../../components';
 import { useAuth } from '../../providers/Auth';
 
 const News: React.FC = () => {
-	const { isAuthenticated, isLoading } = useAuth(); 
+	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [showCreateNews, setShowCreateNews] = useState(false);
 
 	const closeModals = () => setShowCreateNews(false);
@@ -13,7 +13,7 @@ const News: React.FC = () => {
 		<>
 			<header>
 				<h1>Noticias</h1>
-				{isAuthenticated && !isLoading &&(
+				{isAuthenticated && !isLoading && user.permissions?.includes("news:create")&&(
 					<ButtonCreate onClick={handleCreateClick} label="Crear Noticia" />
 				)}
 			</header>

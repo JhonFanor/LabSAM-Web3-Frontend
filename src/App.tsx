@@ -40,6 +40,7 @@ import { useNotificationCount } from './hooks/UseNotificationCount';
 import Notification from './pages/Notification/Notification';
 import ReportPage from './pages/Report/Report';
 import HomePage from './pages/Home/Home';
+import PermissionPage from './pages/Permission/Permission';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -110,6 +111,7 @@ const App: React.FC = () => {
             <Route path="/documentation/:id" element={<DocumentationDetail />} />
             <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
             <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
+            <Route path="/admin/permissions" element={<AdminRoute><PermissionPage /></AdminRoute>} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/user/publications" element={<PublicationPage />} />
             <Route path="/notifications" element={<Notification />}/>

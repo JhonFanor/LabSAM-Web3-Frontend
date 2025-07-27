@@ -3,7 +3,7 @@ import { ButtonCreate, CreateCompany, GetAllCompany } from '../../components';
 import { useAuth } from '../../providers/Auth';
 
 const Conpanies: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateCompany, setShowCreateCompany] = useState(false);
         
     const closeModals = () => setShowCreateCompany(false);
@@ -13,7 +13,7 @@ const Conpanies: React.FC = () => {
         <>
             <header>
                 <h1>Empresas</h1>
-                {isAuthenticated && !isLoading &&(
+                {isAuthenticated && !isLoading && user.permissions?.includes("company:create") &&(
                     <ButtonCreate onClick={handleCreateClick} label="Crear Empresa" />
                 )}
             </header>

@@ -3,7 +3,7 @@ import { ButtonCreate, CreateInvestigation, GetAllInvestigation } from '../../co
 import { useAuth } from '../../providers/Auth';
 
 const Investigation: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateInvestigation, setShowCreateInvestigation] = useState(false);
         
     const closeModals = () => setShowCreateInvestigation(false);
@@ -13,7 +13,7 @@ const Investigation: React.FC = () => {
         <>
         <header>
             <h1>Investigaciones</h1>
-            {isAuthenticated && !isLoading &&(
+            {isAuthenticated && !isLoading && user.permissions?.includes("investigation:create") &&(
                 <ButtonCreate onClick={handleCreateClick} label="Crear Investigación" />
             )}
         </header>

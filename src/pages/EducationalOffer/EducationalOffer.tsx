@@ -3,7 +3,7 @@ import { ButtonCreate, CreateEducationalOffer, GetAllEducationalOffer } from '..
 import { useAuth } from '../../providers/Auth';
 
 const EducationalOffer: React.FC = () => {
-    const { isAuthenticated, isLoading } = useAuth(); 
+    const { isAuthenticated, isLoading, user } = useAuth(); 
     const [showCreateEducationalOffer, setShowCreateEducationalOffer] = useState(false);
         
     const closeModals = () => setShowCreateEducationalOffer(false);
@@ -13,7 +13,7 @@ const EducationalOffer: React.FC = () => {
         <>
         <header>
             <h1>Ofertas educativas</h1>
-            {isAuthenticated && !isLoading &&(
+            {isAuthenticated && !isLoading && user.permissions?.includes("educatioanl-offer:create") &&(
                 <ButtonCreate onClick={handleCreateClick} label="Crear oferta educativa" />
             )}
         </header>
