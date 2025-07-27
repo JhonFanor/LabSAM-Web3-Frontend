@@ -86,7 +86,7 @@ export const menuItems: MenuItem[] = [
     icon: FaBook,
   },
   {
-    route: '/admin/dashboard',
+    route: '/admin/pending-approvals',
     label: 'Panel de Administración',
     icon: FaUserShield,
   }

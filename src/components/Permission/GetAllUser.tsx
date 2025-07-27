@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Pagination, GetAllError } from "../../components";
 import { getAllUsers } from "../../api/UserApi";
 import { GetUser } from "./GetUser";
+import "./GetAllUser.css"
 
 export const GetAllUser: React.FC = () => {
     const [userList, setUserList] = useState<UserGetAllResponse[]>([]);

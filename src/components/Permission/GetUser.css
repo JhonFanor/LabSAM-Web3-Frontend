@@ -1,0 +1,125 @@
+.get-user {
+  position: relative;
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 95%;
+  max-width: 750px;
+  height: 90vh;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.get-user-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem; /* opcional para evitar que el scroll tape contenido */
+}
+
+/* Título */
+.get-user-container h3 {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Avatar */
+.user-avatar {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Texto */
+.get-user-container p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Permisos */
+.permission-section {
+  margin-top: 1.5rem;
+}
+
+.permission-section h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #444;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.25rem;
+}
+
+.permission-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.permission-item {
+  background-color: #f9f9f9;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e2e2e2;
+}
+
+.permission-item span {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.permission-item button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.permission-item button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .permission-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .permission-item button {
+    align-self: flex-end;
+  }
+}

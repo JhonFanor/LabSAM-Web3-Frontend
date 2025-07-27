@@ -1,4 +1,4 @@
-import { FaClipboardCheck, FaHome, FaShieldAlt, FaUserShield } from "react-icons/fa";
+import { FaClipboardCheck, FaHome, FaShieldAlt } from "react-icons/fa";
 import { MenuItem } from "./MenuItems";
 
 export const adminMenuItems: MenuItem[] = [
@@ -6,11 +6,6 @@ export const adminMenuItems: MenuItem[] = [
         route: '/',
         label: 'Inicio',
         icon: FaHome,
-    },
-    {
-        route: '/admin/dashboard',
-        label: 'Inicio del Administrador',
-        icon: FaUserShield,
     },
     {
         route: '/admin/pending-approvals',

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { UserGetResponse } from "../../dtos/responses";
 import { getUserById } from "../../api/UserApi";
 import { getPermissionsByRoleExcludingDenied } from "../../api/PermissionRoleApi";
-import { getPermissionsByUser, assignPermissionToUser, revokePermissionFromUser } from "../../api/PermissionUserApi";
+import {
+  getPermissionsByUser,
+  assignPermissionToUser,
+  revokePermissionFromUser,
+} from "../../api/PermissionUserApi";
 import { ButtonClose } from "../Button";
 import { PermissionResponse } from "../../dtos/responses/Permission";
 import {
@@ -13,7 +17,7 @@ import {
 } from "../../api/DeniedPermissionApi";
 import { getAssignablePermissionsToUser } from "../../api/PermissionApi";
 import { PermissionUserRequest } from "../../dtos/requests/PermissionUser";
-
+import "./GetUser.css";
 
 interface GetUserProps {
   onClose: () => void;
@@ -79,13 +83,10 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
   const handleDenyPermission = async (permissionId: number) => {
     if (!user) return;
     try {
-      const req: AssignOrRevokePermissionRequest = {
-        user_id: user.id,
-        permission_id: permissionId,
-      };
+      const req: AssignOrRevokePermissionRequest = { user_id: user.id, permission_id: permissionId };
       await assignDeniedPermission(req);
       await fetchUserData();
-    } catch (err) {
+    } catch {
       alert("Error al denegar el permiso.");
     }
   };
@@ -93,13 +94,10 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
   const handleRemoveDeniedPermission = async (permissionId: number) => {
     if (!user) return;
     try {
-      const req: AssignOrRevokePermissionRequest = {
-        user_id: user.id,
-        permission_id: permissionId,
-      };
+      const req: AssignOrRevokePermissionRequest = { user_id: user.id, permission_id: permissionId };
       await revokeDeniedPermission(req);
       await fetchUserData();
-    } catch (err) {
+    } catch {
       alert("Error al remover el permiso denegado.");
     }
   };
@@ -107,13 +105,10 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
   const handleAssignPermission = async (permissionId: number) => {
     if (!user) return;
     try {
-      const req: PermissionUserRequest = {
-        user_id: user.id,
-        permission_id: permissionId,
-      };
+      const req: PermissionUserRequest = { user_id: user.id, permission_id: permissionId };
       await assignPermissionToUser(req);
       await fetchUserData();
-    } catch (err) {
+    } catch {
       alert("Error al asignar el permiso.");
     }
   };
@@ -123,7 +118,7 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
     try {
       await revokePermissionFromUser(permissionId, user.id);
       await fetchUserData();
-    } catch (err) {
+    } catch {
       alert("Error al revocar el permiso.");
     }
   };
@@ -135,12 +130,12 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
     isDeniedPermission?: boolean,
     isDirect?: boolean
   ) => (
-    <div style={{ marginBottom: "1rem" }}>
+    <div className="permission-section">
       <h4>{title}</h4>
-      {permissions && permissions.length > 0 ? (
-        <ul>
+      {permissions.length > 0 ? (
+        <ul className="permission-list">
           {permissions.map((perm) => (
-            <li key={perm.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <li key={perm.id} className="permission-item">
               <span>{perm.name}</span>
               {isRolePermission && (
                 <button onClick={() => handleDenyPermission(perm.id)}>Quitar</button>
@@ -161,12 +156,12 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
   );
 
   const renderAssignablePermissions = () => (
-    <div style={{ marginBottom: "1rem" }}>
+    <div className="permission-section">
       <h4>Permisos que se pueden asignar</h4>
-      {assignablePermissions && assignablePermissions.length > 0 ? (
-        <ul>
+      {assignablePermissions.length > 0 ? (
+        <ul className="permission-list">
           {assignablePermissions.map((perm) => (
-            <li key={perm.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <li key={perm.id} className="permission-item">
               <span>{perm.name}</span>
               <button onClick={() => handleAssignPermission(perm.id)}>Asignar</button>
             </li>
@@ -178,44 +173,36 @@ export const GetUser: React.FC<GetUserProps> = ({ onClose, user_id }) => {
     </div>
   );
 
-  return (
-    <div>
-      <ButtonClose onClick={onClose} />
-      <h3>Detalle del Usuario</h3>
+    return (
+        <div className="get-user">
+            <ButtonClose onClick={onClose} />
+            
+            <h3>Detalle del Usuario</h3>
+            <div className="get-user-container">
+                {loading ? (
+                    <p>Cargando...</p>
+                ) : error ? (
+                    <p className="error">{error}</p>
+                ) : user ? (
+                    <>
+                    {user.avatar && (
+                        <img src={user.avatar} alt="Avatar" className="user-avatar" />
+                    )}
 
-      {loading ? (
-        <p>Cargando...</p>
-      ) : error ? (
-        <p className="error">{error}</p>
-      ) : user ? (
-        <>
-          {user.avatar && (
-            <img
-              src={user.avatar}
-              alt="Avatar"
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                marginBottom: "1rem",
-              }}
-            />
-          )}
+                    <p><strong>Email:</strong> {user.email}</p>
+                    <p><strong>Nombre:</strong> {getUserName()}</p>
+                    <p><strong>Tipo:</strong> {getUserType()}</p>
 
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Nombre:</strong> {getUserName()}</p>
-          <p><strong>Tipo:</strong> {getUserType()}</p>
-
-          <hr />
-          {renderPermissionList("Permisos por Rol", rolePermissions, true)}
-          {renderPermissionList("Permisos Denegados del Rol", deniedPermissions, false, true)}
-          {renderPermissionList("Permisos Asignados Directamente", directPermissions, false, false, true)}
-          {renderAssignablePermissions()}
-        </>
-      ) : (
-        <p>No se encontró información del usuario.</p>
-      )}
-    </div>
-  );
+                    <hr />
+                    {renderPermissionList("Permisos por Rol", rolePermissions, true)}
+                    {renderPermissionList("Permisos Denegados del Rol", deniedPermissions, false, true)}
+                    {renderPermissionList("Permisos Asignados Directamente", directPermissions, false, false, true)}
+                    {renderAssignablePermissions()}
+                    </>
+                ) : (
+                    <p>No se encontró información del usuario.</p>
+                )}
+            </div>
+        </div>
+    );
 };
