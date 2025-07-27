@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';  
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
 import { Navbar, Header } from './components';
 import { Login, Register } from './components'; 
 import News from './pages/News/News';
@@ -79,7 +79,7 @@ const App: React.FC = () => {
           onRegisterClick={handleRegisterClick} 
           unreadCount={unreadCount}
         />
-        <Navbar menuVisible={menuVisible} />
+        <Navbar menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
         <div className="main">
           <Routes>  
             <Route path='/' element={<HomePage/>}/>
