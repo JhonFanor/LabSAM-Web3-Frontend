@@ -42,107 +42,129 @@ import ReportPage from './pages/Report/Report';
 import HomePage from './pages/Home/Home';
 import PermissionPage from './pages/Permission/Permission';
 import BankOfReusmeByUserIDDetails from './pages/BankOfResume/BankOfReusmeByUserIDDetails';
+import { ForgotPassword } from './components/Password/ForgotPasswordForm';
+import Password from './pages/Password/Password';
 
 const App: React.FC = () => {
-  const { user } = useAuth();
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const unreadCount = useNotificationCount();
+    const { user, isAuthenticated } = useAuth();
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
+    const notificationCount = useNotificationCount();
+    const unreadCount: number = isAuthenticated ? notificationCount ?? 0 : 0;
 
-  const handleLoginClick = () => {
-    setShowLogin(true);
-    setShowRegister(false);
-  };
 
-  const handleRegisterClick = () => {
-    setShowRegister(true);
-    setShowLogin(false);
-  };
+    const toggleMenu = () => {
+        setMenuVisible(!menuVisible);
+    };
 
-  const closeModals = () => {
-    setShowLogin(false);
-    setShowRegister(false);
-  };
+    const handleLoginClick = () => {
+        setShowLogin(true);
+        setShowRegister(false);
+        setShowPassword(false);
+    };
 
-  return (
-    <Router>
-      <div className="app">
-        <Header 
-          toggleMenu={toggleMenu} 
-          menuVisible={menuVisible} 
-          onLoginClick={handleLoginClick} 
-          onRegisterClick={handleRegisterClick} 
-          unreadCount={unreadCount}
-        />
-        <Navbar menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
-        <div className="main">
-          <Routes>  
-            <Route path='/' element={<HomePage/>}/>
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:id" element={<NewsDetail />} />
-            <Route path="/user/news/:id" element={<NewsByUserIDDetails />} />
-            <Route path="/admin/news/:id" element={<AdminRoute><NewsNotApprovedDetail /></AdminRoute>} />
-            <Route path="/events" element={<Events />} /> 
-            <Route path="/event/:id" element={<EventsDetail />} />
-            <Route path="/admin/event/:id" element={<AdminRoute><EventNotApprovedDetail /></AdminRoute>} />
-            <Route path="/investigations" element={<Investigation />} />
-            <Route path="/investigation/:id" element={<InvestigationDetail />} />
-            <Route path="/admin/investigation/:id" element={<AdminRoute><InvestigationNotApprovedDetail /></AdminRoute>} />
-            <Route path="/jobs-board" element={<JobBoard />} /> 
-            <Route path="/job-board/:id" element={<JobBoardDetail />} /> 
-            <Route path="/admin/job-board/:id" element={<AdminRoute><JobBoardNotApprovedDetail /></AdminRoute>} />
-            <Route path="/bank-of-resumes" element={<BankOfResume />} />  
-            <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
-            <Route path="/user/bank-of-resume/:id" element={<BankOfReusmeByUserIDDetails />} />
-            <Route path="/admin/bank-of-resume/:id" element={<AdminRoute><BankOfResumeNotApprovedDetail /></AdminRoute>} />
-            <Route path="/companies" element={<Companies />} /> 
-            <Route path="/company/:id" element={<CompanyDetail />} />
-            <Route path="/admin/company/:id" element={<AdminRoute><CompanyNotApprovedDetail /></AdminRoute>} />
-            <Route path="/educational-offers" element={<EducationalOffers />} /> 
-            <Route path="/educational-offer/:id" element={<EducationalOfferDetail />} />
-            <Route path="/admin/educational-offer/:id" element={<AdminRoute><EducationalOfferNotApprovedDetail /></AdminRoute>} />
-            <Route path="/legislations" element={<Legislations />} /> 
-            <Route path="/legislation/:id" element={<LegislationDetail />} />
-            <Route path="/admin/legislation/:id" element={<AdminRoute><LegislationNotApprovedDetail /></AdminRoute>} />
-            <Route path="/documentations" element={<Documentation />} /> 
-            <Route path="/documentation/:id" element={<DocumentationDetail />} />
-            <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
-            <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
-            <Route path="/admin/permissions" element={<AdminRoute><PermissionPage /></AdminRoute>} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/user/publications" element={<PublicationPage />} />
-            <Route path="/notifications" element={<Notification />}/>
-            <Route path="/reports" element={<ReportPage />}/>
-          </Routes>
-        </div>
-        {!user && showLogin && (
-          <div className="modal-overlay" onClick={closeModals}>
-            <div onClick={(e) => e.stopPropagation()}> 
-              <Login
-                onClose={closeModals}
-                onSwitchToRegister={handleRegisterClick}
-              />
+    const handleRegisterClick = () => {
+        setShowRegister(true);
+        setShowLogin(false);
+        setShowPassword(false);
+    };
+
+    const handlePasswordClick = () => {
+        setShowPassword(true)
+        setShowRegister(false);
+        setShowLogin(false);
+    };
+
+    const closeModals = () => {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowPassword(false);
+    };
+
+    return (
+        <Router>
+            <div className="app">
+                <Header toggleMenu={toggleMenu} menuVisible={menuVisible} onLoginClick={handleLoginClick}  onRegisterClick={handleRegisterClick}  unreadCount={unreadCount} />
+                <Navbar menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
+                <div className="main">
+                    <Routes>  
+                        <Route path='/' element={<HomePage/>}/>
+                        <Route path="/news" element={<News />} />
+                        <Route path="/news/:id" element={<NewsDetail />} />
+                        <Route path="/user/news/:id" element={<NewsByUserIDDetails />} />
+                        <Route path="/admin/news/:id" element={<AdminRoute><NewsNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/events" element={<Events />} /> 
+                        <Route path="/event/:id" element={<EventsDetail />} />
+                        <Route path="/admin/event/:id" element={<AdminRoute><EventNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/investigations" element={<Investigation />} />
+                        <Route path="/investigation/:id" element={<InvestigationDetail />} />
+                        <Route path="/admin/investigation/:id" element={<AdminRoute><InvestigationNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/jobs-board" element={<JobBoard />} /> 
+                        <Route path="/job-board/:id" element={<JobBoardDetail />} /> 
+                        <Route path="/admin/job-board/:id" element={<AdminRoute><JobBoardNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/bank-of-resumes" element={<BankOfResume />} />  
+                        <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
+                        <Route path="/user/bank-of-resume/:id" element={<BankOfReusmeByUserIDDetails />} />
+                        <Route path="/admin/bank-of-resume/:id" element={<AdminRoute><BankOfResumeNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/companies" element={<Companies />} /> 
+                        <Route path="/company/:id" element={<CompanyDetail />} />
+                        <Route path="/admin/company/:id" element={<AdminRoute><CompanyNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/educational-offers" element={<EducationalOffers />} /> 
+                        <Route path="/educational-offer/:id" element={<EducationalOfferDetail />} />
+                        <Route path="/admin/educational-offer/:id" element={<AdminRoute><EducationalOfferNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/legislations" element={<Legislations />} /> 
+                        <Route path="/legislation/:id" element={<LegislationDetail />} />
+                        <Route path="/admin/legislation/:id" element={<AdminRoute><LegislationNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/documentations" element={<Documentation />} /> 
+                        <Route path="/documentation/:id" element={<DocumentationDetail />} />
+                        <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
+                        <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
+                        <Route path="/admin/permissions" element={<AdminRoute><PermissionPage /></AdminRoute>} />
+                        <Route path="/unauthorized" element={<Unauthorized />} />
+                        <Route path="/user/publications" element={<PublicationPage />} />
+                        <Route path="/notifications" element={<Notification />}/>
+                        <Route path="/reports" element={<ReportPage />}/>
+                        <Route path="/reset-password" element={<Password/>}/>
+                    </Routes>
+                </div>
+                {!user && showLogin && (
+                    <div className="modal-overlay" onClick={closeModals}>
+                        <div onClick={(e) => e.stopPropagation()}> 
+                            <Login
+                                onClose={closeModals}
+                                onSwitchToRegister={handleRegisterClick}
+                                onSwitchToPassword={handlePasswordClick}
+                            />
+                        </div>
+                    </div>
+                )}
+                {!user &&showRegister && (
+                    <div className="modal-overlay" onClick={closeModals}>
+                        <div onClick={(e) => e.stopPropagation()}> 
+                            <Register
+                                onClose={closeModals}
+                                onSwitchToLogin={handleLoginClick}
+                            />
+                        </div>
+                    </div>
+                )}
+                {!user && showPassword && (
+                    <div className="modal-overlay" onClick={closeModals}>
+                        <div onClick={(e) => e.stopPropagation()}> 
+                            <ForgotPassword 
+                                onClose={closeModals}
+                                onSwitchToLogin={handleLoginClick}
+                                onSwitchToRegister={handleRegisterClick}
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
-          </div>
-        )}
-        {!user &&showRegister && (
-          <div className="modal-overlay" onClick={closeModals}>
-            <div onClick={(e) => e.stopPropagation()}> 
-              <Register
-                onClose={closeModals}
-                onSwitchToLogin={handleLoginClick}
-              />
-            </div>
-          </div>
-        )}
-      </div>
-    </Router>
-  );
+        </Router>
+    );
 };
 
 export default App;

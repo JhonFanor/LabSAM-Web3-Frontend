@@ -7,9 +7,10 @@ import { ButtonClose } from "../Button";
 interface LoginProps {
 	onClose: () => void;
 	onSwitchToRegister: () => void;
+	onSwitchToPassword: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => {
+export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister, onSwitchToPassword }) => {
 	const { login } = useAuth(); 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -63,11 +64,11 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => 
 							/>
 						</div>
 
-						<a href="#" className="login__forgot">
+						<span onClick={onSwitchToPassword} className="login__signin">
 							¿Has olvidado tu contraseña?
-						</a>
+						</span>
 
-						<button type="submit" className="login__button">
+						<button type="submit" className="login__button" >
 							Inicio de sesión
 						</button>
 					</form>
