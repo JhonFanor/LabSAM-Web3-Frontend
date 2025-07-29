@@ -44,6 +44,7 @@ import PermissionPage from './pages/Permission/Permission';
 import BankOfReusmeByUserIDDetails from './pages/BankOfResume/BankOfReusmeByUserIDDetails';
 import { ForgotPassword } from './components/Password/ForgotPasswordForm';
 import Password from './pages/Password/Password';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 const App: React.FC = () => {
     const { user, isAuthenticated } = useAuth();
@@ -128,6 +129,7 @@ const App: React.FC = () => {
                         <Route path="/notifications" element={<Notification />}/>
                         <Route path="/reports" element={<ReportPage />}/>
                         <Route path="/reset-password" element={<Password/>}/>
+                        <Route path="/user/profile" element={<ProfilePage/>}/>
                     </Routes>
                 </div>
                 {!user && showLogin && (

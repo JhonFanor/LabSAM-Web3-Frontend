@@ -1,9 +1,9 @@
 import React from 'react';
-import { ResetPassword } from '../../components/Password/ResetPassword';
+import { UserProfile } from '../../components/Profile/Profile';
 
 const ProfilePage: React.FC = () => {
     return (
-        <ResetPassword/>
+        <UserProfile/>
     );
 };
 

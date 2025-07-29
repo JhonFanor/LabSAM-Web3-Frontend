@@ -55,6 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible, setMenuVisible }) =
                                 .filter((item) => {
                                     if (!isAuthenticated && item.label === 'Perfil') return false;
                                     if (item.label === 'Panel de Administración' && user?.role !== 'admin') return false;
+                                    if (item.label === 'Perfil'&& user?.role === 'admin' ) return false;
                                     return true;
                                 }).map((item) => (
                                 <div key={item.route}>
