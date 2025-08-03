@@ -109,14 +109,22 @@ export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClos
 			<ButtonClose onClick={onClose}/>
 			<h2 className="update-investigation__title">Crear Investigación</h2>
 			<form className="update-investigation__form" onSubmit={handleUpdate}>
-				<input type="text" name="title" placeholder="Título" value={investigation.title} onChange={(e) => setInvestigation({ ...investigation, title: e.target.value })} required />
-				
-				<JoditEditor value={investigation.description} onChange={(content) => setInvestigation({ ...investigation, description: content })} className="jodit-container"/>
-				
-				<input type="date" name="date" placeholder="Fecha" value={investigation.date} onChange={(e) => setInvestigation({ ...investigation, date: e.target.value })} required />
-				
-				<DocumentInputSelector value={investigation.link || ""} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" documentUploaderKey={documentUploaderKey} resetKey={resetKey}/>
-
+				<div className="form-group">
+					<label>Título</label>
+					<input type="text" name="title" placeholder="Título" value={investigation.title} onChange={(e) => setInvestigation({ ...investigation, title: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label>Descripción</label>
+					<JoditEditor value={investigation.description} onChange={(content) => setInvestigation({ ...investigation, description: content })} className="jodit-container"/>
+				</div>
+				<div className="form-group">
+					<label>Fecha</label>	
+					<input type="date" name="date" placeholder="Fecha" value={investigation.date} onChange={(e) => setInvestigation({ ...investigation, date: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label>Documento de investigación</label>	
+					<DocumentInputSelector value={investigation.link || ""} onChange={(document) => setInvestigation({...investigation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la investigación" fileLabel="📄 Subir la investigación" documentUploaderKey={documentUploaderKey} resetKey={resetKey}/>
+				</div>
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

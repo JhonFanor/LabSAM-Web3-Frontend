@@ -108,16 +108,26 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
 			<ButtonClose onClick={onClose}/>
 			<h2 className="update-news__title">Crear Noticia</h2>
 			<form className="update-news__form" onSubmit={handleUpdate}>
-				<input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
-
-				<ImageInputSelector value={news.image || ""} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} resetKey={resetKey}/>
-
-				<JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
-
-				<input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} />
-
-				<input type="date" name="date" value={formatDateYYYYMMDD(news.date || "")} onChange={(e) => setNews({ ...news, date: e.target.value })} />
-
+                <div className="form-group">
+					<label>Título</label>
+				    <input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
+                </div>
+                <div className="form-group">	
+					<label>Imagen</label>	
+				    <ImageInputSelector value={news.image || ""} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} resetKey={resetKey}/>
+                </div>
+                <div className="form-group">
+					<label>Descripción</label>
+				    <JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
+                </div>
+                <div className="form-group">
+					<label>Fuente</label>
+				    <input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} />
+                </div>
+                <div className="form-group">
+					<label>Fecha</label>
+				    <input type="date" name="date" value={formatDateYYYYMMDD(news.date || "")} onChange={(e) => setNews({ ...news, date: e.target.value })} />
+                </div>
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

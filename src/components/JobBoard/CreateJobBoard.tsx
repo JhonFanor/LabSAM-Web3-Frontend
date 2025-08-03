@@ -13,6 +13,9 @@ interface CreateJobBoardProps {
 export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
+    const [descriptionError, setDescriptionError] = useState<boolean>(false);
+    const [subtopicError, setSubtopicError] = useState<boolean>(false);
+
     const [jobBoard, setJobBoard] = useState<JobBoardCreateRequest>({
         title: "",
         company: "",
@@ -37,6 +40,18 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setDescriptionError(false);
+        setSubtopicError(false);
+
+        if (!jobBoard.description || jobBoard.description.trim() === "" || jobBoard.description === "<p></p>") {
+            setDescriptionError(true);
+            return;
+        }
+
+        if (jobBoard.subtopic_ids.length === 0) {
+            setSubtopicError(true);
+            return;
+        }
 
         if (salaryType === "range") {
         const min = parseFloat(salaryMin);
@@ -95,23 +110,26 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
             <h2 className="create-job-board__title">Crear Oferta de Trabajo</h2>
             <form className="create-job-board__form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Título</label>
+                    <label>Título*</label>
                     <input type="text" name="title" placeholder="Título" value={jobBoard.title} onChange={(e) => setJobBoard({ ...jobBoard, title: e.target.value })} required />
                 </div>
                 <div className="form-group">  
-                    <label>Compañia</label>
+                    <label>Compañia*</label>
                     <input type="text" name="company" placeholder="Empresa" value={jobBoard.company} onChange={(e) => setJobBoard({ ...jobBoard, company: e.target.value })} required />
                 </div>
                 <div className="form-group">  
-                    <label>Descripción</label>
+                    <label>Descripción*</label>
+                    {descriptionError && (
+                        <span className="form-error">La descripción es obligatoria.</span>
+                    )}
                     <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container" />
                 </div>
                 <div className="form-group">
                     <label>Tipo de oferta</label>
-                    <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} required />
+                    <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} />
                 </div>
                 <div className="form-group">
-                    <label>Link a la oferta</label>
+                    <label>Link a la oferta*</label>
                     <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
                 </div>
                 <div className="form-group">
@@ -123,17 +141,20 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
                     </select>
 
                     {salaryType === "fixed" && (
-                    <input type="text" name="salary_fixed" placeholder="Salario fijo" value={salaryFixed} onChange={(e) => setSalaryFixed(e.target.value)} required />
+                        <input type="text" name="salary_fixed" placeholder="Salario fijo" value={salaryFixed} onChange={(e) => setSalaryFixed(e.target.value)} required />
                     )}
 
                     {salaryType === "range" && (
-                    <div className="salary-range-fields">
-                        <input type="number" min="0" placeholder="Salario mínimo" value={salaryMin} onChange={(e) => setSalaryMin(e.target.value)} required />
-                        <input type="number" min="0" placeholder="Salario máximo" value={salaryMax} onChange={(e) => setSalaryMax(e.target.value)} required />
-                        {salaryError && <p className="error">{salaryError}</p>}
-                    </div>
+                        <div className="salary-range-fields">
+                            <input type="number" min="0" placeholder="Salario mínimo" value={salaryMin} onChange={(e) => setSalaryMin(e.target.value)} required />
+                            <input type="number" min="0" placeholder="Salario máximo" value={salaryMax} onChange={(e) => setSalaryMax(e.target.value)} required />
+                            {salaryError && <p className="error">{salaryError}</p>}
+                        </div>
                     )}
                 </div>
+                { subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
                 <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" />
                 <SelectedSubtopics data={jobBoard} setData={setJobBoard} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

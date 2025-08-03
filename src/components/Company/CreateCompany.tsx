@@ -12,7 +12,8 @@ interface CreateCompanyProps {
 export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-	
+	const [subtopicError, setSubtopicError] = useState<boolean>(false);
+
 	const [company, setCompany] = useState<CompanyCreateRequest>({
 		name: "",
 		industry: "",
@@ -32,6 +33,12 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setSubtopicError(false);
+
+		if (company.subtopic_ids.length === 0) {
+            setSubtopicError(true);
+            return;
+        }
 
 		try {
 			const companyToSend: CompanyCreateRequest = {
@@ -77,8 +84,11 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 				</div>
 				<div className="form-group">
 					<label>Email</label>
-					<input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} required />
+					<input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} />
 				</div>	
+				{ subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={company} setData={setCompany} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={company} setData={setCompany} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

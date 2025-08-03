@@ -14,6 +14,8 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [descriptionError, setDescriptionError] = useState<boolean>(false);
+	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
 	const [educationalOffer, setEducationalOffer] = useState<EducationalOfferCreateRequest>({
 		title: "",
@@ -61,12 +63,24 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setErrorMessage(null);
+		setDescriptionError(false);
+        setSubtopicError(false);
 
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 
 		const startDate = new Date(educationalOffer.start_date);
 		const endDate = new Date(educationalOffer.end_date);
+
+		if (!educationalOffer.description || educationalOffer.description.trim() === "" || educationalOffer.description  === "<p></p>") {
+            setDescriptionError(true);
+            return;
+        }
+        
+        if (educationalOffer.subtopic_ids.length === 0) {
+            setSubtopicError(true);
+            return;
+        }
 
 		if (startDate.getTime() < today.getTime()) {
 			setErrorMessage("La fecha de inicio no puede ser anterior al día de hoy.");
@@ -122,19 +136,19 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 
 			<form className="create-educational-offer__form" onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label>Título</label>
+					<label>Título*</label>
 					<input type="text" name="title" placeholder="Título" value={educationalOffer.title} onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} required />
 				</div>
 				<div className="form-group">	
-					<label>Institucion</label>
+					<label>Institución*</label>
 					<input type="text" name="institution" placeholder="Institución" value={educationalOffer.institution} onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} required />
 				</div>
 				<div className="form-group">
-					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de inicio</label>
+					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de inicio*</label>
 					<input type="date" name="start_date" min={getTodayDate()} value={educationalOffer.start_date} onChange={(e) => handleStartDateChange(e.target.value)} required />
 				</div>
 				<div className="form-group">	
-					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de finalización</label>
+					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de finalización*</label>
 					<input type="date" name="end_date" min={getMinEndDate()} disabled={!educationalOffer.start_date} value={educationalOffer.end_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
 				</div>
 				<div className="form-group">	
@@ -142,13 +156,19 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 					<input type="number" name="cost" placeholder="Costo" min={0} value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
 				</div>
 				<div className="form-group">
-					<label>Descripción</label>
+					<label>Descripción*</label>
+					{descriptionError && (
+                        <span className="form-error">La descripción es obligatoria.</span>
+                    )}
 					<JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container" />
 				</div>
 				<div className="form-group">
-					<label>Enlace</label>
-					<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} />
+					<label>Enlace*</label>
+					<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} required/>
 				</div>
+				{ subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

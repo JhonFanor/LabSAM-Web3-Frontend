@@ -115,80 +115,34 @@ export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGe
             <ButtonClose onClick={onClose}/>
             <h2 className="update-company__title">Actualizar Empresa</h2>
             <form className="update-company__form" onSubmit={handleSubmit}>
-                <input 
-                    type="text" 
-                    name="name" 
-                    placeholder="Nombre de la empresa" 
-                    value={company.name} 
-                    onChange={(e) => setCompany({ ...company, name: e.target.value })} 
-                    required 
-                />
-                <input 
-                    type="text" 
-                    name="industry" 
-                    placeholder="Industria" 
-                    value={company.industry} 
-                    onChange={(e) => setCompany({ ...company, industry: e.target.value })} 
-                    required 
-                />
-                <input 
-                    type="text" 
-                    name="website" 
-                    placeholder="Sitio web" 
-                    value={company.website} 
-                    onChange={(e) => setCompany({ ...company, website: e.target.value })} 
-                />
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder="Correo electrónico" 
-                    value={company.email} 
-                    onChange={(e) => setCompany({ ...company, email: e.target.value })} 
-                    required 
-                />
-
+                <div className="form-group">
+					<label>Nombre de la empresa</label>
+                    <input type="text" name="name" placeholder="Nombre de la empresa" value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })}  required />
+                </div>
+                <div className="form-group">
+					<label>Industria</label>
+                    <input type="text" name="industry" placeholder="Industria" value={company.industry} onChange={(e) => setCompany({ ...company, industry: e.target.value })} required />
+                </div>
+                <div className="form-group">
+					<label>Website</label>
+                    <input type="text" name="website" placeholder="Sitio web" value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })}  />
+                </div>
+                <div className="form-group">
+					<label>Email</label>
+                    <input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} required />
+                </div>
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
-                <SubtopicSelector 
-                    topics={topics} 
-                    selectedTopic={selectedTopic} 
-                    data={subtopicIds} 
-                    setData={setSubtopicIds} 
-                    subtopicsKey="subtopic_ids" 
-                />
-                <SelectedSubtopics 
-                    data={subtopicIds} 
-                    setData={setSubtopicIds} 
-                    subtopicsKey="subtopic_ids" 
-                    subtopicsList={allSubtopics} 
-                />
+                <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
+                <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
                 {!localitation ? (
-                    <button 
-                        type="button" 
-                        onClick={() => setLocalitation({ 
-                            address: "", 
-                            latitude: 4.5709, 
-                            longitude: -74.2973 
-                        })} 
-                    >
+                    <button type="button" className="update-company__localitation" onClick={() => setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973,})} >
                         Añadir localización
                     </button>
                 ) : (
                     <div style={{ marginBottom: "1rem" }}>
                         <Localitation value={localitation} onChange={setLocalitation} />
-                        <button 
-                            type="button" 
-                            className="remove-localitation-button" 
-                            onClick={() => setLocalitation(undefined)} 
-                            style={{ 
-                                marginTop: "0.5rem", 
-                                backgroundColor: "#f44336", 
-                                color: "#fff", 
-                                border: "none", 
-                                padding: "0.5rem", 
-                                borderRadius: "4px" 
-                            }} 
-                        >
+                        <button type="button" className="remove-localitation-button" onClick={() => setLocalitation(undefined)} style={{ marginTop: "0.5rem", backgroundColor: "#f44336", color: "#fff", border: "none", padding: "0.5rem", borderRadius: "4px", }} >
                             Quitar localización
                         </button>
                     </div>

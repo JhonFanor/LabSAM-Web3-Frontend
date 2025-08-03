@@ -101,12 +101,18 @@ export const UpdateLegislation: React.FC<UpdateLegislationProps> = ({ onClose, l
 			<ButtonClose onClick={onClose}/>
 			<h2 className="update-legislation__title">Crear Legislación</h2>
 			<form className="update-legislation__form" onSubmit={handleSubmit}>
-				<input type="text" name="title" placeholder="Título" value={legislation.title} onChange={(e) => setLegislation({ ...legislation, title: e.target.value })} required />
-				
-				<JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
-				
-				<DocumentInputSelector value={legislation.link || ""} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" documentUploaderKey={documentUploaderKey} resetKey={resetKey}/>
-
+				<div className="form-group">
+					<label>Título</label>
+					<input type="text" name="title" placeholder="Título" value={legislation.title} onChange={(e) => setLegislation({ ...legislation, title: e.target.value })} required />
+				</div>
+				<div className="form-group">	
+					<label>Descripción</label>
+					<JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
+				</div>	
+				<div className="form-group">	
+					<label>Documento de la legislación</label>	
+					<DocumentInputSelector value={legislation.link || ""} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" documentUploaderKey={documentUploaderKey} resetKey={resetKey}/>
+				</div>
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

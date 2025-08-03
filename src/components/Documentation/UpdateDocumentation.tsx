@@ -98,51 +98,21 @@ export const UpdateDocumentation: React.FC<UpdateDocumentationProps> = ({ onClos
 			<ButtonClose onClick={onClose} />
 			<h2 className="update-documentation__title">Crear Documentación</h2>
 			<form className="update-documentation__form" onSubmit={handleUpdate}>
-				<input 
-                    type="text" 
-                    name="title" 
-                    placeholder="Título" 
-                    value={documentation.title} 
-                    onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} 
-                    required 
-                />
-				
-				<JoditEditor 
-                    value={documentation.description} 
-                    onChange={(content) => setDocumentation({ ...documentation, description: content })} 
-                    className="jodit-container"
-                />
-				
-				<DocumentInputSelector 
-                    value={documentation.link || ""} 
-                    onChange={(document) => setDocumentation({...documentation, link: document})} 
-                    onFileSelected={setSelectedDocumentFile} 
-                    urlLabel="📎 URL de la documentacion" 
-                    fileLabel="📄 Subir la documentación" 
-                    documentUploaderKey={documentUploaderKey} 
-                    resetKey={documentUploaderKey}
-                />
-
-				<TopicSelector 
-                    topics={topics} 
-                    selectedTopic={selectedTopic} 
-                    setSelectedTopic={setSelectedTopic} 
-                />
-
-				<SubtopicSelector 
-                    topics={topics} 
-                    selectedTopic={selectedTopic} 
-                    data={subtopicIds} 
-                    setData={setSubtopicIds} 
-                    subtopicsKey="subtopic_ids" 
-                />
-
-				<SelectedSubtopics 
-                    data={subtopicIds} 
-                    setData={setSubtopicIds} 
-                    subtopicsKey="subtopic_ids" 
-                    subtopicsList={allSubtopics} 
-                />
+                <div className="form-group">
+					<label>Título</label>
+                    <input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />
+                </div>
+                <div className="form-group">
+					<label>Descripción</label>
+                    <JoditEditor value={documentation.description} onChange={(content) => setDocumentation({ ...documentation, description: content })} className="jodit-container"/>
+                </div>
+                <div className="form-group">
+					<label>Documento de la documentación</label>	
+                    <DocumentInputSelector value={documentation.link || ""} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" documentUploaderKey={documentUploaderKey} resetKey={documentUploaderKey}/>
+                </div>
+				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
+				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
+				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 				
                 <div className="update-documentation__buttons">
                     <button type="submit">

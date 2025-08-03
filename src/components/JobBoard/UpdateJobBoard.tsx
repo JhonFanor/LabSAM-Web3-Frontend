@@ -162,67 +162,45 @@ export const UpdateJobBoard: React.FC<UpdateJobBoardProps> = ({ onClose, jobBoar
             <ButtonClose onClick={onClose} />
             <h2 className="update-job-board__title">Actualizar Oferta de Trabajo</h2>
             <form className="update-job-board__form" onSubmit={handleUpdate}>
-                <input type="text" name="title" placeholder="Título" value={jobBoard.title} onChange={(e) => setJobBoard({ ...jobBoard, title: e.target.value })} required />
-                <input type="text" name="company" placeholder="Empresa" value={jobBoard.company} onChange={(e) => setJobBoard({ ...jobBoard, company: e.target.value })} required />
-
-                <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container" />
-
-                <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} required />
-                <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
-
-                <label>Tipo de salario:</label>
-                <select
-                    className="update-job-board__select"
-                    value={salaryType}
-                    onChange={(e) => {
-                        const value = e.target.value as "none" | "fixed" | "range";
-                        setSalaryType(value);
-                        setSalaryError("");
-                        if (value === "none") {
-                            setSalaryFixed("");
-                            setSalaryMin("");
-                            setSalaryMax("");
-                        }
-                    }}
-                >
-                    <option value="none">No especificar</option>
-                    <option value="fixed">Valor fijo</option>
-                    <option value="range">Rango</option>
-                </select>
-
-                {salaryType === "fixed" && (
-                    <input
-                        type="text"
-                        name="salary_fixed"
-                        placeholder="Salario fijo"
-                        value={salaryFixed}
-                        onChange={(e) => setSalaryFixed(e.target.value)}
-                        required
-                    />
-                )}
-
-                {salaryType === "range" && (
-                    <div className="salary-range-fields">
-                        <input
-                            type="number"
-                            min="0"
-                            placeholder="Salario mínimo"
-                            value={salaryMin}
-                            onChange={(e) => setSalaryMin(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="number"
-                            min="0"
-                            placeholder="Salario máximo"
-                            value={salaryMax}
-                            onChange={(e) => setSalaryMax(e.target.value)}
-                            required
-                        />
-                        {salaryError && <p className="error">{salaryError}</p>}
-                    </div>
-                )}
-
+                <div className="form-group">
+                    <label>Título</label>
+                    <input type="text" name="title" placeholder="Título" value={jobBoard.title} onChange={(e) => setJobBoard({ ...jobBoard, title: e.target.value })} required />
+                </div>
+                <div className="form-group">  
+                    <label>Compañia</label>
+                    <input type="text" name="company" placeholder="Empresa" value={jobBoard.company} onChange={(e) => setJobBoard({ ...jobBoard, company: e.target.value })} required />
+                </div>
+                <div className="form-group">  
+                    <label>Descripción</label>
+                    <JoditEditor value={jobBoard.description} onChange={(content) => setJobBoard({ ...jobBoard, description: content })} className="jodit-container" />
+                </div>
+                <div className="form-group">
+                    <label>Tipo de oferta</label>
+                    <input type="text" name="type" placeholder="Tipo de oferta" value={jobBoard.type} onChange={(e) => setJobBoard({ ...jobBoard, type: e.target.value })} required />
+                </div>
+                <div className="form-group">
+                    <label>Link a la oferta</label>
+                    <input type="text" name="link" placeholder="Link a la oferta de trabajo" value={jobBoard.link} onChange={(e) => setJobBoard({ ...jobBoard, link: e.target.value })} required />
+                </div>
+                <div className="form-group">
+                    <label>Tipo de salario:</label>
+                    <select className="update-job-board__select" value={salaryType} onChange={(e) => { const value = e.target.value as "none" | "fixed" | "range"; setSalaryType(value); setSalaryError(""); if (value === "none") { setSalaryFixed(""); setSalaryMin(""); setSalaryMax(""); }}} >
+                        <option value="none">No especificar</option>
+                        <option value="fixed">Valor fijo</option>
+                        <option value="range">Rango</option>
+                    </select>
+                    {salaryType === "fixed" && (
+                        <input type="text" name="salary_fixed" placeholder="Salario fijo"value={salaryFixed} onChange={(e) => setSalaryFixed(e.target.value)} required />
+                    )}
+                    
+                    {salaryType === "range" && (
+                        <div className="salary-range-fields">
+                            <input type="number" min="0" placeholder="Salario mínimo" value={salaryMin} onChange={(e) => setSalaryMin(e.target.value)} required />
+                            <input type="number" min="0" placeholder="Salario máximo" value={salaryMax} onChange={(e) => setSalaryMax(e.target.value)} required />
+                            {salaryError && <p className="error">{salaryError}</p>}
+                        </div>
+                    )}
+                </div>
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
                 <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
                 <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

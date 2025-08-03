@@ -143,3 +143,10 @@
         max-height: 90vh;
     }
 }
+
+.form-error {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}

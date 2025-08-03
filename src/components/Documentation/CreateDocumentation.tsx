@@ -16,6 +16,9 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
+	const [descriptionError, setDescriptionError] = useState<boolean>(false);
+	const [documentError, setDocumentError] = useState<boolean>(false);
+	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
 	const [documentation, setDocumentation] = useState<DocumentationCreateRequest>({
 		title: "",
@@ -33,7 +36,27 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setUploading(true);
+		setDescriptionError(false);
+        setDocumentError(false);
+        setSubtopicError(false);
 
+		if (!documentation.description || documentation.description.trim() === "" || documentation.description === "<p></p>") {
+            setDescriptionError(true);
+            setUploading(false);
+            return;
+        }
+        
+        if (!documentation.link && !selectedDocumentFile) {
+            setDocumentError(true);
+            setUploading(false);
+            return;
+        }
+
+		if (documentation.subtopic_ids.length === 0) {
+            setUploading(false);
+            setSubtopicError(true);
+            return;
+		}
 		try {
 			let documentPath = documentation.link;
 
@@ -79,17 +102,26 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 			<h2 className="create-documentation__title">Crear Documentación</h2>
 			<form className="create-documentation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label>Título</label>
+					<label>Título*</label>
 					<input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />
 				</div>
 				<div className="form-group">
-					<label>Descripción</label>
+					<label>Descripción*</label>
+					{descriptionError && (
+                        <span className="form-error">La descripción es obligatorio.</span>
+                    )}
 					<JoditEditor value={documentation.description} onChange={(content) => setDocumentation({ ...documentation, description: content })} className="jodit-container"/>
 				</div>
 				<div className="form-group">
-					<label>Documento de la documentación</label>	
+					<label>Documento de la documentación*</label>	
+					{documentError && (
+                        <span className="form-error">El documento es obligatoria.</span>
+                    )}
 					<DocumentInputSelector value={documentation.link} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" documentUploaderKey={documentUploaderKey} />
 				</div>
+				{ subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
 				
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" />

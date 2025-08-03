@@ -16,7 +16,10 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
 	const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
-
+	const [imageError, setImageError] = useState<boolean>(false);
+	const [descriptionError, setDescriptionError] = useState<boolean>(false);
+	const [subtopicError, setSubtopicError] = useState<boolean>(false);
+		
 	const [news, setNews] = useState<NewsCreateRequest>({
 		title: "",
 		image: "",
@@ -35,7 +38,27 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setUploading(true);
+		setImageError(false);
+        setDescriptionError(false);
+        setSubtopicError(false);
 
+		if (!news.image && !selectedImageFile) {
+            setImageError(true);
+            setUploading(false);
+            return;
+        }
+
+        if (!news.description || news.description.trim() === "" || news.description === "<p></p>") {
+            setDescriptionError(true);
+            setUploading(false);
+            return;
+        }
+
+        if (news.subtopic_ids.length === 0) {
+            setUploading(false);
+            setSubtopicError(true);
+            return;
+        }
 		try {
 		let imagePath = news.image;
 
@@ -85,25 +108,34 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 			<h2 className="create-news__title">Crear Noticia</h2>
 			<form className="create-news__form" onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label>Título</label>
+					<label>Título*</label>
 					<input type="text" name="title" placeholder="Título" value={news.title} onChange={(e) => setNews({ ...news, title: e.target.value })} required />
 				</div>
 				<div className="form-group">	
-					<label>Imagen</label>	
+					<label>Imagen*</label>	
+					{imageError && (
+                        <span className="form-error">La imagen es obligatoria.</span>
+                    )}
 					<ImageInputSelector value={news.image} onChange={(img) => setNews({ ...news, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
 				</div>
 				<div className="form-group">
-					<label>Descripción</label>
+					<label>Descripción*</label>
+					{descriptionError && (
+                        <span className="form-error">La descripción es obligatoria.</span>
+                    )}
 					<JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
 				</div>
 				<div className="form-group">
-					<label>Fuente</label>
-					<input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} />
+					<label>Fuente*</label>
+					<input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} required/>
 				</div>
 				<div className="form-group">
-					<label>Fecha</label>
-					<input type="date" name="date" value={news.date} onChange={(e) => setNews({ ...news, date: e.target.value })} />
+					<label>Fecha*</label>
+					<input type="date" name="date" value={news.date} onChange={(e) => setNews({ ...news, date: e.target.value })} required/>
 				</div>
+				{ subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={news} setData={setNews} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={news} setData={setNews} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

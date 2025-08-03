@@ -75,3 +75,19 @@
 .remove-localitation-button:hover {
   background-color: #d32f2f;
 }
+
+.update-company__localitation {
+    background: var(--first-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.85rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.update-company__localitation:hover {
+    background: var(--color-red-button);
+}

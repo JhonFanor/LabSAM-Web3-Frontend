@@ -16,6 +16,9 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
+	const [descriptionError, setDescriptionError] = useState<boolean>(false);
+	const [documentError, setDocumentError] = useState<boolean>(false);
+	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
 	const [legislation, setLegislation] = useState<LegislationCreateRequest>({
 		title: "",
@@ -33,6 +36,27 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setUploading(true);
+        setDescriptionError(false);
+        setDocumentError(false);
+        setSubtopicError(false);
+
+		if (!legislation.description || legislation.description.trim() === "" || legislation.description === "<p></p>") {
+            setDescriptionError(true);
+            setUploading(false);
+            return;
+        }
+        
+        if (!legislation.link && !selectedDocumentFile) {
+            setDocumentError(true);
+            setUploading(false);
+            return;
+        }
+
+        if (legislation.subtopic_ids.length === 0) {
+            setUploading(false);
+            setSubtopicError(true);
+            return;
+        }
 
 		try {
 			let documentPath = legislation.link;
@@ -79,17 +103,26 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 			<h2 className="create-legislation__title">Crear Legislación</h2>
 			<form className="create-legislation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label>Título</label>
+					<label>Título*</label>
 					<input type="text" name="title" placeholder="Título" value={legislation.title} onChange={(e) => setLegislation({ ...legislation, title: e.target.value })} required />
 				</div>
 				<div className="form-group">	
-					<label>Descripción</label>
+					<label>Descripción*</label>
+					{descriptionError && (
+                        <span className="form-error">La descripción es obligatoria.</span>
+                    )}
 					<JoditEditor value={legislation.description} onChange={(content) => setLegislation({ ...legislation, description: content })} className="jodit-container"/>
 				</div>
 				<div className="form-group">	
-					<label>Documento de la legislación</label>	
+					<label>Documento de la legislación*</label>	
+					{documentError && (
+                        <span className="form-error">El documento de la legislación es obligatoria.</span>
+                    )}	
 					<DocumentInputSelector value={legislation.link} onChange={(document) => setLegislation({...legislation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la legislación" fileLabel="📄 Subir la legislación" documentUploaderKey={documentUploaderKey} />
 				</div>
+				{ subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={legislation} setData={setLegislation} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={legislation} setData={setLegislation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

@@ -41,7 +41,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
         setUploading(true);
         setPhotoError(false);
         setSummaryError(false);
-        setSubtopicError(false);
+        setDocumentError(false);
         setSubtopicError(false);
         
         if (!bankOfResume.photo && !selectedImageFile) {

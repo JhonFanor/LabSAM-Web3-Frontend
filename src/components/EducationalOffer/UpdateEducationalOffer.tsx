@@ -164,92 +164,41 @@ export const UpdpateEducationalOffer: React.FC<UpdateEducationalOfferProps> = ({
 			)}
 
 			<form className="update-educational-offer__form" onSubmit={handleUpdate}>
-				<input 
-					type="text" 
-					name="title" 
-					placeholder="Título" 
-					value={educationalOffer.title} 
-					onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} 
-					required 
-				/>
-				<input 
-					type="text" 
-					name="institution" 
-					placeholder="Institución" 
-					value={educationalOffer.institution} 
-					onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} 
-					required 
-				/>
-				<label 
-					className="update-educational-offer__label" 
-					htmlFor="start_date"
-				>
-					Fecha de inicio
-				</label>
-				<input 
-					type="date" 
-					name="start_date" 
-					min={getTodayDate()}
-					value={formatDateYYYYMMDD(educationalOffer.start_date || "")} 
-					onChange={(e) => handleStartDateChange(e.target.value)} 
-					required 
-				/>
-				<label 
-					className="update-educational-offer__label" 
-					htmlFor="start_date">
+				<div className="form-group">
+					<label>Título</label>
+					<input type="text" name="title" placeholder="Título" value={educationalOffer.title} onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} required />
+				</div>	
+				<div className="form-group">	
+					<label>Institución</label>
+					<input type="text" name="institution" placeholder="Institución" value={educationalOffer.institution} onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} required />
+				</div>	
+				<div className="form-group">
+					<label className="update-educational-offer__label" htmlFor="start_date">
+						Fecha de inicio
+					</label>
+					<input type="date" name="start_date" min={getTodayDate()}value={formatDateYYYYMMDD(educationalOffer.start_date || "")} onChange={(e) => handleStartDateChange(e.target.value)} required />
+				</div>	
+				<div className="form-group">
+					<label className="update-educational-offer__label" htmlFor="start_date">
 						Fecha de finalización
-				</label>
-				<input 
-					type="date" 
-					name="end_date" 
-					min={getMinEndDate()} 
-					disabled={!educationalOffer.start_date} 
-					value={formatDateYYYYMMDD(educationalOffer.end_date || "")} 
-					onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} 
-					required 
-				/>
-				<input 
-					type="number" 
-					name="cost" 
-					placeholder="Costo" 
-					min={0} 
-					value={educationalOffer.cost} 
-					onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} 
-					required 
-				/>
-
-				<JoditEditor 
-					value={educationalOffer.description} 
-					onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} 
-					className="jodit-container" 
-				/>
-
-				<input 
-					type="url" 
-					name="link" 
-					placeholder="Enlace (opcional)" 
-					value={educationalOffer.link} 
-					onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} 
-				/>
-
-				<TopicSelector 
-					topics={topics} 
-					selectedTopic={selectedTopic} 
-					setSelectedTopic={setSelectedTopic} 
-				/>
-				<SubtopicSelector 
-					topics={topics} 
-					selectedTopic={selectedTopic} 
-					data={subtopicIds} 
-					setData={setSubtopicIds} 
-					subtopicsKey="subtopic_ids" 
-				/>
-				<SelectedSubtopics 
-					data={subtopicIds} 
-					setData={setSubtopicIds} 
-					subtopicsKey="subtopic_ids" 
-					subtopicsList={allSubtopics} 
-				/>
+					</label>
+					<input type="date" name="end_date" min={getMinEndDate()} disabled={!educationalOffer.start_date} value={formatDateYYYYMMDD(educationalOffer.end_date || "")} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
+				</div>	
+				<div className="form-group">	
+					<label>Precio</label>
+					<input type="number" name="cost" placeholder="Costo" min={0} value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
+				</div>
+				<div className="form-group">
+					<label>Descripción</label>
+					<JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container" />
+				</div>
+				<div className="form-group">
+					<label>Enlace</label>
+					<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} />
+				</div>
+				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
+				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
+				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
 				<div className="update-educational-offer__buttons">
                     <button type="submit">

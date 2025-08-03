@@ -139,16 +139,26 @@ export const UpdateEvent: React.FC<UpdateEventProps> = ({ onClose, eventGetRespo
             <ButtonClose onClick={onClose}/>
             <h2 className="update-event__title">Crear Evento</h2>
             <form className="update-event__form" onSubmit={handleUpdate}>
-                <input type="text" name="title" placeholder="Título" value={event.title} onChange={(e) => setEvent({ ...event, title: e.target.value })} required/>
-
-                <ImageInputSelector value={event.image || ""} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} resetKey={resetKey}/>
-
-                <JoditEditor value={event.description} onChange={(content) => setEvent({ ...event, description: content })} className="jodit-container" />
-
-                <input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} required />
-
-                <input type="date" name="date" min={getTodayDate()} value={formatDateYYYYMMDD(event.date || "")} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
-
+                <div className="form-group">
+					<label>Título</label>
+                    <input type="text" name="title" placeholder="Título" value={event.title} onChange={(e) => setEvent({ ...event, title: e.target.value })} required/>
+                </div>
+                <div className="form-group">
+					<label>Imagen</label>
+                    <ImageInputSelector value={event.image || ""} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} resetKey={resetKey}/>
+                </div>
+                <div className="form-group">	
+					<label>Descripción</label>
+                    <JoditEditor value={event.description} onChange={(content) => setEvent({ ...event, description: content })} className="jodit-container" />
+                </div>
+                <div className="form-group">
+					<label>Enlace</label>
+                    <input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} required />
+                </div>
+                <div className="form-group">
+					<label>Fecha</label>
+                    <input type="date" name="date" min={getTodayDate()} value={formatDateYYYYMMDD(event.date || "")} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
+                </div>
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
                 <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids"/>
                 <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics}/>
