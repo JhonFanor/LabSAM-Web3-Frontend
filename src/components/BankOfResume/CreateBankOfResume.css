@@ -1,13 +1,13 @@
 .create-bank-of-resume {
     position: relative;
     background: white;
-    padding: 2.5rem; 
+    padding: 2.5rem;
     border-radius: 1rem;
     width: 95%;
-    max-width: 750px; 
-    max-height: 90vh; 
-    min-height: 500px; 
-    overflow-y: auto; 
+    max-width: 750px;
+    max-height: 90vh;
+    min-height: 500px;
+    overflow-y: auto;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-news 0.4s ease-in-out;
     display: flex;
@@ -37,6 +37,20 @@
     padding-bottom: 1rem;
 }
 
+.create-bank-of-resume__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.create-bank-of-resume__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
 .create-bank-of-resume__form input,
 .create-bank-of-resume__form textarea {
     width: 100%;
@@ -45,14 +59,15 @@
     border-radius: 0.5rem;
     font-size: 1rem;
     background: #fff;
-    color: #818181;
+    color: #333;
 }
 
 .jodit-container {
     min-height: 200px;
-    max-height: 300px; 
-    overflow-y: auto; 
+    max-height: 300px;
+    overflow-y: auto;
     border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 .create-bank-of-resume__submit {
@@ -96,11 +111,15 @@
     .create-bank-of-resume__submit {
         padding: 0.75rem;
     }
+
+    .create-bank-of-resume__form label {
+        font-size: 0.95rem;
+    }
 }
 
 @media screen and (min-width: 1024px) {
     .create-bank-of-resume {
-        max-width: 95%; 
+        max-width: 95%;
         max-height: 90vh;
     }
 
@@ -108,4 +127,11 @@
         min-height: 500px;
         max-height: 1000px;
     }
+}
+
+.form-error {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
 }

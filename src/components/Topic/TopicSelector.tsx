@@ -1,9 +1,9 @@
 import React from "react";
-import { Topic } from "../../models/Topic";
 import "./TopicSelector.css"
+import { TopicGetAllResponse } from "../../dtos/responses";
 
 interface TopicSelectorProps {
-  topics: Topic[];
+  topics: TopicGetAllResponse[];
   selectedTopic: number | null;
   setSelectedTopic: React.Dispatch<React.SetStateAction<number | null>>;
 }

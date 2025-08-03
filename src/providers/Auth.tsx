@@ -68,13 +68,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 body: JSON.stringify({ email, password }),
             });
 
-            if (!response.ok) throw new Error("Error en el inicio de sesión");
+            const data = await response.json();
 
-            const { access_token } = await response.json();
-            localStorage.setItem("access_token", access_token);
+            if (!response.ok) {
+                throw new Error(data.error || "Error en el inicio de sesión");
+            }
+
+            localStorage.setItem("access_token", data.access_token);
             await checkAuthStatus();
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error);
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 

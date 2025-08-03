@@ -114,61 +114,19 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
             <ButtonClose onClick={onClose} />
             <h2 className="update-bank-of-resume__title">Actualizar Hoja de vida</h2>
             <form className="update-bank-of-resume__form" onSubmit={handleUpdate}>
-                <ImageInputSelector
-                    value={bankOfResume.photo || ""}
-                    onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })}
-                    onFileSelected={setSelectedImageFile}
-                    urlLabel="📎 URL de la foto"
-                    fileLabel="🖼️ Subir foto"
-                    imageUploaderKey={uploaderKey}
-                    resetKey={resetKey}
-                />
+                <ImageInputSelector value={bankOfResume.photo || ""} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" imageUploaderKey={uploaderKey} resetKey={resetKey} />
 
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Título"
-                    value={bankOfResume.title}
-                    onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })}
-                    required
-                />
+                <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
 
-                <JoditEditor
-                    value={bankOfResume.summary}
-                    onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })}
-                    className="jodit-container"
-                />
+                <JoditEditor value={bankOfResume.summary} onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} className="jodit-container" />
 
-                <DocumentInputSelector
-                    value={bankOfResume.link || ""}
-                    onChange={(doc) => setBankOfResume({ ...bankOfResume, link: doc })}
-                    onFileSelected={setSelectedDocumentFile}
-                    urlLabel="📎 URL de la hoja de vida"
-                    fileLabel="📄 Subir la hoja de vida"
-                    documentUploaderKey={uploaderKey}
-                    resetKey={resetKey}
-                />
+                <DocumentInputSelector value={bankOfResume.link || ""} onChange={(doc) => setBankOfResume({ ...bankOfResume, link: doc })} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" documentUploaderKey={uploaderKey}  resetKey={resetKey} />
 
-                <TopicSelector
-                    topics={topics}
-                    selectedTopic={selectedTopic}
-                    setSelectedTopic={setSelectedTopic}
-                />
+                <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 
-                <SubtopicSelector
-                    topics={topics}
-                    selectedTopic={selectedTopic}
-                    data={subtopicIds}
-                    setData={setSubtopicIds}
-                    subtopicsKey="subtopic_ids"
-                />
+                <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
 
-                <SelectedSubtopics
-                    data={subtopicIds}
-                    setData={setSubtopicIds}
-                    subtopicsKey="subtopic_ids"
-                    subtopicsList={allSubtopics}
-                />
+                <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
                 <div className="update-bank-of-resume__buttons">
                     <button type="submit">

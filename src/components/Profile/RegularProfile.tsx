@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave, FaTimes, FaIdCard, FaCalendarAlt, FaLink, FaGlobe, } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave, FaTimes, FaIdCard, FaCalendarAlt, } from "react-icons/fa";
 import Select from "react-select";
 import { Country, City } from "country-state-city";
 import "./Profile.css";
@@ -20,7 +20,6 @@ interface Location {
 interface Contact {
     id: number;
     phone: string;
-    website: string;
 }
 
 interface RegularUser {
@@ -119,7 +118,6 @@ export const RegularProfile: React.FC = () => {
                 country: location?.country || "",
                 city: location?.city || "",
                 phone: contact?.phone || "",
-                website: contact?.website || "",
             });
         }
     };
@@ -152,6 +150,10 @@ export const RegularProfile: React.FC = () => {
 
     const handleSave = async () => {
         try {
+            if (editedData.country && !editedData.city) {
+                setError("Por favor selecciona una ciudad para el país seleccionado.");
+                return;
+            }
             let updateData = {};
 
             let imagePath = editedData.avatar;
@@ -163,7 +165,7 @@ export const RegularProfile: React.FC = () => {
             updateData = {
                 name: editedData.name,
                 avatar: imagePath,
-                birth_date: new Date(editedData.birth_date).toISOString(),
+                birth_date: editedData.birth_date ? new Date(editedData.birth_date).toISOString() : null,
                 location: {
                     country: editedData.country,
                     city: editedData.city,
@@ -293,18 +295,6 @@ export const RegularProfile: React.FC = () => {
                     onChange={handleInputChange}
                     />
                 </div>
-
-                <div className="register__box">
-                    <FaLink className="register__icon" />
-                    <input
-                    type="text"
-                    name="website"
-                    placeholder="Sitio web"
-                    className="register__input"
-                    value={editedData.website}
-                    onChange={handleInputChange}
-                    />
-                </div>
             </div>
         ) : (
             <>
@@ -334,14 +324,10 @@ export const RegularProfile: React.FC = () => {
                     )}
                     {userData.regular_user.contact && (
                         <>
-                        <div className="register__box">
-                            <FaPhone className="register__icon" />
-                            <span>{userData.regular_user.contact.phone || "No disponible"}</span>
-                        </div>
-                        <div className="register__box">
-                            <FaGlobe className="register__icon" />
-                            <span>{userData.regular_user.contact.website || "No disponible"}</span>
-                        </div>
+                            <div className="register__box">
+                                <FaPhone className="register__icon" />
+                                <span>{userData.regular_user.contact.phone || "No disponible"}</span>
+                            </div>
                         </>
                     )}
                     </div>

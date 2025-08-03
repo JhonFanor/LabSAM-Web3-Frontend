@@ -52,6 +52,21 @@
     padding-bottom: 1rem;
 }
 
+.create-company__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.create-company__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
+
 .create-company__form input,
 .create-company__form textarea {
     width: 100%;
@@ -115,6 +130,10 @@
 
     .create-company__submit {
         padding: 0.75rem;
+    }
+
+    .create-company__form label {
+        font-size: 0.95rem;
     }
 }
 

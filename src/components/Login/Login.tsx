@@ -15,17 +15,26 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister, onSwi
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleLoginSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError(null);
+		setIsSubmitting(true);
 
 		try {
 			await login(email, password);
-			console.log("Inicio de sesión exitoso!");
 			onClose(); 
-		} catch (err) {
-			setError("Error en el inicio de sesión. Verifica tus credenciales.");
+		} catch (err: any) {
+			if (err.message === "Invalid credentials" || err.message === "Invalid password") {
+				setError("Credenciales inválidas. Verifica tu correo y contraseña.");
+			} else if (err.message === "Error usuario no verificado") {
+				setError("Tu correo aún no ha sido verificado. Revisa tu bandeja de entrada.");
+			} else {
+        		setError("Ocurrió un error inesperado.");
+			}
+		} finally {
+			setIsSubmitting(false); 
 		}
 	};
 
@@ -69,7 +78,7 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister, onSwi
 						</span>
 
 						<button type="submit" className="login__button" >
-							Inicio de sesión
+							{isSubmitting ? "Iniciando sesión..." : "Inicio de sesión"}	
 						</button>
 					</form>
 					<div>

@@ -121,21 +121,34 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 			)}
 
 			<form className="create-educational-offer__form" onSubmit={handleSubmit}>
-				<label>Título</label>
-				<input type="text" name="title" placeholder="Título" value={educationalOffer.title} onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} required />
-				<label>Institucion</label>
-				<input type="text" name="institution" placeholder="Institución" value={educationalOffer.institution} onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} required />
-				<label className="create-educational-offer__label" htmlFor="start_date">Fecha de inicio</label>
-				<input type="date" name="start_date" min={getTodayDate()} value={educationalOffer.start_date} onChange={(e) => handleStartDateChange(e.target.value)} required />
-				<label className="create-educational-offer__label" htmlFor="start_date">Fecha de finalización</label>
-				<input type="date" name="end_date" min={getMinEndDate()} disabled={!educationalOffer.start_date} value={educationalOffer.end_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
-				<label>Precio</label>
-				<input type="number" name="cost" placeholder="Costo" min={0} value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
-				<label>Descripción</label>
-				<JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container" />
-				<label>Enlace</label>
-				<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} />
-
+				<div className="form-group">
+					<label>Título</label>
+					<input type="text" name="title" placeholder="Título" value={educationalOffer.title} onChange={(e) => setEducationalOffer({ ...educationalOffer, title: e.target.value })} required />
+				</div>
+				<div className="form-group">	
+					<label>Institucion</label>
+					<input type="text" name="institution" placeholder="Institución" value={educationalOffer.institution} onChange={(e) => setEducationalOffer({ ...educationalOffer, institution: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de inicio</label>
+					<input type="date" name="start_date" min={getTodayDate()} value={educationalOffer.start_date} onChange={(e) => handleStartDateChange(e.target.value)} required />
+				</div>
+				<div className="form-group">	
+					<label className="create-educational-offer__label" htmlFor="start_date">Fecha de finalización</label>
+					<input type="date" name="end_date" min={getMinEndDate()} disabled={!educationalOffer.start_date} value={educationalOffer.end_date} onChange={(e) => setEducationalOffer({ ...educationalOffer, end_date: e.target.value })} required />
+				</div>
+				<div className="form-group">	
+					<label>Precio</label>
+					<input type="number" name="cost" placeholder="Costo" min={0} value={educationalOffer.cost} onChange={(e) => setEducationalOffer({ ...educationalOffer, cost: Number(e.target.value) })} required />
+				</div>
+				<div className="form-group">
+					<label>Descripción</label>
+					<JoditEditor value={educationalOffer.description} onChange={(content) => setEducationalOffer({ ...educationalOffer, description: content })} className="jodit-container" />
+				</div>
+				<div className="form-group">
+					<label>Enlace</label>
+					<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} />
+				</div>
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={educationalOffer} setData={setEducationalOffer} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

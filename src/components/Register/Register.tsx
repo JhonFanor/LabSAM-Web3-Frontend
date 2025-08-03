@@ -14,54 +14,6 @@ interface RegisterProps {
 export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
 	const [userType, setUserType] = useState<'person' | 'university' | 'company'>('person');
 
-	const handlePersonSubmit = async (data: any) => {
-		try {
-			const response = await fetch('http://localhost:8080/api/auth/register/regular', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-			const result = await response.json();
-			console.log('Person registration successful:', result);
-		} catch (error) {
-			console.error('Error registering person:', error);
-		}
-	};
-
-	const handleBusinessSubmit = async (data: any) => {
-		try {
-			const response = await fetch('http://localhost:8080/api/auth/register/business', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-			const result = await response.json();
-			console.log('Business registration successful:', result);
-		} catch (error) {
-			console.error('Error registering business:', error);
-		}
-	};
-
-	const handleUniversitySubmit = async (data: any) => {
-		try {
-			const response = await fetch('http://localhost:8080/api/auth/register/university', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-			const result = await response.json();
-			console.log('University registration successful:', result);
-		} catch (error) {
-			console.error('Error registering university:', error);
-		}
-	};
-
 	return (
 		<div className="register__content">
 			<div className="register__img">
@@ -94,9 +46,9 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
 						</button>
 					</div>
 
-					{userType === 'person' && <PersonForm onSubmit={handlePersonSubmit} />}
-					{userType === 'university' && <UniversityForm onSubmit={handleUniversitySubmit} />}
-					{userType === 'company' && <BusinessForm onSubmit={handleBusinessSubmit} />}
+					{userType === 'person' && <PersonForm />}
+					{userType === 'university' && <UniversityForm />}
+					{userType === 'company' && <BusinessForm />}
 
 					<div>
 						<span className="register__account">¿Ya tienes una cuenta? </span>

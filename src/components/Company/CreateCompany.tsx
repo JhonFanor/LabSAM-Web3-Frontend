@@ -63,15 +63,22 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-company__title">Crear Empresa</h2>
 			<form className="create-company__form" onSubmit={handleSubmit}>
-				<label>Nombre de la empresa</label>
-				<input type="text" name="name" placeholder="Nombre de la empresa" value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} required />
-				<label>Industria</label>
-				<input type="text" name="industry" placeholder="Industria" value={company.industry} onChange={(e) => setCompany({ ...company, industry: e.target.value })} required />
-				<label>Website</label>
-				<input type="text" name="website" placeholder="Sitio web" value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} />
-				<label>Email</label>
-				<input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} required />
-
+				<div className="form-group">
+					<label>Nombre de la empresa*</label>
+					<input type="text" name="name" placeholder="Nombre de la empresa" value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label>Industria*</label>
+					<input type="text" name="industry" placeholder="Industria" value={company.industry} onChange={(e) => setCompany({ ...company, industry: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label>Website</label>
+					<input type="text" name="website" placeholder="Sitio web" value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} />
+				</div>
+				<div className="form-group">
+					<label>Email</label>
+					<input type="email" name="email" placeholder="Correo electrónico" value={company.email} onChange={(e) => setCompany({ ...company, email: e.target.value })} required />
+				</div>	
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={company} setData={setCompany} subtopicsKey="subtopic_ids" />
 				<SelectedSubtopics data={company} setData={setCompany} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />

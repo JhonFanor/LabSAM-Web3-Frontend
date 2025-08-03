@@ -37,6 +37,21 @@
     padding-bottom: 1rem;
 }
 
+.create-news__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.create-news__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
+
 .create-news__form input,
 .create-news__form textarea {
     width: 100%;

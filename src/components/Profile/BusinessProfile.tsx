@@ -5,6 +5,8 @@ import { Country, City } from "country-state-city";
 import "./Profile.css";
 import { useAuth } from "../../providers/Auth";
 import { FetchWithAuth } from "../../utils/FetchWithAuth";
+import { ImageInputSelector } from "../Selector";
+import { uploadImageFile } from "../../api";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/user`;
@@ -49,6 +51,8 @@ export const BusinessProfile: React.FC = () => {
     const [editedData, setEditedData] = useState<any>({});
     const [selectedCountry, setSelectedCountry] = useState<OptionType | null>(null);
     const [selectedCity, setSelectedCity] = useState<OptionType | null>(null);
+    const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+    const [resetKey, setResetKey] = useState<number>(Date.now());
 
     const countryOptions: OptionType[] = Country.getAllCountries().map((c) => ({
         value: c.isoCode,
@@ -59,27 +63,27 @@ export const BusinessProfile: React.FC = () => {
         City.getCitiesOfCountry(selectedCountry?.value || "")?.map((c) => ({
         value: c.name,
         label: c.name,
-        })) ?? [];
+    })) ?? [];
 
     useEffect(() => {
         if (!user || !user.id) return;
 
         const fetchUser = async () => {
-        try {
-            const response = await FetchWithAuth(`${BASE_URL}/${user.id}`, {
-            method: "GET",
-            });
+            try {
+                const response = await FetchWithAuth(`${BASE_URL}/${user.id}`, {
+                method: "GET",
+                });
 
-            if (!response.ok) {
-            throw new Error("Error al obtener el usuario");
+                if (!response.ok) {
+                throw new Error("Error al obtener el usuario");
+                }
+
+                const data: UserResponse = await response.json();
+                setUserData(data);
+                initializeEditedData(data);
+            } catch (error) {
+                setError("No se pudo cargar el perfil del usuario.");
             }
-
-            const data: UserResponse = await response.json();
-            setUserData(data);
-            initializeEditedData(data);
-        } catch (error) {
-            setError("No se pudo cargar el perfil del usuario.");
-        }
         };
 
         fetchUser();
@@ -147,40 +151,53 @@ export const BusinessProfile: React.FC = () => {
 
     const handleSave = async () => {
         try {
-        let updateData = {};
 
-        if (userData?.business_user) {
-            updateData = {
-            name: editedData.name,
-            industry: editedData.industry,
-            location: {
-                country: editedData.country,
-                city: editedData.city,
-            },
-            contact: {
-                phone: editedData.phone,
-                website: editedData.website,
-            },
-            };
-        }
+            if (editedData.country && !editedData.city) {
+                setError("Por favor selecciona una ciudad para el país seleccionado.");
+                return;
+            }
+            let updateData = {};
 
-        const response = await FetchWithAuth(`${BASE_URL}/${user?.id}`, {
-            method: "PUT",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updateData),
-        });
+            let imagePath = editedData.avatar;
+            
+            if (selectedImageFile) {
+                imagePath = await uploadImageFile(selectedImageFile, "profile");
+            }
 
-        if (!response.ok) {
-            throw new Error("Error al actualizar el perfil");
-        }
+            if (userData?.business_user) {
+                updateData = {
+                name: editedData.name,
+                avatar: imagePath,
+                industry: editedData.industry,
+                location: {
+                    country: editedData.country,
+                    city: editedData.city,
+                },
+                contact: {
+                    phone: editedData.phone,
+                    website: editedData.website,
+                },
+                };
+            }
 
-        const updatedUser = await response.json();
-        setUserData(updatedUser);
-        setIsEditing(false);
+            const response = await FetchWithAuth(`${BASE_URL}/business/${user?.id}`, {
+                method: "PUT",
+                body: JSON.stringify(updateData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al actualizar el perfil");
+            }
+            const updatedResponse = await FetchWithAuth(`${BASE_URL}/${user?.id}`, {
+                method: "GET",
+            });
+            if (updatedResponse.ok) {
+                const updatedData: UserResponse = await updatedResponse.json();
+                setUserData(updatedData);
+            }
+            setIsEditing(false);
         } catch (error) {
-        setError("Error al guardar los cambios");
+            setError("Error al guardar los cambios");
         }
     };
 
@@ -195,32 +212,28 @@ export const BusinessProfile: React.FC = () => {
     return (
         <div className="user-profile">
             <div className="profile-header">
-                <h2>{userName}</h2>
                 {isEditing ? (
                     <div className="edit-actions">
                         <button onClick={handleSave} className="edit-button">
                             <FaSave /> Guardar
                         </button>
-                        <button onClick={() => setIsEditing(false)} className="edit-button cancel">
+                        <button onClick={() => { setIsEditing(false); setResetKey(Date.now()); }} className="edit-button cancel">
                             <FaTimes /> Cancelar
                         </button>
                     </div>
-                    ) : (
-                    <button onClick={() => setIsEditing(true)} className="edit-button">
-                        <FaEdit /> Editar
-                    </button>
+                ) : (
+                    <>
+                        <h2>{userName}</h2>
+                        <button onClick={() => setIsEditing(true)} className="edit-button">
+                            <FaEdit /> Editar
+                        </button>
+                    </>
                 )}
             </div>
 
-            <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
-
             {isEditing ? (
                 <div className="edit-section">
-                    <div className="register__box">
-                        <FaEnvelope className="register__icon" />
-                        <input type="email" name="email" placeholder="Correo electrónico" className="register__input" value={editedData.email} onChange={handleInputChange} disabled />
-                    </div>
-
+                    <ImageInputSelector value={editedData.avatar || ""} onChange={(img) => setEditedData({ ...editedData, avatar: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL del imagen" fileLabel="🖼️ Subir el avatar" imageUploaderKey={resetKey} resetKey={resetKey}/>
                     <div className="register__box">
                         <FaIdCard className="register__icon" />
                         <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
@@ -255,6 +268,7 @@ export const BusinessProfile: React.FC = () => {
                 </div>
             ) : (
                 <>
+                    <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
                     <div className="register__box">
                         <FaEnvelope className="register__icon" />
                         <span>{userData.email}</span>

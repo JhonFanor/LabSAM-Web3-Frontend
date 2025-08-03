@@ -47,15 +47,13 @@ import Password from './pages/Password/Password';
 import ProfilePage from './pages/Profile/ProfilePage';
 
 const App: React.FC = () => {
-    const { user, isAuthenticated } = useAuth();
+    const { user } = useAuth();
     const [menuVisible, setMenuVisible] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const notificationCount = useNotificationCount();
-    const unreadCount: number = isAuthenticated ? notificationCount ?? 0 : 0;
-
+    const unreadCount = useNotificationCount();
 
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);
