@@ -114,21 +114,20 @@ body {
   color: var(--first-color);
 }
 
-/* 🔔 Notificación Panel */
 .notification-panel {
   position: absolute;
   top: 120%;
   right: 0;
   cursor: default;
-  background-color: #f1f1f1; /* Gris */
-  width: 320px; /* Aumentado */
+  background-color: #f1f1f1;
+  width: 350px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   padding: 12px;
   animation: fadeIn 0.3s ease-in-out;
-  color: #000; /* Letras negras */
+  color: #000;
 }
 
 .notification-arrow {
@@ -139,7 +138,7 @@ body {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid #f1f1f1; /* Gris */
+  border-bottom: 8px solid #f1f1f1; 
 }
 
 .notification-title {
