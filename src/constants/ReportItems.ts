@@ -27,7 +27,7 @@ export const reportItems: ReportItem[] = [
     },
     {
         name: "jobsBoard",
-        label: "Bola de empleos",
+        label: "Bolsa de empleo",
         api: countJobBoardBySubtopic,
     },
     {

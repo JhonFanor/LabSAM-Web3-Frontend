@@ -1,20 +1,20 @@
-.news-container {
-    background: white;
+.get-new {
+    background: var(--get-background);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--get-box-shadow);
     max-width: 100%;
     width: 100%;
     margin: 20px auto;
 }
 
-.news-title {
+.get-new-title {
     text-align: left;
     margin-bottom: 5px;
     font-size: 1.8rem;
 }
 
-.news-meta-container {
+.get-new-meta-container {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -22,71 +22,90 @@
     margin-top: -10px;
 }
 
-.news-meta {
+.get-new-meta {
     font-size: 14px;
     color: gray;
     margin-bottom: 5px;
 }
 
-.news-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    flex-wrap: wrap;
-    flex-direction: row;
+.get-new-content {
+    display: block;
 }
 
-.news-image {
+.get-new-image {
+    float: left;
     width: 100%;
     max-width: 500px;
     height: auto;
     border-radius: 5px;
-    flex-shrink: 0;
+    margin: 0 15px 10px 0;
 }
 
-.news-description {
-    flex: 1;
+.get-new-description {
     text-align: justify;
-    min-width: 250px;
 }
 
 @media (max-width: 768px) {
-    .news-content {
-        align-items: center;
-    }
-
-    .news-image {
+    .get-new-image {
+        float: none;
+        display: block;
+        margin: 0 auto 15px auto;
         width: 100%;
         max-width: 100%;
         height: auto;
     }
 
-    .news-description {
+    .get-new-description {
         width: 100%;
     }
 
-    .news-meta-container {
+    .get-new-meta-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
         margin-top: 10px;
     }
 
-    .news-title {
+    .get-new-title {
         font-size: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .news-title {
+    .get-new-title {
         font-size: 1.2rem;
     }
 
-    .news-meta {
+    .get-new-meta {
         font-size: 12px;
     }
 
-    .news-description {
+    .get-new-description {
         font-size: 14px;
     }
+
+    .get-new-link a {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
+
+.get-new-link {
+  font-weight: bold;
+}
+
+.get-new-link a {
+    background-color: var(--first-color);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    display: inline-block;
+}
+
+.get-new-link a:hover {
+  background-color: var(--color-red-button);
+  color: white;
 }

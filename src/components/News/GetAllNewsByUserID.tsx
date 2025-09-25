@@ -53,7 +53,7 @@ export const GetAllNewsByUserID: React.FC = () => {
                             <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
                             <p className="get-all-news__list-item-date">{new Date(news.date).toLocaleDateString()}</p>
                             <p className="get-all-news__list-item-user">
-                            Subido por:{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
+                                Subido por: <img src={news.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>{" "}{ news.user.regular_user?.name || news.user.university_user?.name || news.user.business_user?.name || "Anónimo" }
                             </p>
                             {statusLabel && (
                                 <div className="get-all-news__status">{statusLabel}</div>

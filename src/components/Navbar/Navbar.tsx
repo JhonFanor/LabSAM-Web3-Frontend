@@ -7,8 +7,8 @@ import { useAuth } from '../../providers/Auth';
 import { adminMenuItems } from '../../constants/AdminMenuItems';
 
 interface NavbarProps {
-  menuVisible: boolean;
-  setMenuVisible: (visible: boolean) => void;
+    menuVisible: boolean;
+    setMenuVisible: (visible: boolean) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ menuVisible, setMenuVisible }) => {

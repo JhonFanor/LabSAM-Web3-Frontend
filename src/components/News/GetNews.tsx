@@ -12,12 +12,12 @@ import "../Button/ButtonsUpdateDelete.css"
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetNewsProps {
-  news: NewsGetResponse;
+  	news: NewsGetResponse;
 }
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+  	const date = new Date(dateString);
+  	return date.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
 };
 
 export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
@@ -39,7 +39,7 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 	};
 
 	return (
-		<div className="news-container">
+		<div className="get-new">
 			{isAuthenticated && !isLoading && (user.id == news.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
@@ -61,35 +61,34 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 				</div>
 			)}
 
-			<h1 className="news-title">{news.title}</h1>
-			<div className="news-meta-container">
-				<p className="news-meta">{formatDate(news.date)}</p>
-				<p className="news-meta">
-				{news.user.avatar && (
-					<img
-					src={news.user.avatar}
-					style={{ width: 30, height: 30, borderRadius: "50%", marginLeft: 10 }}
-					/>
-				)}
-				</p>
-				<p className="news-meta">
-				Subido por:{" "}
-				{
-					news.user.regular_user?.name ||
-					news.user.university_user?.name ||
-					news.user.business_user?.name ||
-					"Anónimo"
-				}
+			<h1 className="get-new-title">{news.title}</h1>
+
+			<div className="get-new-meta-container">
+				<p className="get-new-meta">{formatDate(news.date)}</p>
+				<p className="get-new-meta">
+					Subido por:{" "}
+					<img src={news.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						news.user.regular_user?.name ||
+						news.user.university_user?.name ||
+						news.user.business_user?.name ||
+						"Anónimo"
+					}
 				</p>
 			</div>
-			<p className="news-meta">Subtemas: {news.subtopics.map((s) => s.name).join(", ")}</p>
+			<p className="get-new-meta">Subtemas: {news.subtopics.map((s) => s.name).join(", ")}</p>
 
-			<div className="news-content">
-				<img className="news-image" src={news.image || "default-image.jpg"} alt={news.title} />
-				<div
-				className="news-description"
-				dangerouslySetInnerHTML={{ __html: news.description }}
-				/>
+			<div className="get-new-content">
+				<img className="get-new-image" src={news.image || "default-image.jpg"} alt={news.title} />
+				<div className="get-new-description" dangerouslySetInnerHTML={{ __html: news.description }} />
+			</div>
+
+			<div className="get-new-link">
+				{news.link ? (
+					<a href={news.link} target="_blank" rel="noopener noreferrer">
+						Link a la noticia
+					</a>
+				) : null}
 			</div>
 		</div>
 	);

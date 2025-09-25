@@ -4,7 +4,7 @@
 
   --title-color: #19181B;
   --text-color-light: #A5A1AA;
-  --body-color: #F5F7FA;
+  --body-color: #ced9e076;
 
   --body-font: 'Poppins', sans-serif;
   --normal-font-size: .938rem;
@@ -30,6 +30,9 @@
   --container-color: var(--color-blue-dark);
 
   --light-gray: #F5F7FA;
+  
+  --get-background: #c9cfdb;
+  --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345)
 }
 
 @media screen and (min-width: 1024px) {
@@ -68,4 +71,14 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+}
+
+.avatar_img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle; 
+  margin-left: 5px;     
+  margin-right: 5px;
 }
