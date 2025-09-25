@@ -42,12 +42,23 @@ interface OptionType {
     label: string;
 }
 
+interface EditedUserData {
+    email?: string;
+    avatar?: string;
+    name?: string;
+    birth_date?: string;
+    country?: string;
+    city?: string;
+    phone?: string;
+    website?: string;
+}
+
 export const RegularProfile: React.FC = () => {
     const { user } = useAuth();
     const [userData, setUserData] = useState<UserResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedData, setEditedData] = useState<any>({});
+    const [editedData, setEditedData] = useState<EditedUserData>({});
     const [selectedCountry, setSelectedCountry] = useState<OptionType | null>(null);
     const [selectedCity, setSelectedCity] = useState<OptionType | null>(null);
     const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
@@ -80,7 +91,7 @@ export const RegularProfile: React.FC = () => {
             const data: UserResponse = await response.json();
             setUserData(data);
             initializeEditedData(data);
-        } catch (error) {
+        } catch {
             setError("No se pudo cargar el perfil del usuario.");
         }
         };
@@ -176,8 +187,7 @@ export const RegularProfile: React.FC = () => {
                     website: editedData.website,
                 },
             };
-
-
+            console.log(updateData)
             const response = await FetchWithAuth(`${BASE_URL}/regular/${user?.id}`, {
                 method: "PUT",
                 body: JSON.stringify(updateData),
@@ -195,7 +205,7 @@ export const RegularProfile: React.FC = () => {
                 setUserData(updatedData);
             }
             setIsEditing(false);
-        } catch (error) {
+        } catch {
             setError("Error al guardar los cambios");
         }
     };
