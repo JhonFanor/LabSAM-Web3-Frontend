@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetNews } from "../../components";
 import { getAllNewsNotApproved, getNewsById } from "../../api/NewsApi";
 import { NewsGetResponse } from "../../dtos/responses/News";
+import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
 const NewsNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
@@ -61,7 +62,7 @@ const NewsNotApprovedDetail: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleBack}>← Volver</button>
+            <ButtonReturn onClick={handleBack}/>
             <GetNews news={news} />
         </div>
     );

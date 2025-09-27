@@ -1,8 +1,8 @@
 .get-all-bank-of-resume {
-  background: white;
+  background: var(--get-background);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--get-box-shadow);
   max-width: 100%;
   width: 100%;
   margin: 20px auto;

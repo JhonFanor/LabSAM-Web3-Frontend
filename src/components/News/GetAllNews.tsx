@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NewsGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllNews } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllNews.css";
@@ -12,7 +12,6 @@ export const GetAllNews: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
@@ -31,9 +30,10 @@ export const GetAllNews: React.FC = () => {
     }, [page]);
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/news?page=${newPage}`);
+        searchParams.set("page", newPage.toString());
+        setSearchParams(searchParams);
     };
+
 
     return (
         <section className="get-all-news">

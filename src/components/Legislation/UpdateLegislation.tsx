@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LegislationGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { LegislationUpdateRequest } from "../../dtos/requests";
-import { getAllTopics, updateLegislation, uploadDocumentFile } from "../../api";
+import { getAllTopics, getLegislationById, updateLegislation, uploadDocumentFile } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
 import "./UpdateLegislation.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -11,15 +11,18 @@ import { CreateLegislationSubtopic, DeleteLegislationSubtopic } from "../../api/
 interface UpdateLegislationProps {
 	onClose: () => void;
     legislationGetResponse: LegislationGetResponse;
+	onUpdated?: (updated: LegislationGetResponse) => void;
 }
 
-export const UpdateLegislation: React.FC<UpdateLegislationProps> = ({ onClose, legislationGetResponse }) => {
+export const UpdateLegislation: React.FC<UpdateLegislationProps> = ({ onClose, legislationGetResponse, onUpdated }) => {
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
+
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
 
 	const [legislation, setLegislation] = useState<LegislationUpdateRequest>({
 		title: legislationGetResponse.title,
@@ -86,20 +89,37 @@ export const UpdateLegislation: React.FC<UpdateLegislationProps> = ({ onClose, l
 
             if (hasChanged || subtopicsChanged) {
                 await updateLegislation(legislationGetResponse.id, update);
+				const refreshedLegislation = await getLegislationById(legislationGetResponse.id);
+				if (onUpdated) {
+					onUpdated(refreshedLegislation);
+					legislationGetResponse = refreshedLegislation;	
+				}
             }
 
-            onClose();
+			setSuccessMessage("Legislación actualizada con éxito.");
 		} catch (error) {
-			console.error("Error al actualizar la legislación:", error);
+			setSuccessMessage("Error al actualizar la legislación.");
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
+
 	return (
 		<div className="update-legislation">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="update-legislation__title">Crear Legislación</h2>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
 			<form className="update-legislation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título</label>

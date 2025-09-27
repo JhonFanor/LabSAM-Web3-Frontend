@@ -15,7 +15,7 @@ export const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) 
 	const [userType, setUserType] = useState<'person' | 'university' | 'company'>('person');
 
 	return (
-		<div className="register__content">
+		<div className="register">
 			<div className="register__img">
 				<img src={registerImage} alt="Register" />
 			</div>

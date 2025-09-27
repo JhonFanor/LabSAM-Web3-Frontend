@@ -23,7 +23,6 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
                 setError(data.data.length ? null : "No hay ofertas de trabajo disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las ofertas de trabajo");
-                console.error(err);
             }
         }
 
@@ -32,9 +31,8 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("jobsBoardPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
-
     return (
         <section className="get-all-job-board">
             <GetAllError message={error}/>

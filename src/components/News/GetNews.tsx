@@ -8,7 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateNews } from "./UpdateNews";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetNewsProps {
@@ -21,18 +21,19 @@ const formatDate = (dateString: string) => {
 };
 
 export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
-	const { isAuthenticated, isLoading, user } = useAuth(); 
+  	const { isAuthenticated, isLoading, user } = useAuth();
 	const [isApproved, setIsApproved] = useState<boolean | null>(news.is_approved ?? null);
+	const [currentNews, setCurrentNews] = useState<NewsGetResponse>(news);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setNewsApproval(news.id, approvalData);
+		await setNewsApproval(currentNews.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "news",
-				resource_id: news.id,
+				resource_id: currentNews.id,
 				comment,
 			});
 		}
@@ -40,56 +41,55 @@ export const GetNews: React.FC<GetNewsProps> = ({ news }) => {
 
 	return (
 		<div className="get-new">
-			{isAuthenticated && !isLoading && (user.id == news.user.id || user.role == "admin") &&(
-				<div className="buttons-update-delete">
-					<ButtonUpdate>
-						{(onClose) => (
-							<UpdateNews onClose={onClose} newsGetResponse={news} />
-						)}
-					</ButtonUpdate>
-					<ButtonDelete
-						onDelete={() => deleteNews(news.id)}
-						message="¿Estás seguro de que deseas eliminar esta noticia?"
-					/>
-				</div>
-			)}
-			
-			{user?.role === "admin" && isApproved == null && (
-				<div className="resume-actions">
-					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este noticia?" onApprove={() => handleApproval(true)} onReject={() => {}} />
-					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este noticia?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
-				</div>
-			)}
-
-			<h1 className="get-new-title">{news.title}</h1>
-
-			<div className="get-new-meta-container">
-				<p className="get-new-meta">{formatDate(news.date)}</p>
-				<p className="get-new-meta">
-					Subido por:{" "}
-					<img src={news.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
-					{
-						news.user.regular_user?.name ||
-						news.user.university_user?.name ||
-						news.user.business_user?.name ||
-						"Anónimo"
-					}
-				</p>
+		{isAuthenticated && !isLoading && (user.id == currentNews.user.id || user.role == "admin") && (
+			<div className="buttons-update-delete">
+				<ButtonUpdate>
+					{(onClose) => (
+						<UpdateNews onClose={onClose} newsGetResponse={currentNews} onUpdated={(updatedNews) => setCurrentNews(updatedNews)}/>
+					)}
+				</ButtonUpdate>
+				<ButtonDelete onDelete={() => deleteNews(currentNews.id)} message="¿Estás seguro de que deseas eliminar esta noticia?" />
 			</div>
-			<p className="get-new-meta">Subtemas: {news.subtopics.map((s) => s.name).join(", ")}</p>
+		)}
 
-			<div className="get-new-content">
-				<img className="get-new-image" src={news.image || "default-image.jpg"} alt={news.title} />
-				<div className="get-new-description" dangerouslySetInnerHTML={{ __html: news.description }} />
+		{user?.role === "admin" && isApproved == null && (
+			<div className="resume-actions">
+				<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este noticia?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+				<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este noticia?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 			</div>
+		)}
 
-			<div className="get-new-link">
-				{news.link ? (
-					<a href={news.link} target="_blank" rel="noopener noreferrer">
-						Link a la noticia
-					</a>
-				) : null}
-			</div>
+		<h1 className="get-new-title">{currentNews.title}</h1>
+
+		<div className="get-new-meta-container">
+			<p className="get-new-meta">{formatDate(currentNews.date)}</p>
+			<p className="get-new-meta">
+				Subido por:{" "}
+				<img src={currentNews.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+				{
+					currentNews.user.regular_user?.name ||
+					currentNews.user.university_user?.name ||
+					currentNews.user.business_user?.name ||
+					"Anónimo"
+				}
+			</p>
+		</div>
+		<p className="get-new-meta">
+			Subtemas: {currentNews.subtopics.map((s) => s.name).join(", ")}
+		</p>
+
+		<div className="get-new-content">
+			<img className="get-new-image" src={currentNews.image || "default-image.jpg"} alt={currentNews.title} />
+			<div className="get-new-description" dangerouslySetInnerHTML={{ __html: currentNews.description }} />
+		</div>
+
+		<div className="get-new-link">
+			{currentNews.link ? (
+			<a href={currentNews.link} target="_blank" rel="noopener noreferrer">
+				Enlace a la noticia
+			</a>
+			) : null}
+		</div>
 		</div>
 	);
 };

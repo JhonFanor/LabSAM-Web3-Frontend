@@ -10,7 +10,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateEvent } from "./UpdateEvent";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetEventProps {
@@ -29,16 +29,17 @@ const formatDate = (dateString: string) => {
 export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(event.is_approved ?? null);
+	const [currentEvent, setCurrentEvent] = useState<EventGetResponse>(event);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setEventApproval(event.id, approvalData);
+		await setEventApproval(currentEvent.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "event",
-				resource_id: event.id,
+				resource_id: currentEvent.id,
 				comment,
 			});
 		}
@@ -46,15 +47,15 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 
 	return (
 		<div className="event-container">
-			{isAuthenticated && !isLoading && (user.id == event.user.id || user.role == "admin") &&(
+			{isAuthenticated && !isLoading && (user.id == currentEvent.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdateEvent onClose={onClose} eventGetResponse={event} />
+							<UpdateEvent onClose={onClose} eventGetResponse={currentEvent} onUpdated={(updateEvent) => setCurrentEvent(updateEvent)}  />
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteEvent(event.id)}
+						onDelete={() => deleteEvent(currentEvent.id)}
 						message="¿Estás seguro de que deseas eliminar este evento?"
 					/>
 				</div>
@@ -67,57 +68,47 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 				</div>
 			)}
 
-			<h1 className="event-title">{event.title}</h1>
+			<h1 className="event-title">{currentEvent.title}</h1>
 
 			<div className="event-meta-container">
-				<p className="event-meta">{formatDate(event.date)}</p>
-
-				<p className="event-meta">
-						{event.user.avatar && (
-								<img
-								src={event.user.avatar}
-								style={{ width: 30, height: 30, borderRadius: "50%", marginLeft: 10 }}
-								alt="avatar"
-								/>
-						)}
-				</p>
-
+				<p className="event-meta">{formatDate(currentEvent.date)}</p>
 				<p className="event-meta">
 					Subido por:{" "}
+					<img src={currentEvent.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
 					{
-						event.user.regular_user?.name ||
-						event.user.university_user?.name ||
-						event.user.business_user?.name ||
+						currentEvent.user.regular_user?.name ||
+						currentEvent.user.university_user?.name ||
+						currentEvent.user.business_user?.name ||
 						"Anónimo"
 					}
 				</p>
 			</div>
 
-			<p className="news-meta">Subtemas: {event.subtopics.map((s) => s.name).join(", ")}</p>
+			<p className="news-meta">Subtemas: {currentEvent.subtopics.map((s) => s.name).join(", ")}</p>
 
 			<div className="event-content">
-				<img className="event-image" src={event.image || "default-image.jpg"} alt={event.title} />
+				<img className="event-image" src={currentEvent.image || "default-image.jpg"} alt={currentEvent.title} />
 
 				<div
 					className="event-description"
-					dangerouslySetInnerHTML={{ __html: event.description }}
+					dangerouslySetInnerHTML={{ __html: currentEvent.description }}
 				/>
 			</div>
 
-				{event.link && (
+				{currentEvent.link && (
 						<div className="event-link">
-								<a href={event.link} target="_blank" rel="noopener noreferrer">
+								<a href={currentEvent.link} target="_blank" rel="noopener noreferrer">
 								➤ Ver evento completo
 								</a>
 						</div>
 				)}
 
-			{event.localitation && (
+			{currentEvent.localitation && (
 				<div className="event-map-container">
 					<h3>Ubicación del evento</h3>
-					<p className="event-meta">{event.localitation.address}</p>
+					<p className="event-meta">{currentEvent.localitation.address}</p>
 					<MapContainer
-						center={[event.localitation.latitude, event.localitation.longitude]}
+						center={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}
 						zoom={15}
 						scrollWheelZoom={false}
 						className="event-map"
@@ -126,8 +117,8 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 							attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
 							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 						/>
-						<Marker position={[event.localitation.latitude, event.localitation.longitude]}>
-							<Popup>{event.localitation.address}</Popup>
+						<Marker position={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}>
+							<Popup>{currentEvent.localitation.address}</Popup>
 						</Marker>
 					</MapContainer>
 				</div>

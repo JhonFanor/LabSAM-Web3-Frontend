@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { InvestigationGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { InvestigationUpdateRequest } from "../../dtos/requests/Investigation";
-import { getAllTopics, updateInvestigation, uploadDocumentFile } from "../../api";
+import { getAllTopics, getInvestigationById, updateInvestigation, uploadDocumentFile } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
 import "./UpdateInvestigation.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -11,15 +11,18 @@ import { CreateInvestigationSubtopic, DeleteInvestigationSubtopic } from "../../
 interface UpdateInvestigationProps {
 	onClose: () => void;
     investigationGetResponse: InvestigationGetResponse;
+	onUpdated?: (updated: InvestigationGetResponse) => void;
 }
 
-export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClose, investigationGetResponse }) => {
+export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClose, investigationGetResponse, onUpdated }) => {
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
+
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
 
 	const [investigation, setInvestigation] = useState<InvestigationUpdateRequest>({
 		title: investigationGetResponse.title,
@@ -61,7 +64,6 @@ export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClos
 			let documentPath = investigation.link;
 			if (selectedDocumentFile) {
 				documentPath = await uploadDocumentFile(selectedDocumentFile, "investigation")
-
 			}
 
 			const update: InvestigationUpdateRequest = {
@@ -94,20 +96,37 @@ export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClos
 
             if (hasChanged || subtopicsChanged) {
                 await updateInvestigation(investigationGetResponse.id, update);
+				const refreshedInvestigation = await getInvestigationById(investigationGetResponse.id);
+				if (onUpdated) {
+					onUpdated(refreshedInvestigation);
+					investigationGetResponse = refreshedInvestigation;
+				}
             }
 
-            onClose();
+            setSuccessMessage("Investigación actualizada con éxito.");
 		} catch(error){
-			console.error("Error al actualizar la investigación:", error);
+			setSuccessMessage("Hubo un error al actualizar la investigación.");
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
+
 	return (
 		<div className="update-investigation">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="update-investigation__title">Crear Investigación</h2>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
 			<form className="update-investigation__form" onSubmit={handleUpdate}>
 				<div className="form-group">
 					<label>Título</label>

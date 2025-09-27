@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InvestigationGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllInvestigation } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllInvestigation.css";
@@ -12,7 +12,6 @@ export const GetAllInvestigation: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
@@ -24,7 +23,6 @@ export const GetAllInvestigation: React.FC = () => {
                 setError(data.data.length ? null : "No hay investigaciones disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las investigaciones");
-                console.error(err);
             }
         }
 
@@ -32,8 +30,8 @@ export const GetAllInvestigation: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/invetigation?page=${newPage}`);
+        searchParams.set("page", newPage.toString());
+        setSearchParams(searchParams);
     };
 
     return (

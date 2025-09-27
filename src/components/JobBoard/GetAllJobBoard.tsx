@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { JobBoardGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllJobBoard } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllJobBoard.css";
@@ -12,7 +12,6 @@ export const GetAllJobBoard: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
@@ -24,7 +23,6 @@ export const GetAllJobBoard: React.FC = () => {
                 setError(data.data.length ? null : "No hay ofertas de trabajo disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las ofertas de trabajo");
-                console.error(err);
             }
         }
 
@@ -32,8 +30,8 @@ export const GetAllJobBoard: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/job-board?page=${newPage}`);
+        searchParams.set("page", newPage.toString());
+        setSearchParams(searchParams);
     };
 
     return (

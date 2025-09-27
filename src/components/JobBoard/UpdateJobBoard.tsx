@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { JobBoardGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { JobBoardUpdateRequest } from "../../dtos/requests";
-import { getAllTopics, updateJobBoard } from "../../api";
+import { getAllTopics, getJobBoardById, updateJobBoard } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics } from "../../components";
 import "./UpdateJobBoard.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -11,12 +11,15 @@ import { CreateJobBoardSubtopic, DeleteJobBoardSubtopic } from "../../api/JobBoa
 interface UpdateJobBoardProps {
     onClose: () => void;
     jobBoardGetResponse: JobBoardGetResponse;
+    onUpdated?: (updated: JobBoardGetResponse) => void;
 }
 
-export const UpdateJobBoard: React.FC<UpdateJobBoardProps> = ({ onClose, jobBoardGetResponse }) => {
+export const UpdateJobBoard: React.FC<UpdateJobBoardProps> = ({ onClose, jobBoardGetResponse, onUpdated }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [uploading] = useState(false);
+
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);  
 
     const [jobBoard, setJobBoard] = useState<JobBoardUpdateRequest>({
         title: jobBoardGetResponse.title,
@@ -149,18 +152,35 @@ export const UpdateJobBoard: React.FC<UpdateJobBoardProps> = ({ onClose, jobBoar
 
             if (hasChanged || subtopicsChanged) {
                 await updateJobBoard(jobBoardGetResponse.id, update);
+                const refreshedJobBoard = await getJobBoardById(jobBoardGetResponse.id);
+                if (onUpdated) {
+                    onUpdated(refreshedJobBoard);
+                    jobBoardGetResponse = refreshedJobBoard;
+                }
             }
 
-            onClose();
+            setSuccessMessage("Oferta de trabajo actualizada con éxito");
         } catch (error) {
-            console.error("Error al actualizar la oferta de trabajo", error);
+            setSuccessMessage("Error al actualizar la oferta de trabajo:" + error); 
         }
     };
+
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
 
     return (
         <div className="update-job-board">
             <ButtonClose onClick={onClose} />
             <h2 className="update-job-board__title">Actualizar Oferta de Trabajo</h2>
+            {successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
             <form className="update-job-board__form" onSubmit={handleUpdate}>
                 <div className="form-group">
                     <label>Título</label>

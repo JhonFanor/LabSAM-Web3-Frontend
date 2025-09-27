@@ -6,16 +6,17 @@ import { DocumentInputSelector, ImageInputSelector } from "../Selector";
 import JoditEditor from "jodit-react";
 import { TopicSelector } from "../Topic";
 import { SelectedSubtopics, SubtopicSelector } from "../Subtopic";
-import { getAllTopics, uploadImageFile, uploadDocumentFile, updateBankOfResume, CreateBankOfResumeSubtopic, DeleteBankOfResumeSubtopic } from "../../api";
+import { getAllTopics, uploadImageFile, uploadDocumentFile, updateBankOfResume, CreateBankOfResumeSubtopic, DeleteBankOfResumeSubtopic, getBankOfResumeById } from "../../api";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
 import "./UpdateBankOfResume.css";
 
 interface UpdateBankOfResumeProps {
     onClose: () => void;
     resume: BankOfResumeGetResponse;
+    onUpdated?: (updated: BankOfResumeGetResponse) => void;
 }
 
-export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose, resume }) => {
+export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose, resume, onUpdated }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
@@ -24,6 +25,7 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
     const [uploaderKey, setUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
 
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const [bankOfResume, setBankOfResume] = useState<BankOfResumeUpdateRequest>({
         photo: resume.photo,
@@ -98,21 +100,37 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
 
             if (hasChanged || subtopicsChanged) {
                 await updateBankOfResume(resume.id, updatedBank);
+                const refreshedResume = await getBankOfResumeById(resume.id);
+                if (onUpdated) {
+                    onUpdated(refreshedResume);
+                    resume = refreshedResume;
+                }
             }
 
-            onClose();
+            setSuccessMessage("Hoja de vida actualizada con éxito.");
         } catch (error) {
-            console.error("Error al actualizar hoja de vida:", error);
-            alert("Hubo un error al actualizar la hoja de vida.");
+            setSuccessMessage("Error al actualizar la hoja de vida. Por favor, inténtalo de nuevo.");
         } finally {
             setUploading(false);
         }
     };
 
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
     return (
         <div className="update-bank-of-resume">
             <ButtonClose onClick={onClose} />
             <h2 className="update-bank-of-resume__title">Actualizar Hoja de vida</h2>
+            {successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
             <form className="update-bank-of-resume__form" onSubmit={handleUpdate}>
                 <div className="form-group">
                     <label>Foto</label>

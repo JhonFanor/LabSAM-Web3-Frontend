@@ -8,7 +8,7 @@ import { useAuth } from "../../providers/Auth";
 import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetEducationalOfferProps {
@@ -34,16 +34,17 @@ const formatCurrency = (value: number) =>
 export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(offer.is_approved ?? null);
+	const [currentOffer, setCurrentOffer] = useState<EducationalOfferGetResponse>(offer);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setEducationalOfferApproval(offer.id, approvalData);
+		await setEducationalOfferApproval(currentOffer.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "educational_offer",
-				resource_id: offer.id,
+				resource_id: currentOffer.id,
 				comment,
 			});
 		}
@@ -51,15 +52,15 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 
 	return (
 		<div className="offer-container">
-			{isAuthenticated && !isLoading && (user.id == offer.user.id || user.role == "admin") &&(
+			{isAuthenticated && !isLoading && (user.id == currentOffer.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={offer} />
+							<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={currentOffer}  onUpdated={(updateOffer) => setCurrentOffer(updateOffer)}  />
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteEducationalOffer(offer.id)}
+						onDelete={() => deleteEducationalOffer(currentOffer.id)}
 						message="¿Estás seguro de que deseas eliminar esta oferta educativa?"
 					/>
 				</div>
@@ -71,35 +72,40 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 				</div>
 			)}
 
-			<h1 className="offer-title">{offer.title}</h1>
+			<h1 className="offer-title">{currentOffer.title}</h1>
 
-			<h3 className="offer-subtitle">Institución: {offer.institution}</h3>
+			<h3 className="offer-subtitle">Institución: {currentOffer.institution}</h3>
 
 
 			<div className="offer-meta">
 				
 
 				<div className="offer-dates">
-					<p>Inicio: {formatDate(offer.start_date)}</p>
-					<p>Fin: {formatDate(offer.end_date)}</p>
+					<p>Inicio: {formatDate(currentOffer.start_date)}</p>
+					<p>Fin: {formatDate(currentOffer.end_date)}</p>
 				</div>
 
-				<p>Costo: {formatCurrency(offer.cost)}</p>
-			
-				{offer.user.regular_user?.name && (
-					<p>Subido por:  {offer.user.regular_user.name}</p>
-				)}
-
-				<p>Subtemas: {offer.subtopics.map((s) => s.name).join(", ")}</p>
+				<p>Costo: {formatCurrency(currentOffer.cost)}</p>
+				<p>
+					Subido por:{" "}
+					<img src={currentOffer.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						currentOffer.user.regular_user?.name ||
+						currentOffer.user.university_user?.name ||
+						currentOffer.user.business_user?.name ||
+						"Anónimo"
+					}
+				</p>
+				<p>Subtemas: {currentOffer.subtopics.map((s) => s.name).join(", ")}</p>
 			</div>
 
 			<div className="offer-description">
-				<div dangerouslySetInnerHTML={{ __html: offer.description }} />
+				<div dangerouslySetInnerHTML={{ __html: currentOffer.description }} />
 			</div>
 
-			{offer.link && (
+			{currentOffer.link && (
 				<div className="offer-link">
-					<a href={offer.link} target="_blank" rel="noopener noreferrer">
+					<a href={currentOffer.link} target="_blank" rel="noopener noreferrer">
 						🌐 Ir a la oferta educativa
 					</a>
 				</div>

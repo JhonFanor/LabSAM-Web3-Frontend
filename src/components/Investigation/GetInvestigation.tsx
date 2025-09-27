@@ -8,7 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { UpdateInvestigation } from "./UpdateInvestigation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetInvestigationProps {
@@ -31,35 +31,36 @@ const transformDownloadURL = (url: string) => {
 export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigation }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(investigation.is_approved ?? null);
-	
+	const [currentInvestigation, setCurrentInvestigation] = useState<InvestigationGetResponse>(investigation);	
+
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setInvestigationApproval(investigation.id, approvalData);
+		await setInvestigationApproval(currentInvestigation.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "investigation",
-				resource_id: investigation.id,
+				resource_id: currentInvestigation.id,
 				comment,
 			});
 		}
 	};
 	
-	const download = isInternalLink(investigation.link);
-	const downloadUrl = download ? transformDownloadURL(investigation.link) : investigation.link;
+	const download = isInternalLink(currentInvestigation.link);
+	const downloadUrl = download ? transformDownloadURL(currentInvestigation.link) : currentInvestigation.link;
 
 	return (
 		<div className="investigation-container">
-			{isAuthenticated && !isLoading && (user.id == investigation.user.id || user.role == "admin") &&(
+			{isAuthenticated && !isLoading && (user.id == currentInvestigation.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdateInvestigation onClose={onClose} investigationGetResponse={investigation} />
+							<UpdateInvestigation onClose={onClose} investigationGetResponse={currentInvestigation} onUpdated={(updateInvestigation) => setCurrentInvestigation(updateInvestigation)} />
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteInvestigation(investigation.id)}
+						onDelete={() => deleteInvestigation(currentInvestigation.id)}
 						message="¿Estás seguro de que deseas eliminar esta investigación?"
 					/>
 				</div>
@@ -72,25 +73,28 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 				</div>
 			)}
 
-			<h1 className="investigation-title">{investigation.title}</h1>
+			<h1 className="investigation-title">{currentInvestigation.title}</h1>
 
 			<div className="investigation-meta-container">
-				<p className="investigation-meta">{formatDate(investigation.date)}</p>
+				<p className="investigation-meta">{formatDate(currentInvestigation.date)}</p>
 				<p className="investigation-meta">
 					Subido por:{" "}
-					{investigation.user.regular_user?.name ||
-						investigation.user.university_user?.name ||
-						investigation.user.business_user?.name ||
-						"Anónimo"}
+					<img src={currentInvestigation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						currentInvestigation.user.regular_user?.name ||
+						currentInvestigation.user.university_user?.name ||
+						currentInvestigation.user.business_user?.name ||
+						"Anónimo"
+					}
 				</p>
 			</div>
 
 			<p className="investigation-meta">
-				Subtemas: {investigation.subtopics.map((s) => s.name).join(", ")}
+				Subtemas: {currentInvestigation.subtopics.map((s) => s.name).join(", ")}
 			</p>
 
 			<div className="investigation-description">
-				<div dangerouslySetInnerHTML={{ __html: investigation.description }} />
+				<div dangerouslySetInnerHTML={{ __html: currentInvestigation.description }} />
 			</div>
 
 			<div className="investigation-link">

@@ -39,7 +39,7 @@ export const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister, onSwi
 	};
 
 	return (
-		<div className="login__content">
+		<div className="login">
 			<div className="login__img">
 				<img src={loginImage} alt="Login" />
 			</div>

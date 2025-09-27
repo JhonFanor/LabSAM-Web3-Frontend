@@ -23,7 +23,6 @@ export const GetAllInvestigationsByUserID: React.FC = () => {
                 setError(data.data.length ? null : "No hay investigaciones disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las investigaciones");
-                console.error(err);
             }
         }
 
@@ -32,7 +31,7 @@ export const GetAllInvestigationsByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("investigationsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

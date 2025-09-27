@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NewsGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { NewsUpdateRequest } from "../../dtos/requests";
-import { getAllTopics, updateNews, uploadImageFile } from "../../api";
+import { getAllTopics, getNewsById, updateNews, uploadImageFile } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, ImageInputSelector} from "../../components";
 import "./UpdateNews.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -12,23 +12,26 @@ import { formatDateYYYYMMDD } from "../../utils/Date";
 interface UpdateNewsProps {
     onClose: () => void;
     newsGetResponse: NewsGetResponse;
+    onUpdated?: (updated: NewsGetResponse) => void;
 }
 
-export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse }) => {
-	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
-	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
-	const [uploading, setUploading] = useState<boolean>(false);
-	const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
-	const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
+export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse, onUpdated }) => {
+    const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
+    const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
+    const [uploading, setUploading] = useState<boolean>(false);
+    const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+    const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
 
-	const [news, setNews] = useState<NewsUpdateRequest>({
-		title: newsGetResponse.title,
-		image: newsGetResponse.image,
-		description: newsGetResponse.description,
-		link: newsGetResponse.link,
-		date: newsGetResponse.date,
-	});
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const [news, setNews] = useState<NewsUpdateRequest>({
+        title: newsGetResponse.title,
+        image: newsGetResponse.image,
+        description: newsGetResponse.description,
+        link: newsGetResponse.link,
+        date: newsGetResponse.date,
+    });
 
     const [subtopicIds, setSubtopicIds] = useState<SubtopicIDsRequest>({
         subtopic_ids: newsGetResponse.subtopics.map((s) => s.id),
@@ -37,9 +40,9 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
     const originalSubtopicIds = newsGetResponse.subtopics.map((s) => s.id);
     const allSubtopics = topics.flatMap((topic) => topic.subtopics);
 
-	useEffect(() => {
-		getAllTopics(setTopics);
-	}, []);
+    useEffect(() => {
+        getAllTopics(setTopics);
+    }, []);
 
     const handleReset = () => {
         setNews(newsGetResponse);
@@ -50,23 +53,23 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
         setResetKey(Date.now());
     };
 
-	const handleUpdate = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setUploading(true);
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setUploading(true);
 
-		try {
+        try {
             let imagePath = news.image;
 
             if (selectedImageFile) {
                 imagePath = await uploadImageFile(selectedImageFile, "news");
             }
-        
+
             const update: NewsUpdateRequest = {
                 ...news,
                 image: imagePath,
                 date: news.date ? new Date(news.date).toISOString() : "",
             };
-            
+
             const hasChanged =
                 update.title !== newsGetResponse.title ||
                 update.image !== newsGetResponse.image ||
@@ -92,21 +95,36 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
 
             if (hasChanged || subtopicsChanged) {
                 await updateNews(newsGetResponse.id, update);
+                const refreshedNews = await getNewsById(newsGetResponse.id);
+                if (onUpdated) {
+                    onUpdated(refreshedNews);
+                    newsGetResponse = refreshedNews;
+                }
             }
+            setSuccessMessage("Noticia actualizada exitosamente.");
+        } catch (error) {
+            setSuccessMessage("Error al actualizar noticia:" + error);
+        } finally {
+            setUploading(false);
+        }
+    };
 
-            onClose();
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
 
-		} catch (error) {
-		    console.error("Error al actualizar noticia:", error);
-		} finally {
-		    setUploading(false);
-		}
-	};
-
-	return (
-		<div className="update-news">
-			<ButtonClose onClick={onClose}/>
-			<h2 className="update-news__title">Crear Noticia</h2>
+    return (
+        <div className="update-news">
+            <ButtonClose onClick={onClose}/>
+            <h2 className="update-news__title">Crear Noticia</h2>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
 			<form className="update-news__form" onSubmit={handleUpdate}>
                 <div className="form-group">
 					<label>Título</label>
@@ -130,17 +148,17 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
                 </div>
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
-				<SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
+                <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
                 <div className="update-bank-of-resume__buttons">
                     <button type="submit">
-                        {uploading ? "Actualizando..." : "Actualizar Noticia"}
+                        {uploading ? "Actualizando..." : "Actualizar Noticia"}                     
                     </button>
                     <button type="button" onClick={handleReset} disabled={uploading}>
                         Deshacer cambios
                     </button>
                 </div>
-			</form>
-		</div>
-	);
+            </form>
+        </div>
+    );
 };

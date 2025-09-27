@@ -22,6 +22,8 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
     const [documentError, setDocumentError] = useState<boolean>(false);
     const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const [bankOfResume, setBankOfResume] = useState<BankOfResumeCreateRequest>({
         photo: "",
         title: "",
@@ -67,6 +69,7 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
             setSubtopicError(true);
             return;
         }
+
         try {
             let imagePath = bankOfResume.photo;
 
@@ -74,9 +77,8 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
                 try {
                     imagePath = await uploadImageFile(selectedImageFile, "bank of resume");
                 } catch (uploadError) {
-                    console.error("Error al subir foto:", uploadError);
-                    alert("No se pudo subir la foto. Por favor, inténtalo de nuevo.");
                     setUploading(false);
+                    setSuccessMessage("Error al subir foto:"+uploadError);
                     return;
                 }
             }
@@ -115,17 +117,32 @@ export const CreateBankOfResume: React.FC<CreateBankOfResumeProps> = ({ onClose 
                 link: "",
                 subtopic_ids: [],
             });
+
+            setSuccessMessage("Hoja de vida creada exitosamente.");
+            return ;
         } catch (error) {
-            console.error("Error al guardar hoja de vida:", error);
+            setSuccessMessage("Error al crear hoja de vida:" + error);
         } finally {
             setUploading(false);
         }
     };
 
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
     return (
         <div className="create-bank-of-resume">
             <ButtonClose onClick={onClose} />
             <h2 className="create-bank-of-resume__title">Crear Hoja de vida</h2>
+            {successMessage && (
+                <div className="success-message">
+                    {successMessage}
+                </div>
+            )}
             <form className="create-bank-of-resume__form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Foto*</label>

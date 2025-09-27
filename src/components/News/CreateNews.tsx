@@ -19,6 +19,8 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 	const [imageError, setImageError] = useState<boolean>(false);
 	const [descriptionError, setDescriptionError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
+
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 		
 	const [news, setNews] = useState<NewsCreateRequest>({
 		title: "",
@@ -59,53 +61,67 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
             setSubtopicError(true);
             return;
         }
+
 		try {
-		let imagePath = news.image;
+			let imagePath = news.image;
 
-		if (selectedImageFile) {
-			try {
-			imagePath = await uploadImageFile(selectedImageFile, "news");
-			} catch (uploadError) {
-			setUploading(false);
-			console.error("Error al subir imagen:", uploadError);
-			alert("No se pudo subir la imagen. Por favor, inténtalo de nuevo.");
-			return;
+			if (selectedImageFile) {
+				try {
+					imagePath = await uploadImageFile(selectedImageFile, "news");
+				} catch (uploadError) {
+					setUploading(false);
+					setSuccessMessage("Error al subir imagen:"+uploadError);
+				return;
+				}
 			}
-		}
-	
-		const newsToSend: NewsCreateRequest = {
-			...news,
-			image: imagePath,
-			date: news.date ? new Date(news.date).toISOString() : "",
-		};
+		
+			const newsToSend: NewsCreateRequest = {
+				...news,
+				image: imagePath,
+				date: news.date ? new Date(news.date).toISOString() : "",
+			};
 
-		await createNews(newsToSend);
-		
-		setSelectedTopic(null);
-		setUploading(false);
-		setSelectedImageFile(null);
-		setImageUploaderKey(Date.now());
-		
-		setNews({ 
-			title: "", 
-			description: "", 
-			image: "", 
-			link: "", 
-			date: "", 
-			subtopic_ids: [] 
-		});
-		return;
+			await createNews(newsToSend);
+			
+			setSelectedTopic(null);
+			setUploading(false);
+			setSelectedImageFile(null);
+			setImageUploaderKey(Date.now());
+			
+			setNews({ 
+				title: "", 
+				description: "", 
+				image: "", 
+				link: "", 
+				date: "", 
+				subtopic_ids: [] 
+			});
+
+			setSuccessMessage("Noticia creada exitosamente.");
+			return;
 		} catch (error) {
-		console.error("Error al guardar noticia:", error);
+			setSuccessMessage("Error al guardar noticia:"+error);
 		} finally {
-		setUploading(false);
+			setUploading(false);
 		}
 	};
+
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
 
 	return (
 		<div className="create-news">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-news__title">Crear Noticia</h2>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
 			<form className="create-news__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>
@@ -126,7 +142,7 @@ export const CreateNews: React.FC<CreateNewsProps> = ({ onClose }) => {
 					<JoditEditor value={news.description} onChange={(content) => setNews({ ...news, description: content })} className="jodit-container" />
 				</div>
 				<div className="form-group">
-					<label>Fuente*</label>
+					<label>Fuente</label>
 					<input type="text" name="link" placeholder="Fuente" value={news.link} onChange={(e) => setNews({ ...news, link: e.target.value })} required/>
 				</div>
 				<div className="form-group">

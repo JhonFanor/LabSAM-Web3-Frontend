@@ -23,7 +23,6 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
                 setError(data.data.length ? null : "No hay Documentacón disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las documentaciones.");
-                console.error(err);
             }
         }
 
@@ -32,7 +31,7 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("documentationsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

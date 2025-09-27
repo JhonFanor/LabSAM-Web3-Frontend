@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { EducationalOfferGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { EducationalOfferUpdateRequest } from "../../dtos/requests";
-import { getAllTopics, updateEducationalOffer } from "../../api";
+import { getAllTopics, getEducationalOfferById, updateEducationalOffer } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics } from "../../components";
 import "./UpdateEducationalOffer.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -12,13 +12,16 @@ import { formatDateYYYYMMDD } from "../../utils/Date";
 interface UpdateEducationalOfferProps {
 	onClose: () => void;
 	educationalOfferGetResponse: EducationalOfferGetResponse;
+	onUpdated?: (updated: EducationalOfferGetResponse) => void;	
 }
 
-export const UpdpateEducationalOffer: React.FC<UpdateEducationalOfferProps> = ({ onClose, educationalOfferGetResponse }) => {
+export const UpdpateEducationalOffer: React.FC<UpdateEducationalOfferProps> = ({ onClose, educationalOfferGetResponse, onUpdated }) => {
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [uploading] = useState(false);
+
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
 
 	const [educationalOffer, setEducationalOffer] = useState<EducationalOfferUpdateRequest>({
 		title: educationalOfferGetResponse.title,
@@ -143,20 +146,35 @@ export const UpdpateEducationalOffer: React.FC<UpdateEducationalOfferProps> = ({
 			
 			if (hasChanged || subtopicsChanged) {
 				await updateEducationalOffer(educationalOfferGetResponse.id, updateEducational);
+				const refreshedEducationalOffer = await getEducationalOfferById(educationalOfferGetResponse.id);
+				if (onUpdated) {
+					onUpdated(refreshedEducationalOffer);
+					educationalOfferGetResponse = refreshedEducationalOffer;
+				}
 			}
 
-			onClose();
+			setSuccessMessage("Oferta educativa actualizada con éxito");
 		} catch (error) {
-			console.error("Error al actualizar la oferta educativa:", error);
-			setErrorMessage("Ocurrió un error al actualizar la oferta educativa.");
+			setErrorMessage("Error al actualizar la oferta educativa: " + error);
 		}
 	};
+
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
 
 	return (
 		<div className="update-educational-offer">
 			<ButtonClose onClick={onClose} />
 			<h2 className="update-educational-offer__title">Crear Oferta Educativa</h2>
-
+			{successMessage && (
+				<div className="update-educational-offer__success">
+					{successMessage}
+				</div>
+			)}
 			{errorMessage && (
 				<div className="update-educational-offer__error">
 					{errorMessage}

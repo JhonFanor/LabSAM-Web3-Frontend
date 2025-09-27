@@ -16,15 +16,15 @@ export const GetAllNewsByUserID: React.FC = () => {
 
     useEffect(() => {
         const getNews = async () => {
-        try {
-            const data = await getAllNewsByUserID(page, limit);
-            setNewsList(data.data);
-            setTotalPages(data.total_page);
-            setError(data.data.length ? null : "No hay noticias disponibles.");
-        } catch (err) {
-            setError("No se pudieron cargar las noticias");
-            console.error(err);
-        }
+            try {
+                const data = await getAllNewsByUserID(page, limit);
+                setNewsList(data.data);
+                setTotalPages(data.total_page);
+                setError(data.data.length ? null : "No hay noticias disponibles.");
+            } catch (err) {
+                setError("No se pudieron cargar las noticias");
+                console.error(err);
+            }
         };
 
         getNews();
@@ -32,7 +32,7 @@ export const GetAllNewsByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("newsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

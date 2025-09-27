@@ -23,7 +23,6 @@ export const GetAllEventsNotApproved: React.FC = () => {
                 setError(data.data.length ? null : "No hay Eventos disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar los Eventos");
-                console.error(err);
             }
         }
 
@@ -32,7 +31,7 @@ export const GetAllEventsNotApproved: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("eventsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

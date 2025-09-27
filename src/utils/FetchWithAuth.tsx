@@ -1,42 +1,72 @@
-export const FetchWithAuth = async (input: RequestInfo, init: RequestInit = {}, retry = true ): Promise<Response> => {
-  let token = localStorage.getItem("access_token");
+let refreshPromise: Promise<string | null> | null = null;
 
-  if (!token) {
-    throw new Error("No hay sesión activa. Inicia sesión.");
-  }
+async function refreshToken(): Promise<string | null> {
+    if (!refreshPromise) {
+        refreshPromise = (async () => {
+        const resp = await fetch("http://localhost:8080/api/auth/token/refresh", {
+            method: "POST",
+            credentials: "include",
+        });
 
-  const doRequest = async (tokenToUse: string) => {
-    return fetch(input, {
-      ...init,
-      headers: {
-        ...(init.headers || {}),
-        Authorization: `Bearer ${tokenToUse}`,
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-  };
+        if (!resp.ok) {
+            localStorage.removeItem("access_token");
+            return null;
+        }
 
-  let response = await doRequest(token);
+        const { access_token } = await resp.json();
+        localStorage.setItem("access_token", access_token);
+        return access_token;
+        })();
 
-  if (response.status === 401 && retry) {
-    const refresh = await fetch("http://localhost:8080/api/auth/token/refresh", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    if (!refresh.ok) {
-      localStorage.removeItem("access_token");
-      throw new Error("Sesión expirada. Vuelve a iniciar sesión.");
+        refreshPromise.finally(() => {
+        refreshPromise = null;
+        });
     }
 
-    const { access_token } = await refresh.json();
-    localStorage.setItem("access_token", access_token);
+    return refreshPromise;
+}
 
-    return doRequest(access_token);
-  }
+export const FetchWithAuth = async (
+  input: RequestInfo,
+  init: RequestInit = {},
+  retry = true
+): Promise<Response> => {
+    let token = localStorage.getItem("access_token");
+    if (!token) {
+        throw new Error("No hay sesión activa. Inicia sesión.");
+    }
 
-  return response;
+    const buildHeaders = (t: string | null) => {
+        const headers: Record<string, string> = {
+        ...(init.headers as Record<string, string> || {}),
+        };
+        if (!(init.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+        }
+        if (t) {
+        headers["Authorization"] = `Bearer ${t}`;
+        }
+        return headers;
+    };
+
+    const doRequest = (t: string | null) =>
+        fetch(input, {
+        ...init,
+        headers: buildHeaders(t),
+        credentials: "include",
+        });
+
+    let response = await doRequest(token);
+
+    if (response.status === 401 && retry) {
+        const newToken = await refreshToken();
+        if (!newToken) {
+        throw new Error("Sesión expirada. Vuelve a iniciar sesión.");
+        }
+        return doRequest(newToken);
+    }
+
+    return response;
 };
 
 export const FetchWithOptionalAuth = async (
@@ -44,46 +74,38 @@ export const FetchWithOptionalAuth = async (
   init: RequestInit = {},
   retry = true
 ): Promise<Response> => {
-  const token = localStorage.getItem("access_token");
+    let token = localStorage.getItem("access_token") || null;
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...(init.headers ? init.headers as Record<string, string> : {}),
-  };
+    const buildHeaders = (t: string | null) => {
+        const headers: Record<string, string> = {
+        ...(init.headers as Record<string, string> || {}),
+        };
+        if (!(init.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+        }
+        if (t) {
+        headers["Authorization"] = `Bearer ${t}`;
+        }
+        return headers;
+    };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
+    const doRequest = (t: string | null) =>
+        fetch(input, {
+        ...init,
+        headers: buildHeaders(t),
+        credentials: "include",
+        });
 
-  const doRequest = async (customHeaders: Record<string, string>) => {
-    return fetch(input, {
-      ...init,
-      headers: customHeaders,
-      credentials: "include",
-    });
-  };
+    let response = await doRequest(token);
 
-  let response = await doRequest(headers);
-
-  if (response.status === 401 && retry && token) {
-    const refresh = await fetch("http://localhost:8080/api/auth/token/refresh", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    if (!refresh.ok) {
-      localStorage.removeItem("access_token");
-
-      delete headers["Authorization"];
-      return doRequest(headers);
+    if (response.status === 401 && retry && token) {
+        const newToken = await refreshToken();
+        if (!newToken) {
+        localStorage.removeItem("access_token");
+        return doRequest(null);
+        }
+        return doRequest(newToken);
     }
 
-    const { access_token } = await refresh.json();
-    localStorage.setItem("access_token", access_token);
-
-    headers["Authorization"] = `Bearer ${access_token}`;
-    return doRequest(headers);
-  }
-
-  return response;
+    return response;
 };

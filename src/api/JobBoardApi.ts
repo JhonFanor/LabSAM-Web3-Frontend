@@ -9,62 +9,71 @@ const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/job-board`;
 
 export const createJobBoard = async (jobBoard: JobBoardCreateRequest) => {
-  try {
     const response = await FetchWithAuth(`${BASE_URL}`, {
       method: "POST",
       body: JSON.stringify(jobBoard),
     });
 
-    if (!response.ok) throw new Error("Error al crear el empleo");
-
-    alert("Empleo creado con éxito!");
-  } catch (error) {
-    alert((error as Error).message || "Hubo un error al crear el empleo.");
-  }
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData || "Error al crear el empleo");
+    }
 };
 
 export const getAllJobBoard = async (page: number, limit: number) => {
-  const response = await FetchWithOptionalAuth(`${BASE_URL}?page=${page}&limit=${limit}`, {
-    method: "GET",
-  });
+    const response = await FetchWithOptionalAuth(`${BASE_URL}?page=${page}&limit=${limit}`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al obtener los empleos");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al obtener los empleos");
+    }
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
 };
 
 export const getAllJobsBoardByUserID = async (page: number, limit: number) => {
-  const response = await FetchWithAuth(`${BASE_URL}/user/me?page=${page}&limit=${limit}`, {
-    method: "GET",
-  });
+    const response = await FetchWithAuth(`${BASE_URL}/user/me?page=${page}&limit=${limit}`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al obtener tus empleos");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al obtener los empleos");
+    }
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
 };
 
 export const getAllJobsBoardNotApproved = async (page: number, limit: number) => {
-  const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved?page=${page}&limit=${limit}`, {
-    method: "GET",
-  });
+    const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved?page=${page}&limit=${limit}`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al obtener empleos no aprobados");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al obtener los empleos no aprobados");
+    }
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
 };
 
 export const countJobsBoardNotApproved = async (): Promise<CountResponse> => {
-  const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved/count`, {
-    method: "GET",
-  });
+    const response = await FetchWithAuth(`${BASE_URL}/admin/not-approved/count`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al contar empleos no aprobados");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al contar empleos no aprobados");
+    }
 
-  const data = await response.json();
-  return data as CountResponse;
+    const data = await response.json();
+    return data as CountResponse;
 };
 
 export const countJobBoardBySubtopic = async (): Promise<SubtopicCountResponse[]> => {
@@ -72,64 +81,59 @@ export const countJobBoardBySubtopic = async (): Promise<SubtopicCountResponse[]
         method: "GET",
     });
 
-    if (!response.ok) throw new Error("Error al contar noticias por subtema");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al contar noticias por subtema");
+    }
 
     const data = await response.json();
     return data as SubtopicCountResponse[];
 };
 
 export const getJobBoardById = async (id: number): Promise<JobBoardGetResponse> => {
-  const response = await FetchWithOptionalAuth(`${BASE_URL}/${id}`, {
-    method: "GET",
-  });
+    const response = await FetchWithOptionalAuth(`${BASE_URL}/${id}`, {
+        method: "GET",
+    });
 
-  if (!response.ok) throw new Error("Error al obtener el empleo");
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al obtener el empleo");
+    }
 
-  const data = await response.json();
-  return data as JobBoardGetResponse;
+    const data = await response.json();
+    return data as JobBoardGetResponse;
 };
 
 export const updateJobBoard = async (id: number, jobBoard: JobBoardUpdateRequest) => {
-  try {
     const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
       method: "PUT",
       body: JSON.stringify(jobBoard),
     });
 
-    if (!response.ok) throw new Error("Error al actualizar el empleo");
-
-    alert("Empleo actualizado con éxito!");
-  } catch (error) {
-    alert((error as Error).message || "Hubo un error al actualizar el empleo.");
-  }
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al actualizar el empleo");
+    }
 };
 
 export const setJobBoardApproval = async (id: number, approvalData: ApprovalRequest) => {
-  try {
     const response = await FetchWithAuth(`${BASE_URL}/${id}/approval`, {
-      method: "PUT",
-      body: JSON.stringify(approvalData),
+        method: "PUT",
+        body: JSON.stringify(approvalData),
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Error al aprobar o rechazar el empleo");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al aprobar o rechazar el empleo");
     }
-
-    alert("Estado de aprobación del empleo actualizado correctamente.");
-  } catch (error) {
-    alert(
-      (error as Error).message || "Hubo un error al actualizar el estado de aprobación del empleo."
-    );
-  }
 };
 
 export const deleteJobBoard = async (id: number) => {
-  const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
-    method: "DELETE",
-  });
-
-  if (!response.ok) throw new Error("Error al eliminar el empleo");
-
-  alert("Empleo eliminado con éxito!");
+    const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
+        method: "DELETE",
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al eliminar el empleo");
+    }
 };

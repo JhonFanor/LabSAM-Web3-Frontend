@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EventGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllEvent } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllEvent.css";
@@ -12,7 +12,6 @@ export const GetAllEvent: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
@@ -24,7 +23,6 @@ export const GetAllEvent: React.FC = () => {
                 setError(data.data.length ? null : "No hay Eventos disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar los Eventos");
-                console.error(err);
             }
         }
 
@@ -32,8 +30,8 @@ export const GetAllEvent: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/event?page=${newPage}`);
+        searchParams.set("page", newPage.toString());
+        setSearchParams(searchParams);
     };
 
     return (

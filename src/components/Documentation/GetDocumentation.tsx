@@ -8,11 +8,11 @@ import { useAuth } from "../../providers/Auth";
 import { UpdateDocumentation } from "./UpdateDocumentation";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetDocumentationProps {
-  documentation: DocumentationGetResponse;
+  	documentation: DocumentationGetResponse;
 }
 
 const isInternalLink = (url: string) => url.includes("/uploads/");
@@ -26,34 +26,35 @@ const transformDownloadURL = (url: string) => {
 export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentation }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(documentation.is_approved ?? null);
+	const [currentDocumentation, setCurrentDocumentation] = useState<DocumentationGetResponse>(documentation);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setDocumentationApproval(documentation.id, approvalData);
+		await setDocumentationApproval(currentDocumentation.id, approvalData);
 		setIsApproved(approved);
 		
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "documentation",
-				resource_id: documentation.id,
+				resource_id: currentDocumentation.id,
 				comment,
 			});
 		}
 	};
-	const isDownload = isInternalLink(documentation.link);
-	const url = isDownload ? transformDownloadURL(documentation.link) : documentation.link;
+	const isDownload = isInternalLink(currentDocumentation.link);
+	const url = isDownload ? transformDownloadURL(currentDocumentation.link) : currentDocumentation.link;
 
 	return (
 		<div className="doc-container">
-			{isAuthenticated && !isLoading && (user.id == documentation.user.id || user.role == "admin") &&(
+			{isAuthenticated && !isLoading && (user.id == currentDocumentation.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdateDocumentation onClose={onClose} documentationGetResponse={documentation} />
+							<UpdateDocumentation onClose={onClose} documentationGetResponse={currentDocumentation} onUpdated={(updateDocumentation) => setCurrentDocumentation(updateDocumentation)} />
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteDocumentation(documentation.id)}
+						onDelete={() => deleteDocumentation(currentDocumentation.id)}
 						message="¿Estás seguro de que deseas eliminar esta documentación?"
 					/>
 				</div>
@@ -66,18 +67,27 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 				</div>
 			)}
 
-			<h1 className="doc-title">{documentation.title}</h1>
+			<h1 className="doc-title">{currentDocumentation.title}</h1>
 
-			{documentation.user.regular_user?.name && (
-				<p className="doc-meta">Subido por: {documentation.user.regular_user.name}</p>
-			)}
+			<div className="doc-meta-container">
+				<p className="doc-meta">
+					Subido por:{" "}
+					<img src={currentDocumentation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						currentDocumentation.user.regular_user?.name ||
+						currentDocumentation.user.university_user?.name ||
+						currentDocumentation.user.business_user?.name ||
+						"Anónimo"
+					}
+				</p>
+			</div>
 
 			<p className="doc-meta">
-				Subtemas: {documentation.subtopics.map((s) => s.name).join(", ")}
+				Subtemas: {currentDocumentation.subtopics.map((s) => s.name).join(", ")}
 			</p>
 
 			<div className="doc-description">
-				<div dangerouslySetInnerHTML={{ __html: documentation.description }} />
+				<div dangerouslySetInnerHTML={{ __html: currentDocumentation.description }} />
 			</div>
 
 			<div className="doc-link">

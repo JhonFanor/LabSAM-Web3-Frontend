@@ -3,9 +3,9 @@ import "./ButtonDelete.css";
 import { ConfirmModal } from "../Modal/ConfirmModal"; 
 
 interface DeleteButtonProps {
-  onDelete: () => Promise<void>;
-  message: string;
-  children?: React.ReactNode;
+    onDelete: () => Promise<void>;
+    message: string;
+    children?: React.ReactNode;
 }
 
 export const ButtonDelete: React.FC<DeleteButtonProps> = ({ onDelete, message, children = "Eliminar", }) => {

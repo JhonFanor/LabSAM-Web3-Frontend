@@ -132,7 +132,7 @@ export const UniversityForm: React.FC = () => {
     };
 
     useEffect(() => {
-            if (successMessage) {
+        if (successMessage) {
             const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
             return () => clearTimeout(timeout);
         }

@@ -23,7 +23,6 @@ export const GetAllLegislationsByUserID: React.FC = () => {
                 setError(data.data.length ? null : "No hay legislaciones disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las legislaciones");
-                console.error(err);
             }
         }
 
@@ -32,7 +31,7 @@ export const GetAllLegislationsByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("legislationsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

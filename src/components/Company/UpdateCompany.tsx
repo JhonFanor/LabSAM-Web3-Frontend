@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllTopics, updateCompany, CreateCompanySubtopic, DeleteCompanySubtopic } from "../../api";
+import { getAllTopics, updateCompany, CreateCompanySubtopic, DeleteCompanySubtopic, getCompanyById } from "../../api";
 import { CompanyGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import { CompanyUpdateRequest } from "../../dtos/requests";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, Localitation } from "..";
@@ -8,13 +8,16 @@ import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
 
 interface UpdateCompanyProps {
     onClose: () => void;
-    companyGetResponse: CompanyGetResponse; 
+    companyGetResponse: CompanyGetResponse;
+    onUpdated?: (updated: CompanyGetResponse) => void; 
 }
 
-export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGetResponse }) => {
+export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGetResponse, onUpdated }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [uploading, setUploading] = useState(false);
+   
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     
     const [company, setCompany] = useState<CompanyUpdateRequest>({
         name: companyGetResponse.name,
@@ -99,21 +102,37 @@ export const UpdateCompany: React.FC<UpdateCompanyProps> = ({ onClose, companyGe
 
             if (hasCompanyChanged ||subtopicsChanged ) {
                 await updateCompany(companyGetResponse.id, updatedCompany);
+                const refresshedCompany = await getCompanyById(companyGetResponse.id);
+                if (onUpdated) {
+                    onUpdated(refresshedCompany);
+                    companyGetResponse = refresshedCompany;
+                }
             }
 
-            onClose();
+            setSuccessMessage("Compañía actualizada con éxito.");
         } catch (error) {
-            console.error("Error al actualizar la compañía:", error);
-            alert("Hubo un error al actualizar la compañía.");
+            setSuccessMessage("Error al actualizar la compañía. Por favor, inténtalo de nuevo.");
         } finally {
             setUploading(false);
         }
     };
 
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
     return (
         <div className="update-company">
             <ButtonClose onClick={onClose}/>
             <h2 className="update-company__title">Actualizar Empresa</h2>
+            {successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
             <form className="update-company__form" onSubmit={handleSubmit}>
                 <div className="form-group">
 					<label>Nombre de la empresa</label>

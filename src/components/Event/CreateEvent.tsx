@@ -20,6 +20,8 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 	const [descriptionError, setDescriptionError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
 	const [event, setEvent] = useState<EventCreateRequest>({
 		title: "",
 		image: "",
@@ -37,11 +39,6 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 	}, []);
 
 	const allSubtopics = topics.flatMap((topic) => topic.subtopics);
-
-	const getTodayDate = (): string => {
-		const today = new Date();
-		return today.toISOString().split("T")[0];
-	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -67,6 +64,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
             setSubtopicError(true);
             return;
         }
+
 		try {
 
 			let imagePath = event.image;
@@ -76,8 +74,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 					imagePath = await uploadImageFile(selectedImageFile, "event");
 				} catch (uploadError) {
 					setUploading(false);
-					console.error("Error al subir imagen:", uploadError);
-					alert("No se pudo subir la imagen. Por favor, inténtalo de nuevo.");
+					setSuccessMessage("Error al subir imagen:"+uploadError);
 					return;
 				}
 			}
@@ -105,18 +102,32 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				subtopic_ids: [], 
 			});
 			setLocalitation(undefined);
+			
+			setSuccessMessage("Evento creado exitosamente.");
 			return ;
 		} catch (error) {
-			console.error("Error al guardar evento:", error);
+			setSuccessMessage("Error al crear evento:" + error);
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
+
 	return (
 		<div className="create-event">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-event__title">Crear Evento</h2>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
 			<form className="create-event__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>
@@ -142,7 +153,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				</div>
 				<div className="form-group">
 					<label>Fecha*</label>
-					<input type="date" name="date" min={getTodayDate()} value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
+					<input type="date" name="date" value={event.date} onChange={(e) => setEvent({ ...event, date: e.target.value })} required />
 				</div>
 				{ subtopicError && (
                     <span className="form-error">Debes seleccionar al menos un subtema.</span>

@@ -8,7 +8,7 @@ import { deleteJobBoard, setJobBoardApproval } from "../../api";
 import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { useAuth } from "../../providers/Auth";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetJobBoardProps {
@@ -18,31 +18,32 @@ interface GetJobBoardProps {
 export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(job.is_approved ?? null);
+	const [currentJob, setCurrentJob] = useState<JobBoardGetResponse>(job);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setJobBoardApproval(job.id, approvalData);
+		await setJobBoardApproval(currentJob.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "job_board",
-				resource_id: job.id,
+				resource_id: currentJob.id,
 				comment,
 			});
 		}
 	};
 	return (
 		<div className="job-container">
-			{isAuthenticated && !isLoading && (user.id == job.user.id || user.role == "admin") &&(
+			{isAuthenticated && !isLoading && (user.id == currentJob.user.id || user.role == "admin") &&(
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdateJobBoard onClose={onClose} jobBoardGetResponse={job} />
+							<UpdateJobBoard onClose={onClose} jobBoardGetResponse={currentJob} onUpdated={(updateJob) => setCurrentJob(updateJob)} />
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteJobBoard(job.id)}
+						onDelete={() => deleteJobBoard(currentJob.id)}
 						message="¿Estás seguro de que deseas eliminar este trabajo?"
 					/>
 				</div>
@@ -53,29 +54,32 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este trabajo?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
 				</div>
 			)}
-			<h1 className="job-title">{job.title}</h1>
+			<h1 className="job-title">{currentJob.title}</h1>
 
 			<div className="job-meta-container">
-				{job.company && <p className="job-meta">Empresa: {job.company}</p>}
-				{job.type && <p className="job-meta">Tipo de contrato: {job.type}</p>}
-				{job.salary_range && <p className="job-meta">Rango salarial: {job.salary_range}</p>}
+				{currentJob.company && <p className="job-meta">Empresa: {currentJob.company}</p>}
+				{currentJob.type && <p className="job-meta">Tipo de contrato: {currentJob.type}</p>}
+				{currentJob.salary_range && <p className="job-meta">Rango salarial: {currentJob.salary_range}</p>}
 				<p className="job-meta">
 				Subido por:{" "}
-				{job.user.regular_user?.name ||
-					job.user.university_user?.name ||
-					job.user.business_user?.name ||
-					"Anónimo"}
+				<img src={currentJob.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+				{
+					currentJob.user.regular_user?.name ||
+					currentJob.user.university_user?.name ||
+					currentJob.user.business_user?.name ||
+					"Anónimo"
+				}
 				</p>
 			</div>
 
-			<p className="job-meta">Subtemas: {job.subtopics.map((s) => s.name).join(", ")}</p>
+			<p className="job-meta">Subtemas: {currentJob.subtopics.map((s) => s.name).join(", ")}</p>
 
 			<div className="job-description">
-				<div dangerouslySetInnerHTML={{ __html: job.description }} />
+				<div dangerouslySetInnerHTML={{ __html: currentJob.description }} />
 			</div>
 
 			<div className="job-link">
-				<a href={job.link} target="_blank" rel="noopener noreferrer">
+				<a href={currentJob.link} target="_blank" rel="noopener noreferrer">
 				🌐 Ver oferta completa
 				</a>
 			</div>

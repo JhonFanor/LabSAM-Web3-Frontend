@@ -8,7 +8,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateBankOfResume } from "./UpdateBankOfResume";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
 
@@ -26,37 +26,37 @@ const transformDownloadURL = (url: string) => {
 export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
 	const [isApproved, setIsApproved] = useState<boolean | null>(resume.is_approved ?? null);
+	const [currentResume, setCurrentResume] = useState<BankOfResumeGetResponse>(resume);
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setBankOfResumeApproval(resume.id, approvalData);
+		await setBankOfResumeApproval(currentResume.id, approvalData);
 		setIsApproved(approved);
 
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "bank_of_resume",
-				resource_id: resume.id,
+				resource_id: currentResume.id,
 				comment,
 			});
 		}
 	};
 
-
-	const isDownload = isInternalLink(resume.link);
-	const url = isDownload ? transformDownloadURL(resume.link) : resume.link;
-	const userName = resume.user.regular_user?.name;
+	const isDownload = isInternalLink(currentResume.link);
+	const url = isDownload ? transformDownloadURL(currentResume.link) : currentResume.link;
+	const userName = currentResume.user.regular_user?.name;
 
  	 return (
 		<>
 			<div className="resume-container">
-				{isAuthenticated && !isLoading && (user.id === resume.user.id || user.role === "admin") && (
+				{isAuthenticated && !isLoading && (user.id === currentResume.user.id || user.role === "admin") && (
 					<div className="buttons-update-delete">
 						<ButtonUpdate>
 							{(onClose) => (
-								<UpdateBankOfResume onClose={onClose} resume={resume} />
+								<UpdateBankOfResume onClose={onClose} resume={currentResume} onUpdated={(updateResume) => setCurrentResume(updateResume)} />
 							)}
 						</ButtonUpdate>
-						<ButtonDelete onDelete={() => deleteBankOfResume(resume.id)} message="¿Estás seguro de que deseas eliminar esta hoja de vida?" />
+						<ButtonDelete onDelete={() => deleteBankOfResume(currentResume.id)} message="¿Estás seguro de que deseas eliminar esta hoja de vida?" />
 					</div>
 				)}
 
@@ -67,25 +67,26 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 					</div>
 				)}
 			
-				<h1 className="resume-title">{resume.title}</h1>
+				<h1 className="resume-title">{currentResume.title}</h1>
 
 				{userName && <h3 className="resume-subtitle">{userName}</h3>}
 
-				<p className="resume-meta">Subtemas: {resume.subtopics.map(s => s.name).join(", ")}</p>
+				<p className="resume-meta">Subtemas: {currentResume.subtopics.map(s => s.name).join(", ")}</p>
 
 				<div className="resume-content">
-					{resume.photo && (
-					<img src={resume.photo} className="resume-photo" alt="Foto del postulante" /> )}
+					{currentResume.photo && (
+						<img src={currentResume.photo} className="resume-photo" alt="Foto del postulante" /> 
+					)}
 					<div className="resume-summary">
-						<div dangerouslySetInnerHTML={{ __html: resume.summary }} />
+						<div dangerouslySetInnerHTML={{ __html: currentResume.summary }} />
 					</div>
 				</div>
 
 				<div className="resume-link">
 					{isDownload ? (
-					<a href={url} download>
-						📥 Descargar hoja de vida
-					</a>
+						<a href={url} download>
+							📥 Descargar hoja de vida
+						</a>
 					) : (
 						<a href={url} target="_blank" rel="noopener noreferrer">
 							🌐 Ver hoja de vida
@@ -93,8 +94,8 @@ export const GetBankOfResume: React.FC<GetBankOfResumeProps> = ({ resume }) => {
 					)}
 				</div>
 			</div>
-			{isAuthenticated && !isLoading && (user.id === resume.user.id || user.role === "admin") && (
-				<GetAllRejectComment resourceType="bank_of_resume" resourceId={resume.id} isApproved={isApproved} />
+			{isAuthenticated && !isLoading && (user.id === currentResume.user.id || user.role === "admin") && (
+				<GetAllRejectComment resourceType="bank_of_resume" resourceId={currentResume.id} isApproved={isApproved} />
 			)}
 		</>
 	);

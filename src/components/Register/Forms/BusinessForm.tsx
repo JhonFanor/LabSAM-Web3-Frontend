@@ -119,7 +119,7 @@ export const BusinessForm: React.FC = () => {
 
 
     useEffect(() => {
-            if (successMessage) {
+        if (successMessage) {
             const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
             return () => clearTimeout(timeout);
         }

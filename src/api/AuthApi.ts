@@ -16,23 +16,18 @@ export const sendResetPasswordEmail = async (email: string): Promise<void> => {
         const errorData = await response.json();
         throw new Error(errorData.error || "Error al solicitar recuperación de contraseña");
     }
-
-    alert("Correo de recuperación enviado con éxito. Revisa tu bandeja de entrada.");
 };
 
-export const resetPassword = async (data: {
-  token: string;
-  new_password: string;
-}) => {
-  const response = await fetch(`${AUTH_URL}/reset-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+export const resetPassword = async (data: {token: string; new_password: string;}) => {
+    const response = await fetch(`${AUTH_URL}/reset-password`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
 
-  if (!response.ok) {
-    throw new Error("No se pudo restablecer la contraseña");
-  }
+    if (!response.ok) {
+        throw new Error("No se pudo restablecer la contraseña");
+    }
 };

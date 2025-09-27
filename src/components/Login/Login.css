@@ -1,4 +1,4 @@
-.login__content {
+.login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,23 +23,24 @@
 }
 
 .login__forms {
-  flex: 1;
-  max-width: 400px;
-  width: 100%;
-  position: relative;
-  height: auto;
+    background-color: var(--register-login);
+    box-shadow: 0 8px 20px rgba(42, 76, 255, 0.1);
+    border-radius: 1rem;
+    flex: 1;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    height: auto;
 }
 
 .login__registre {
-  width: 100%;
-  max-width: 400px; 
-  background-color: var(--light-gray);
-  padding: 2rem;
-  border-radius: 1rem;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(42, 76, 255, 0.1);
-  animation-duration: 0.4s;
-  animation-name: animate-login;
+    width: 100%;
+    max-width: 400px; 
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    animation-duration: 0.4s;
+    animation-name: animate-login;
 }
 
 @keyframes animate-login {

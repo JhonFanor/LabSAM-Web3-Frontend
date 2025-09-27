@@ -5,9 +5,7 @@ import { FetchWithAuth } from "../utils/FetchWithAuth";
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/permissions`;
 
-export const getAssignablePermissionsToUser = async (
-    req: PermissionRequest
-): Promise<PermissionResponse[]> => {
+export const getAssignablePermissionsToUser = async (req: PermissionRequest): Promise<PermissionResponse[]> => {
     const response = await FetchWithAuth(`${BASE_URL}/assignable`, {
         method: "POST",
         body: JSON.stringify(req),

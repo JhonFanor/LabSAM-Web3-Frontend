@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { EventGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { EventUpdateRequest } from "../../dtos/requests";
-import { getAllTopics, updateEvent, uploadImageFile } from "../../api";
+import { getAllTopics, getEventById, updateEvent, uploadImageFile } from "../../api";
 import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, ImageInputSelector, Localitation} from "../../components";
 import "./UpdateEvent.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -12,15 +12,18 @@ import { formatDateYYYYMMDD } from "../../utils/Date";
 interface UpdateEventProps {
     onClose: () => void;
     eventGetResponse: EventGetResponse; 
+    onUpdated?: (updated: EventGetResponse) => void;
 }
 
-export const UpdateEvent: React.FC<UpdateEventProps> = ({ onClose, eventGetResponse }) => {
+export const UpdateEvent: React.FC<UpdateEventProps> = ({ onClose, eventGetResponse, onUpdated }) => {
     const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
     const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
     const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
+
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const [event, setEvent] = useState<EventUpdateRequest>({
         title: eventGetResponse.title,
@@ -124,20 +127,37 @@ export const UpdateEvent: React.FC<UpdateEventProps> = ({ onClose, eventGetRespo
 
             if (hasChanged ||subtopicsChanged ) {
                 await updateEvent(eventGetResponse.id, update);
+                const refreshedEvent = await getEventById(eventGetResponse.id);
+                if (onUpdated) {
+                    onUpdated(refreshedEvent);
+                    eventGetResponse = refreshedEvent;
+                }
             }
 
-            onClose();
+            setSuccessMessage("Evento actualizado con éxito");
         } catch (error) {
-            console.error("Error al actualizar el evento:", error);
+            setSuccessMessage("Error al actualizar el evento:" + error);
         } finally {
             setUploading(false);
         }
     };
 
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
     return (
         <div className="update-event">
             <ButtonClose onClick={onClose}/>
             <h2 className="update-event__title">Crear Evento</h2>
+            {successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
             <form className="update-event__form" onSubmit={handleUpdate}>
                 <div className="form-group">
 					<label>Título</label>

@@ -109,11 +109,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleMenu, menuVisible, onLogin
         <header className="header">
             <div className="header__container">
                 {user && (
-                    <img
-                        src={user.avatar || "/src/assets/img/avatar.png"}
-                        alt="Profile"
-                        className="header__img"
-                    />
+                    <img src={user.avatar || "/src/assets/img/avatar.png"} alt="Profile" className="header__img" />
                 )}
 
                 <a href="#" className="header__logo">

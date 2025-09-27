@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BankOfResumeGetAllResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllBankOfResume } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllBankOfResume.css";
@@ -12,7 +12,6 @@ export const GetAllBankOfResume: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("page")) || 1;
 
     useEffect(() => {
@@ -24,7 +23,6 @@ export const GetAllBankOfResume: React.FC = () => {
                 setError(data.data.length ? null : "No hay hojas de vida disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar los currículos");
-                console.error(err);
             }
         }
 
@@ -32,8 +30,8 @@ export const GetAllBankOfResume: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/bank-of-resumes?page=${newPage}`);
+        searchParams.set("page", newPage.toString());
+        setSearchParams(searchParams);
     };
 
     return (

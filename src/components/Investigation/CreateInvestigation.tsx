@@ -20,6 +20,8 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 	const [documentError, setDocumentError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
+
 	const [investigation, setInvestigation] = useState<InvestigationCreateRequest>({
 		title: "",
 		description: "",
@@ -67,8 +69,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 					documentPath = await uploadDocumentFile(selectedDocumentFile, "investigation")
 				} catch (uploadError) {
 					setUploading(false);
-					console.error("Error al subir la investigación:", uploadError);
-					alert("No se pudo subir la investigación. Por favor, inténtalo de nuevo.");
+					setSuccessMessage("Error al subir documento:"+uploadError);
 					return;
 				}
 			}
@@ -95,17 +96,32 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 				link: "",
 				subtopic_ids: [],
 			});
+
+			setSuccessMessage("Investigación creada exitosamente.");
+			return ;
 		} catch(error){
-			console.error("Error al guardar la investigación:", error);
+			setSuccessMessage("Error al guardar la investigación:"+error);
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}	
+	}, [successMessage]);
+
 	return (
 		<div className="create-investigation">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-investigation__title">Crear Investigación</h2>
+			{successMessage && (
+				<div className="success-message">
+					{successMessage}
+				</div>
+			)}
 			<form className="create-investigation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>

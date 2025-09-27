@@ -32,7 +32,7 @@ export const GetAllEventsByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("eventsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DocumentationGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import { DocumentationUpdateRequest } from "../../dtos/requests";
 import JoditEditor from "jodit-react";
-import { CreateBankOfResumeSubtopic, DeleteBankOfResumeSubtopic, getAllTopics, updateDocumentation, uploadDocumentFile } from "../../api";
+import { CreateBankOfResumeSubtopic, DeleteBankOfResumeSubtopic, getAllTopics, getDocumentationById, updateDocumentation, uploadDocumentFile } from "../../api";
 import { TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector, ButtonClose } from "../../components";
 import "./UpdateDocumentation.css";
 import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
@@ -10,14 +10,17 @@ import { SubtopicIDsRequest } from "../../dtos/requests/Subtopic";
 interface UpdateDocumentationProps {
 	onClose: () => void;
     documentationGetResponse: DocumentationGetResponse;
+    onUpdated?: (updated: DocumentationGetResponse) => void;
 }
 
-export const UpdateDocumentation: React.FC<UpdateDocumentationProps> = ({ onClose, documentationGetResponse }) => {
+export const UpdateDocumentation: React.FC<UpdateDocumentationProps> = ({ onClose, documentationGetResponse, onUpdated }) => {
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
+
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);  
 
 	const [documentation, setDocumentation] = useState<DocumentationUpdateRequest>({
 		title: documentationGetResponse.title,
@@ -82,22 +85,38 @@ export const UpdateDocumentation: React.FC<UpdateDocumentationProps> = ({ onClos
 
             if (hasChanged || subtopicsChanged) {
                 await updateDocumentation(documentationGetResponse.id, updateDoc);
-            }	
+                const updatedDocumentation = await getDocumentationById(documentationGetResponse.id);
+                if (onUpdated) {
+                    onUpdated(updatedDocumentation);
+                    documentationGetResponse = updatedDocumentation;
+                }
+            }	    
 
-            onClose();
+            setSuccessMessage("Documentación actualizada con éxito.");
 		} catch(error){
-			console.error("Error al actualizar la documentación:", error);
-            alert("Hubo un error al actualizar la documentación.");
+            setSuccessMessage("Error al actualizar la documentación. Por favor, inténtalo de nuevo.");
 		} finally {
 			setUploading(false);
 		}
 	};
 
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
 	return (
 		<div className="update-documentation">
 			<ButtonClose onClick={onClose} />
 			<h2 className="update-documentation__title">Crear Documentación</h2>
-			<form className="update-documentation__form" onSubmit={handleUpdate}>
+			{successMessage && (
+                <div className="success-message">
+                	{successMessage}
+                </div>
+            )}
+            <form className="update-documentation__form" onSubmit={handleUpdate}>
                 <div className="form-group">
 					<label>Título</label>
                     <input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />

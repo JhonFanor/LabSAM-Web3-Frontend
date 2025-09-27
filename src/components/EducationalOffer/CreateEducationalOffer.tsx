@@ -17,6 +17,8 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 	const [descriptionError, setDescriptionError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
+
 	const [educationalOffer, setEducationalOffer] = useState<EducationalOfferCreateRequest>({
 		title: "",
 		institution: "",
@@ -117,17 +119,30 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 				link: "",
 				subtopic_ids: [],
 			});
+
+			setSuccessMessage("Oferta educativa creada exitosamente.");
+			return ;
 		} catch (error) {
-			console.error("Error al guardar la oferta educativa:", error);
-			setErrorMessage("Ocurrió un error al guardar la oferta educativa.");
+			setSuccessMessage("Error al crear oferta educativa:" + error);
 		}
 	};
+
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
 
 	return (
 		<div className="create-educational-offer">
 			<ButtonClose onClick={onClose} />
 			<h2 className="create-educational-offer__title">Crear Oferta Educativa</h2>
-
+			{successMessage && (
+				<div className="success-message">
+					{successMessage}
+				</div>
+			)}
 			{errorMessage && (
 				<div className="create-educational-offer__error">
 					{errorMessage}

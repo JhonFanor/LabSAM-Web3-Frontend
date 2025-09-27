@@ -14,6 +14,8 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
+
 	const [company, setCompany] = useState<CompanyCreateRequest>({
 		name: "",
 		industry: "",
@@ -60,15 +62,30 @@ export const CreateCompany: React.FC<CreateCompanyProps> = ({ onClose }) => {
 				subtopic_ids: [],
 			});
 			setLocalitation(undefined);
+
+			setSuccessMessage("Empresa creada exitosamente.");
+			return ;
 		} catch (error) {
-			console.error("Error al guardar la Empresa:", error);
+			setSuccessMessage("Error al crear empresa:" + error);
 		}
 	};
+
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}	
+	}, [successMessage] );
 
 	return (
 		<div className="create-company">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-company__title">Crear Empresa</h2>
+			{successMessage && (
+				<div className="success-message">
+					{successMessage}
+				</div>
+			)}
 			<form className="create-company__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Nombre de la empresa*</label>

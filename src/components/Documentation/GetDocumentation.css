@@ -1,8 +1,8 @@
 .doc-container {
-  background: white;
+  background: var(--get-background);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--get-box-shadow);
   max-width: 100%;
   width: 100%;
   margin: 20px auto;
@@ -17,6 +17,14 @@
   font-size: 1.2rem;
   color: #333;
   margin-bottom: 15px;
+}
+
+.doc-meta-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: -10px;
+  flex-wrap: wrap;
 }
 
 .doc-meta {

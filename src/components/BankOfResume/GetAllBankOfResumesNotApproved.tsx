@@ -23,7 +23,6 @@ export const GetAllBankOfResumesNotApproved: React.FC = () => {
                 setError(data.data.length ? null : "No hay hojas de vida disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar los currículos");
-                console.error(err);
             }
         }
 

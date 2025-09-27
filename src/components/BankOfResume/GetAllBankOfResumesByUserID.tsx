@@ -12,7 +12,6 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
 
     const limit = 10;
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const page = Number(searchParams.get("bankOfResumesPage")) || 1;
 
     useEffect(() => {
@@ -24,7 +23,6 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
                 setError(data.data.length ? null : "No hay hojas de vida disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar los currículos");
-                console.error(err);
             }
         }
 
@@ -32,8 +30,9 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
     }, [page]); 
 
     const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage.toString() });
-        navigate(`/bank-of-resume/user/me?page=${newPage}`);
+        searchParams.set("bankOfResumesPage", newPage.toString());  
+        setSearchParams(searchParams);
+        
     };
 
     return (

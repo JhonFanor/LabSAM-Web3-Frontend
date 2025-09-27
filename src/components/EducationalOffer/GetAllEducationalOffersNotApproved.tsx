@@ -23,7 +23,6 @@ export const GetAllEducationalOffersNotApproved: React.FC = () => {
                 setError(data.data.length ? null : "No hay Ofertas Educativas disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las Ofertas Educativas");
-                console.error(err);
             }
         }
 
@@ -32,7 +31,7 @@ export const GetAllEducationalOffersNotApproved: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("educationalOffersPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

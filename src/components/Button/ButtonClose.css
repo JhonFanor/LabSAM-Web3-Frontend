@@ -10,5 +10,5 @@
 }
 
 .button-close:hover {
-    color: #000;
+    color:  var(--color-red-button);
 }

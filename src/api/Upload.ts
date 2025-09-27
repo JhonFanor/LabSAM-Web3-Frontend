@@ -24,7 +24,7 @@ export const uploadImageFile = async (file: File, folder: string): Promise<strin
 
 export const uploadDocumentFile = async (file: File, folder: string): Promise<string> => {
     if (file.type !== "application/pdf") {
-      throw new Error("Solo se permiten archivos PDF.");
+        throw new Error("Solo se permiten archivos PDF.");
     }
   
     const formData = new FormData();
@@ -39,7 +39,7 @@ export const uploadDocumentFile = async (file: File, folder: string): Promise<st
     const data = await response.json();
   
     if (!response.ok || !data?.path) {
-      throw new Error(data?.error || "Error al subir el documento.");
+        throw new Error(data?.error || "Error al subir el documento.");
     }
   
     return data.path;

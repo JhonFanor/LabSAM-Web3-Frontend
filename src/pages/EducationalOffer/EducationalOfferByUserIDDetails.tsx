@@ -35,25 +35,25 @@ const EducationalOfferByUserIDDetails: React.FC = () => {
     }, [id]);
 
     const handleBack = async () => {
-    try {
-        const currentPageData = await getAllEducationalOffersNotApproved(page, 10);
+        try {
+            const currentPageData = await getAllEducationalOffersNotApproved(page, 10);
 
-        if (currentPageData.data.length > 0) {
-            navigate(`/user/publications?educationalOffersPage=${page}`);
-        } else if (page > 1) {
-            const prevPageData = await getAllEducationalOffersNotApproved(page - 1, 10);
-            if (prevPageData.data.length > 0) {
-                navigate(`/user/publications?educationalOffersPage=${page - 1}`);
-            } else {
+            if (currentPageData.data.length > 0) {
+                navigate(`/user/publications?educationalOffersPage=${page}`);
+            } else if (page > 1) {
+                const prevPageData = await getAllEducationalOffersNotApproved(page - 1, 10);
+                if (prevPageData.data.length > 0) {
+                    navigate(`/user/publications?educationalOffersPage=${page - 1}`);
+                } else {
+                    navigate("/user/publications");
+                }
+                } else {
                 navigate("/user/publications");
             }
-            } else {
+        } catch (err) {
+            console.error("Error al verificar páginas disponibles", err);
             navigate("/user/publications");
         }
-    } catch (err) {
-        console.error("Error al verificar páginas disponibles", err);
-        navigate("/user/publications");
-    }
     };
 
     if (loading) return <p>Cargando oferta educativa...</p>;

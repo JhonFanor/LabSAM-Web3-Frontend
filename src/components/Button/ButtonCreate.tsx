@@ -1,4 +1,5 @@
 import React from "react";
+import "./ButtonCreate.css";
 
 type ButtonCreateProps = {
     onClick: () => void;
@@ -7,9 +8,9 @@ type ButtonCreateProps = {
 
 export const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, label }) => {
     return (
-      <button onClick={onClick} className="header__login__button">
-        {label}
-      </button>
+        <button onClick={onClick} className="button-create">
+            {label}
+        </button>
     );
 };
 

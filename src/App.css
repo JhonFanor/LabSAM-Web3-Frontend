@@ -30,7 +30,12 @@
   --container-color: var(--color-blue-dark);
 
   --light-gray: #F5F7FA;
-  
+
+  --register-login: #c9cfdb;
+
+  --home-background: #c9cfdb;
+  --home-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+
   --get-background: #c9cfdb;
   --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345)
 }
@@ -81,4 +86,15 @@ body {
   vertical-align: middle; 
   margin-left: 5px;     
   margin-right: 5px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  border-left: 5px solid #28a745;
+  border-radius: 4px;
+  font-weight: bold;
+  animation: fade-in 0.5s ease-in-out;
 }

@@ -6,26 +6,26 @@ import { FaEnvelope, FaLock, FaIdCard, FaPhone, FaMapMarkerAlt, FaCalendarAlt } 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 interface LocationRequest {
-  country: string;
-  city: string;
+    country: string;
+    city: string;
 }
 
 interface ContactRequest {
-  phone: string;
+    phone: string;
 }
 
 interface RegularUserUpdateRequest {
-  name: string;
-  email: string;
-  password: string;
-  birthDate?: string;
-  location?: LocationRequest;
-  contact?: ContactRequest;
+    name: string;
+    email: string;
+    password: string;
+    birthDate?: string;
+    location?: LocationRequest;
+    contact?: ContactRequest;
 }
 
 interface OptionType {
-  value: string;
-  label: string;
+    value: string;
+    label: string;
 }
 
 const handlePersonSubmit = async (data: any) => {
@@ -45,8 +45,8 @@ const handlePersonSubmit = async (data: any) => {
 };
 
 const isValidPassword = (password: string) => {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
-  return regex.test(password);
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+    return regex.test(password);
 };
 
 export const PersonForm: React.FC = () => {
@@ -113,7 +113,7 @@ export const PersonForm: React.FC = () => {
     };
 
     useEffect(() => {
-            if (successMessage) {
+        if (successMessage) {
             const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
             return () => clearTimeout(timeout);
         }

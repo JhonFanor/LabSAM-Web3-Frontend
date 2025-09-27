@@ -7,7 +7,7 @@ import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics } from 
 import "./CreateJobBoard.css";
 
 interface CreateJobBoardProps {
-  onClose: () => void;
+    onClose: () => void;
 }
 
 export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
@@ -15,6 +15,8 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
     const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
     const [descriptionError, setDescriptionError] = useState<boolean>(false);
     const [subtopicError, setSubtopicError] = useState<boolean>(false);
+
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);  
 
     const [jobBoard, setJobBoard] = useState<JobBoardCreateRequest>({
         title: "",
@@ -81,33 +83,48 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
         };
 
         try {
-        await createJobBoard(preparedJobBoard);
+            await createJobBoard(preparedJobBoard);
 
-        setSelectedTopic(null);
-        setSalaryFixed("");
-        setSalaryMin("");
-        setSalaryMax("");
-        setSalaryType("none");
-        setSalaryError("");
+            setSelectedTopic(null);
+            setSalaryFixed("");
+            setSalaryMin("");
+            setSalaryMax("");
+            setSalaryType("none");
+            setSalaryError("");
 
-        setJobBoard({
-            title: "",
-            company: "",
-            description: "",
-            type: "",
-            salary_range: "",
-            link: "",
-            subtopic_ids: [],
-        });
+            setJobBoard({
+                title: "",
+                company: "",
+                description: "",
+                type: "",
+                salary_range: "",
+                link: "",
+                subtopic_ids: [],
+            });
+
+            setSuccessMessage("Oferta de trabajo creada exitosamente.");
+            return ;
         } catch (error) {
-        console.error("Error al guardar la oferta de trabajo", error);
+            setSuccessMessage("Error al crear oferta de trabajo:" + error);
         }
     };
+
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+            return () => clearTimeout(timeout);
+        }       
+    }, [successMessage]);
 
     return (
         <div className="create-job-board">
             <ButtonClose onClick={onClose} />
             <h2 className="create-job-board__title">Crear Oferta de Trabajo</h2>
+            {successMessage && (
+                <div className="success-message">
+                    {successMessage}
+                </div>
+            )}
             <form className="create-job-board__form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Título*</label>

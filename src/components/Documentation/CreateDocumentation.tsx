@@ -20,6 +20,8 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 	const [documentError, setDocumentError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);	
+
 	const [documentation, setDocumentation] = useState<DocumentationCreateRequest>({
 		title: "",
 		description: "",
@@ -65,8 +67,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 					documentPath = await uploadDocumentFile(selectedDocumentFile, "documentation");
 				} catch (uploadError) {
 					setUploading(false);
-					console.error("Error al subir la documentación", uploadError);
-					alert("No se pudo subir la documentación. Por favor, inténtalo de nuevo.");
+					setSuccessMessage("Error al subir documento:"+uploadError);
 					return;
 				}
 			}
@@ -89,17 +90,32 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 				link: "",
 				subtopic_ids: [],
 			});
+
+			setSuccessMessage("Documentación creada exitosamente.");
+			return ;
 		} catch(error){
-			console.error("Error al guardar la documentación:", error);
+			setSuccessMessage("Error al crear documentación:" + error);
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}	
+	}, [successMessage]);
+
 	return (
 		<div className="create-documentation__content">
 			<ButtonClose onClick={onClose} />
 			<h2 className="create-documentation__title">Crear Documentación</h2>
+			{successMessage && (
+				<div className="success-message">
+					{successMessage}
+				</div>
+			)}
 			<form className="create-documentation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>

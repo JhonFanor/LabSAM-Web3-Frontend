@@ -31,7 +31,7 @@ export const GetAllNewsNotApproved: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("newsPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

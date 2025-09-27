@@ -22,9 +22,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay empresas disponibles.");
             } catch (err) {
-                setError("No se pudieron cargar las comapñias");
-                console.error(err);
-            }
+                setError("No se pudieron cargar las comapñias");            }
         }
 
         getCompany();
@@ -32,7 +30,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
 
     const handlePageChange = (newPage: number) => {
         searchParams.set("companiesPage", newPage.toString());
-        setSearchParams({ page: newPage.toString() });
+        setSearchParams(searchParams);
     };
 
     return (

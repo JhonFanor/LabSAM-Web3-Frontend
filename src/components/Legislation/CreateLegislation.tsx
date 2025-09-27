@@ -20,6 +20,8 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 	const [documentError, setDocumentError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
 	const [legislation, setLegislation] = useState<LegislationCreateRequest>({
 		title: "",
 		description: "",
@@ -66,8 +68,7 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 					documentPath = await uploadDocumentFile(selectedDocumentFile, "investigation")
 				} catch (uploadError) {
 					setUploading(false);
-					console.error("Error al subir la legislación:", uploadError);
-					alert("No se pudo subir la legislación. Por favor, inténtalo de nuevo.");
+					setSuccessMessage("Error al subir documento:"+uploadError);
 					return;
 				}
 			}
@@ -90,17 +91,32 @@ export const CreateLegislation: React.FC<CreateLegislationProps> = ({ onClose })
 				link: "",
 				subtopic_ids: [],
 			});
+			
+			setSuccessMessage("Legislación creada exitosamente.");
+			return ;
 		} catch (error) {
-			console.error("Error al guardar la legislación:", error);
+			setSuccessMessage("Error al crear legislación:" + error);
 		} finally {
 			setUploading(false);
 		}
 	};
 
+	useEffect(() => {
+		if (successMessage) {
+			const timeout = setTimeout(() => setSuccessMessage(null), 10000); 
+			return () => clearTimeout(timeout);
+		}
+	}, [successMessage]);
+
 	return (
 		<div className="create-legislation">
 			<ButtonClose onClick={onClose}/>
 			<h2 className="create-legislation__title">Crear Legislación</h2>
+			{successMessage && (
+				<div className="success-message">
+					{successMessage}
+				</div>
+			)}
 			<form className="create-legislation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>

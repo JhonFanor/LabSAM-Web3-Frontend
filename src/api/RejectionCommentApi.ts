@@ -20,10 +20,7 @@ export const createRejectionComment = async ( comment: RejectionCommentCreateReq
     return data;
 };
 
-export const updateRejectionComment = async (
-  id: number,
-  comment: RejectionCommentUpdateRequest
-): Promise<void> => {
+export const updateRejectionComment = async (id: number, comment: RejectionCommentUpdateRequest): Promise<void> => {
     const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
         method: "PUT",
         body: JSON.stringify(comment),
@@ -47,10 +44,7 @@ export const deleteRejectionComment = async (id: number): Promise<void> => {
     }
 };
 
-export const getAllRejectionCommentsByResource = async (
-  resourceType: string,
-  resourceId: number
-): Promise<RejectionCommentResponse[]> => {
+export const getAllRejectionCommentsByResource = async (resourceType: string, resourceId: number): Promise<RejectionCommentResponse[]> => {
     const response = await FetchWithAuth(`${BASE_URL}/${resourceType}/${resourceId}`, {
         method: "GET",
     });

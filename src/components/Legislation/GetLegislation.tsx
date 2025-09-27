@@ -8,7 +8,7 @@ import { ApprovalButton } from "../Button/ApprovalButton";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { UpdateLegislation } from "./UpdateLegislation";
 import { ButtonDelete } from "../Button/ButtonDelete";
-import "../Button/ButtonsUpdateDelete.css"
+import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 
 interface GetLegislationProps {
@@ -25,35 +25,36 @@ const transformDownloadURL = (url: string) => {
 export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) => {
 	const { isAuthenticated, isLoading, user } = useAuth();
 	const [isApproved, setIsApproved] = useState<boolean | null>(legislation.is_approved ?? null);
+	const [currentLegislation, setCurrentLegislation] = useState<LegislationGetResponse>(legislation);	
 
 	const handleApproval = async (approved: boolean, comment?: string) => {
 		const approvalData: ApprovalRequest = { approved };
-		await setLegislationApproval(legislation.id, approvalData);
+		await setLegislationApproval(currentLegislation.id, approvalData);
 		setIsApproved(approved);
 		
 		if (!approved && comment) {
 			await createRejectionComment({
 				resource_type: "legislation",
-				resource_id: legislation.id,
+				resource_id: currentLegislation.id,
 				comment,
 			});
 		}
 	};
 
-	const isDownload = isInternalLink(legislation.link);
-	const url = isDownload ? transformDownloadURL(legislation.link) : legislation.link;
+	const isDownload = isInternalLink(currentLegislation.link);
+	const url = isDownload ? transformDownloadURL(currentLegislation.link) : currentLegislation.link;
 
 	return (
 		<div className="legislation-container">
-			{isAuthenticated && !isLoading && (user.id === legislation.user.id || user.role === "admin") && (
+			{isAuthenticated && !isLoading && (user.id === currentLegislation.user.id || user.role === "admin") && (
 				<div className="buttons-update-delete">
 					<ButtonUpdate>
 						{(onClose) => (
-							<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} />
+							<UpdateLegislation onClose={onClose} legislationGetResponse={legislation}  onUpdated={(updateLegislation) => setCurrentLegislation(updateLegislation)}/>
 						)}
 					</ButtonUpdate>
 					<ButtonDelete
-						onDelete={() => deleteLegislation(legislation.id)}
+						onDelete={() => deleteLegislation(currentLegislation.id)}
 						message="¿Estás seguro de que deseas eliminar esta legislación?"
 					/>
 				</div>
@@ -64,18 +65,27 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta legislación?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />				
 				</div>
 			)}
-			<h1 className="legislation-title">{legislation.title}</h1>
+			<h1 className="legislation-title">{currentLegislation.title}</h1>
 
-			{legislation.user.regular_user?.name && (
-				<p className="legislation-meta">Subido Por: {legislation.user.regular_user.name}</p>
-			)}
+			<div className="legislation-meta-container">
+				<p className="legislation-meta">
+					Subido por:{" "}
+					<img src={currentLegislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						currentLegislation.user.regular_user?.name ||
+						currentLegislation.user.university_user?.name ||
+						currentLegislation.user.business_user?.name ||
+						"Anónimo"
+					}
+				</p>
+			</div>
 
 			<p className="legislation-meta">
-				Subtemas: {legislation.subtopics.map((s) => s.name).join(", ")}
+				Subtemas: {currentLegislation.subtopics.map((s) => s.name).join(", ")}
 			</p>
 
 			<div className="legislation-description">
-				<div dangerouslySetInnerHTML={{ __html: legislation.description }} />
+				<div dangerouslySetInnerHTML={{ __html: currentLegislation.description }} />
 			</div>
 
 			<div className="legislation-link">
