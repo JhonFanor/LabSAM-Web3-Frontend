@@ -10,6 +10,7 @@ import { useAuth } from "../../providers/Auth";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
+import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
@@ -34,55 +35,60 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 		}
 	};
 	return (
-		<div className="job-container">
-			{isAuthenticated && !isLoading && (user.id == currentJob.user.id || user.role == "admin") &&(
-				<div className="buttons-update-delete">
-					<ButtonUpdate>
-						{(onClose) => (
-							<UpdateJobBoard onClose={onClose} jobBoardGetResponse={currentJob} onUpdated={(updateJob) => setCurrentJob(updateJob)} />
-						)}
-					</ButtonUpdate>
-					<ButtonDelete
-						onDelete={() => deleteJobBoard(currentJob.id)}
-						message="¿Estás seguro de que deseas eliminar este trabajo?"
-					/>
+		<>
+			<div className="job-container">
+				{isAuthenticated && !isLoading && (user.id == currentJob.user.id || user.role == "admin") &&(
+					<div className="buttons-update-delete">
+						<ButtonUpdate>
+							{(onClose) => (
+								<UpdateJobBoard onClose={onClose} jobBoardGetResponse={currentJob} onUpdated={(updateJob) => setCurrentJob(updateJob)} />
+							)}
+						</ButtonUpdate>
+						<ButtonDelete
+							onDelete={() => deleteJobBoard(currentJob.id)}
+							message="¿Estás seguro de que deseas eliminar este trabajo?"
+						/>
+					</div>
+				)}
+				{user?.role === "admin" && isApproved == null && (
+					<div className="resume-actions">
+						<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este trabajo?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+						<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este trabajo?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
+					</div>
+				)}
+				<h1 className="job-title">{currentJob.title}</h1>
+
+				<div className="job-meta-container">
+					{currentJob.company && <p className="job-meta">Empresa: {currentJob.company}</p>}
+					{currentJob.type && <p className="job-meta">Tipo de contrato: {currentJob.type}</p>}
+					{currentJob.salary_range && <p className="job-meta">Rango salarial: {currentJob.salary_range}</p>}
+					<p className="job-meta">
+					Subido por:{" "}
+					<img src={currentJob.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{
+						currentJob.user.regular_user?.name ||
+						currentJob.user.university_user?.name ||
+						currentJob.user.business_user?.name ||
+						"Anónimo"
+					}
+					</p>
 				</div>
-			)}
-			{user?.role === "admin" && isApproved == null && (
-				<div className="resume-actions">
-					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar este trabajo?" onApprove={() => handleApproval(true)} onReject={() => {}} />
-					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar este trabajo?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />
+
+				<p className="job-meta">Subtemas: {currentJob.subtopics.map((s) => s.name).join(", ")}</p>
+
+				<div className="job-description">
+					<div dangerouslySetInnerHTML={{ __html: currentJob.description }} />
 				</div>
+
+				<div className="job-link">
+					<a href={currentJob.link} target="_blank" rel="noopener noreferrer">
+					🌐 Ver oferta completa
+					</a>
+				</div>
+			</div>
+			{isAuthenticated && !isLoading && (user.id === currentJob.user.id || user.role === "admin") && (
+				<GetAllRejectComment resourceType="job_board" resourceId={currentJob.id} isApproved={isApproved} />
 			)}
-			<h1 className="job-title">{currentJob.title}</h1>
-
-			<div className="job-meta-container">
-				{currentJob.company && <p className="job-meta">Empresa: {currentJob.company}</p>}
-				{currentJob.type && <p className="job-meta">Tipo de contrato: {currentJob.type}</p>}
-				{currentJob.salary_range && <p className="job-meta">Rango salarial: {currentJob.salary_range}</p>}
-				<p className="job-meta">
-				Subido por:{" "}
-				<img src={currentJob.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
-				{
-					currentJob.user.regular_user?.name ||
-					currentJob.user.university_user?.name ||
-					currentJob.user.business_user?.name ||
-					"Anónimo"
-				}
-				</p>
-			</div>
-
-			<p className="job-meta">Subtemas: {currentJob.subtopics.map((s) => s.name).join(", ")}</p>
-
-			<div className="job-description">
-				<div dangerouslySetInnerHTML={{ __html: currentJob.description }} />
-			</div>
-
-			<div className="job-link">
-				<a href={currentJob.link} target="_blank" rel="noopener noreferrer">
-				🌐 Ver oferta completa
-				</a>
-			</div>
-		</div>
+		</>
 	);
 };

@@ -3,7 +3,8 @@
 	padding: 1rem;
 	border: 1px solid #ddd;
 	border-radius: 8px;
-	background-color: #fafafa;
+	box-shadow: var(--rejection-comments-section-box-shadow);
+	background-color: var(--rejection-comments-sectio-background);
 }
 
 .comments-title {

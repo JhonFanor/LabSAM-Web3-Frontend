@@ -37,7 +37,10 @@
   --home-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 
   --get-background: #c9cfdb;
-  --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345)
+  --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+
+  --rejection-comments-sectio-background: #c9cfdb;
+  --rejection-comments-section-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 }
 
 @media screen and (min-width: 1024px) {

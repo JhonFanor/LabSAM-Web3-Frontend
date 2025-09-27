@@ -10,6 +10,7 @@ import { UpdateLegislation } from "./UpdateLegislation";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
+import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
 
 interface GetLegislationProps {
 	legislation: LegislationGetResponse;
@@ -45,60 +46,65 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 	const url = isDownload ? transformDownloadURL(currentLegislation.link) : currentLegislation.link;
 
 	return (
-		<div className="legislation-container">
-			{isAuthenticated && !isLoading && (user.id === currentLegislation.user.id || user.role === "admin") && (
-				<div className="buttons-update-delete">
-					<ButtonUpdate>
-						{(onClose) => (
-							<UpdateLegislation onClose={onClose} legislationGetResponse={legislation}  onUpdated={(updateLegislation) => setCurrentLegislation(updateLegislation)}/>
-						)}
-					</ButtonUpdate>
-					<ButtonDelete
-						onDelete={() => deleteLegislation(currentLegislation.id)}
-						message="¿Estás seguro de que deseas eliminar esta legislación?"
-					/>
-				</div>
-			)}
-			{user?.role === "admin" && isApproved == null && (
-				<div className="resume-actions">
-					<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta legislacion?" onApprove={() => handleApproval(true)} onReject={() => {}} />
-					<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta legislación?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />				
-				</div>
-			)}
-			<h1 className="legislation-title">{currentLegislation.title}</h1>
-
-			<div className="legislation-meta-container">
-				<p className="legislation-meta">
-					Subido por:{" "}
-					<img src={currentLegislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
-					{
-						currentLegislation.user.regular_user?.name ||
-						currentLegislation.user.university_user?.name ||
-						currentLegislation.user.business_user?.name ||
-						"Anónimo"
-					}
-				</p>
-			</div>
-
-			<p className="legislation-meta">
-				Subtemas: {currentLegislation.subtopics.map((s) => s.name).join(", ")}
-			</p>
-
-			<div className="legislation-description">
-				<div dangerouslySetInnerHTML={{ __html: currentLegislation.description }} />
-			</div>
-
-			<div className="legislation-link">
-				{isDownload ? (
-					<a href={url} download>
-						📥 Descargar documento
-					</a>
-				) : (
-					<a href={url} target="_blank" rel="noopener noreferrer">
-						🌐 Ver legislación
-					</a>
+		<>
+			<div className="legislation-container">
+				{isAuthenticated && !isLoading && (user.id === currentLegislation.user.id || user.role === "admin") && (
+					<div className="buttons-update-delete">
+						<ButtonUpdate>
+							{(onClose) => (
+								<UpdateLegislation onClose={onClose} legislationGetResponse={legislation}  onUpdated={(updateLegislation) => setCurrentLegislation(updateLegislation)}/>
+							)}
+						</ButtonUpdate>
+						<ButtonDelete
+							onDelete={() => deleteLegislation(currentLegislation.id)}
+							message="¿Estás seguro de que deseas eliminar esta legislación?"
+						/>
+					</div>
 				)}
+				{user?.role === "admin" && isApproved == null && (
+					<div className="resume-actions">
+						<ApprovalButton approved={true} message="¿Estás seguro de que deseas aprobar esta legislacion?" onApprove={() => handleApproval(true)} onReject={() => {}} />
+						<ApprovalButton approved={false} message="¿Estás seguro de que deseas desaprobar esta legislación?" onApprove={() => {}} onReject={(comment) => handleApproval(false, comment)} />				
+					</div>
+				)}
+				<h1 className="legislation-title">{currentLegislation.title}</h1>
+
+				<div className="legislation-meta-container">
+					<p className="legislation-meta">
+						Subido por:{" "}
+						<img src={currentLegislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+						{
+							currentLegislation.user.regular_user?.name ||
+							currentLegislation.user.university_user?.name ||
+							currentLegislation.user.business_user?.name ||
+							"Anónimo"
+						}
+					</p>
+				</div>
+
+				<p className="legislation-meta">
+					Subtemas: {currentLegislation.subtopics.map((s) => s.name).join(", ")}
+				</p>
+
+				<div className="legislation-description">
+					<div dangerouslySetInnerHTML={{ __html: currentLegislation.description }} />
+				</div>
+
+				<div className="legislation-link">
+					{isDownload ? (
+						<a href={url} download>
+							📥 Descargar documento
+						</a>
+					) : (
+						<a href={url} target="_blank" rel="noopener noreferrer">
+							🌐 Ver legislación
+						</a>
+					)}
+				</div>
 			</div>
-		</div>
+			{isAuthenticated && !isLoading && (user.id === currentLegislation.user.id || user.role === "admin") && (
+				<GetAllRejectComment resourceType="legislation" resourceId={currentLegislation.id} isApproved={isApproved} />
+			)}
+		</>
 	);
 };

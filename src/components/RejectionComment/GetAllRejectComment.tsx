@@ -6,6 +6,7 @@ import {
 } from "../../api/RejectionCommentApi";
 import { RejectionCommentResponse } from "../../dtos/responses/RejectionComment";
 import "./GetAllRejectComment.css";
+import { useAuth } from "../../providers/Auth";
 
 interface GetAllRejectCommentProps {
 	resourceType: string;
@@ -21,6 +22,7 @@ export const GetAllRejectComment: React.FC<GetAllRejectCommentProps> = ({
 	const [comments, setComments] = useState<RejectionCommentResponse[]>([]);
 	const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
 	const [editText, setEditText] = useState("");
+	const { user } = useAuth();
 
 	const loadComments = async () => {
 		try {
@@ -83,15 +85,17 @@ export const GetAllRejectComment: React.FC<GetAllRejectCommentProps> = ({
 							<>
 								<div className="comment-header">
 									<span className="comment-author">Sistema</span>
-									<button
-										className="btn-edit"
-										onClick={() => {
-											setEditingCommentId(comment.id);
-											setEditText(comment.comment);
-										}}
-									>
+									{user.role == "admin" && ( // 👈 solo si es administrador
+										<button
+											className="btn-edit"
+											onClick={() => {
+												setEditingCommentId(comment.id);
+												setEditText(comment.comment);
+											}}
+										>
 										✏️ Editar
-									</button>
+										</button>
+									)}
 								</div>
 								<p className="comment-text">{comment.comment}</p>
 							</>
