@@ -121,7 +121,7 @@ export const UpdateInvestigation: React.FC<UpdateInvestigationProps> = ({ onClos
 	return (
 		<div className="update-investigation">
 			<ButtonClose onClick={onClose}/>
-			<h2 className="update-investigation__title">Crear Investigación</h2>
+			<h2 className="update-investigation__title">Actualizar Investigación</h2>
 			{successMessage && (
                 <div className="success-message">
                 	{successMessage}

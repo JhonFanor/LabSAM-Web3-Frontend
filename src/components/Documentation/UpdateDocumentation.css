@@ -1,5 +1,3 @@
-/* UpdateDocumentation.css */
-
 .update-documentation {
     position: relative;
     background: white;
@@ -10,14 +8,13 @@
     max-height: 90vh;
     min-height: 500px;
     overflow-y: auto;
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-    animation: animate-news 0.4s ease-in-out;
+    animation: animate-documentation 0.4s ease-in-out;
     display: flex;
     flex-direction: column;
 }
 
-@keyframes animate-news {
+@keyframes animate-documentation {
     0% { transform: scale(1, 1); }
     50% { transform: scale(1.05, 1.05); }
     100% { transform: scale(1, 1); }
@@ -28,6 +25,7 @@
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
 .update-documentation__form {
@@ -39,6 +37,21 @@
     padding-bottom: 1rem;
 }
 
+.update-documentation__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-documentation__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
+
 .update-documentation__form input,
 .update-documentation__form textarea {
     width: 100%;
@@ -48,40 +61,42 @@
     font-size: 1rem;
     background: #fff;
     color: #818181;
+    box-sizing: border-box;
+}
+
+.jodit-container {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
 }
 
 .update-documentation__buttons {
     display: flex;
-    justify-content: flex-end;
     gap: 1rem;
+    justify-content: center;
     margin-top: 1rem;
 }
 
 .update-documentation__buttons button {
-    padding: 0.85rem 1.2rem;
+    background: var(--first-color);
+    color: #fff;
     font-weight: 600;
+    padding: 0.85rem 1.5rem;
     border-radius: 0.5rem;
-    border: none;
     cursor: pointer;
+    text-align: center;
+    border: none;
     transition: background 0.3s;
 }
 
-.update-documentation__buttons button[type="submit"] {
-    background: var(--first-color, #007bff);
-    color: white;
+.update-documentation__buttons button:hover {
+    background: var(--color-red-button);
 }
 
-.update-documentation__buttons button[type="submit"]:hover {
-    background: var(--first-color-dark, #0056b3);
-}
-
-.update-documentation__buttons button[type="button"] {
-    background: #e0e0e0;
-    color: #333;
-}
-
-.update-documentation__buttons button[type="button"]:hover {
-    background: #d0d0d0;
+.update-documentation__buttons button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 @media screen and (max-width: 768px) {
@@ -96,6 +111,11 @@
         font-size: 1.5rem;
     }
 
+    .jodit-container {
+        min-height: 150px;
+        max-height: 250px;
+    }
+
     .update-documentation__buttons button {
         padding: 0.75rem 1rem;
     }
@@ -105,5 +125,10 @@
     .update-documentation {
         max-width: 95%;
         max-height: 90vh;
+    }
+
+    .jodit-container {
+        min-height: 500px;
+        max-height: 1000px;
     }
 }

@@ -8,32 +8,16 @@
     max-height: 90vh; 
     min-height: 500px; 
     overflow-y: auto; 
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-    animation: animate-news 0.4s ease-in-out;
+    animation: animate-event 0.4s ease-in-out;
     display: flex;
     flex-direction: column;
 }
 
-@keyframes animate-news {
+@keyframes animate-event {
     0% { transform: scale(1, 1); }
     50% { transform: scale(1.05, 1.05); }
     100% { transform: scale(1, 1); }
-}
-
-.update-event__close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.update-event__close-button:hover {
-    color: #000;
 }
 
 .update-event__title {
@@ -41,6 +25,7 @@
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
 .update-event__form {
@@ -50,6 +35,20 @@
     flex-grow: 1;
     overflow-y: auto;
     padding-bottom: 1rem;
+}
+
+.update-event__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-event__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
 }
 
 .update-event__form input,
@@ -63,6 +62,13 @@
     color: #818181;
 }
 
+.jodit-container {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
 .update-event__buttons {
     display: flex;
     gap: 1rem;
@@ -71,18 +77,19 @@
 }
 
 .update-event__buttons button {
-    background: var(--first-color, #007bff);
+    background: var(--first-color);
     color: #fff;
     font-weight: 600;
     padding: 0.85rem 1.5rem;
     border-radius: 0.5rem;
-    border: none;
     cursor: pointer;
+    text-align: center;
+    border: none;
     transition: background 0.3s;
 }
 
 .update-event__buttons button:hover {
-    background: var(--first-color-dark, #0056b3);
+    background: var(--color-red-button);
 }
 
 .update-event__buttons button:disabled {
@@ -102,6 +109,10 @@
         font-size: 1.5rem;
     }
 
+    .jodit-container {
+        min-height: 150px;
+        max-height: 250px;
+    }
     .update-event__buttons button {
         padding: 0.75rem;
     }
@@ -111,5 +122,10 @@
     .update-event {
         max-width: 95%; 
         max-height: 90vh;
+    }
+
+    .jodit-container {
+        min-height: 500px;
+        max-height: 1000px;
     }
 }

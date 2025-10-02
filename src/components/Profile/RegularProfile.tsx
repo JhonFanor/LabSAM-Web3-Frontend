@@ -246,64 +246,36 @@ export const RegularProfile: React.FC = () => {
 
                 <div className="register__box">
                     <FaIdCard className="register__icon" />
-                    <input
-                    type="text"
-                    name="name"
-                    placeholder="Nombre"
-                    className="register__input"
-                    value={editedData.name}
-                    onChange={handleInputChange}
-                    />
+                    <label>Nombre:</label>
+                    <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
                 </div>
 
                 {userData.regular_user && (
                     <>
-                    <div className="register__box">
-                        <FaCalendarAlt className="register__icon" />
-                        <input
-                        type="date"
-                        name="birth_date"
-                        className="register__input"
-                        value={editedData.birth_date}
-                        onChange={handleInputChange}
-                        />
-                    </div>
+                        <div className="register__box">
+                            <FaCalendarAlt className="register__icon" />
+                            <label>Fecha de nacimiento:</label>
+                            <input type="date" name="birth_date" className="register__input" value={editedData.birth_date} onChange={handleInputChange} />
+                        </div>
                     </>
                 )}
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
-                    <Select
-                    placeholder="Selecciona un país"
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    options={countryOptions}
-                    className="register__select"
-                    />
+                    <label>País:</label>
+                    <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
                 </div>
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
-                    <Select
-                    placeholder="Selecciona una ciudad"
-                    value={selectedCity}
-                    onChange={handleCityChange}
-                    options={cityOptions}
-                    className="register__select"
-                    isDisabled={!selectedCountry}
-                    />
+                    <label>Ciudad:</label>
+                    <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
                 </div>
 
                 <div className="register__box">
                     <FaPhone className="register__icon" />
-                    <input
-                    type="text"
-                    name="phone"
-                    placeholder="Teléfono"
-                    className="register__input"
-                    value={editedData.phone}
-                    onChange={handleInputChange}
-                    />
+                    <label>Teléfono:</label>
+                    <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
                 </div>
             </div>
         ) : (
@@ -311,6 +283,7 @@ export const RegularProfile: React.FC = () => {
                 <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
                 <div className="register__box">
                     <FaEnvelope className="register__icon" />
+                    <label>Correo:</label>
                     <span>{userData.email}</span>
                 </div>
 
@@ -318,24 +291,27 @@ export const RegularProfile: React.FC = () => {
                     <div className="user-section">
                     {userData.regular_user.birth_date && (
                         <div className="register__box">
-                        <FaCalendarAlt className="register__icon" />
-                        <span>
-                            {new Date(userData.regular_user.birth_date).toLocaleDateString()}
-                        </span>
+                            <FaCalendarAlt className="register__icon" />
+                            <label>Fecha de nacimiento:</label>
+                            <span>
+                                {new Date(userData.regular_user.birth_date).toLocaleDateString()}
+                            </span>
                         </div>
                     )}
                     {userData.regular_user.location && (
                         <>
-                        <div className="register__box">
-                            <FaMapMarkerAlt className="register__icon" />
-                            <span>{userData.regular_user.location.city}, {userData.regular_user.location.country}</span>
-                        </div>
+                            <div className="register__box">
+                                <FaMapMarkerAlt className="register__icon" />
+                                <label>Ubicación:</label>
+                                <span>{userData.regular_user.location.city}, {userData.regular_user.location.country}</span>
+                            </div>
                         </>
                     )}
                     {userData.regular_user.contact && (
                         <>
                             <div className="register__box">
                                 <FaPhone className="register__icon" />
+                                <label>Teléfono:</label>
                                 <span>{userData.regular_user.contact.phone || "No disponible"}</span>
                             </div>
                         </>

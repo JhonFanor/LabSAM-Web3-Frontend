@@ -44,8 +44,8 @@ interface UserResponse {
 }
 
 interface OptionType {
-  value: string;
-  label: string;
+    value: string;
+    label: string;
 }
 
 export const UniversityProfile: React.FC = () => {
@@ -96,11 +96,11 @@ export const UniversityProfile: React.FC = () => {
         const fetchUser = async () => {
             try {
                 const response = await FetchWithAuth(`${BASE_URL}/${user.id}`, {
-                method: "GET",
+                    method: "GET",
                 });
 
                 if (!response.ok) {
-                throw new Error("Error al obtener el usuario");
+                    throw new Error("Error al obtener el usuario");
                 }
 
                 const data: UserResponse = await response.json();
@@ -122,52 +122,52 @@ export const UniversityProfile: React.FC = () => {
 
     const initializeEditedData = (data: UserResponse) => {
         const baseData = {
-        email: data.email,
-        avatar: data.avatar,
+            email: data.email,
+            avatar: data.avatar,
         };
 
         const location = data.university_user?.location;
         const contact = data.university_user?.contact;
 
         if (location?.country) {
-        const foundCountry = countryOptions.find((c) => c.label === location.country);
-        if (foundCountry) {
-            setSelectedCountry(foundCountry);
-            const cities = City.getCitiesOfCountry(foundCountry.value);
-            const foundCity = cities?.find((c) => c.name === location.city);
-            if (foundCity) {
-            setSelectedCity({ value: foundCity.name, label: foundCity.name });
+            const foundCountry = countryOptions.find((c) => c.label === location.country);
+            if (foundCountry) {
+                setSelectedCountry(foundCountry);
+                const cities = City.getCitiesOfCountry(foundCountry.value);
+                const foundCity = cities?.find((c) => c.name === location.city);
+                if (foundCity) {
+                setSelectedCity({ value: foundCity.name, label: foundCity.name });
+                }
             }
         }
-        }
         if (data.university_user) {
-        setEditedData({
-            ...baseData,
-            name: data.university_user.name,
-            university_type_id: data.university_user.university_type?.id || "",
-            university_type_name: data.university_user.university_type?.name || "",
-            country: location?.country || "",
-            city: location?.city || "",
-            phone: contact?.phone || "",
-            website: contact?.website || "",
-        });
+            setEditedData({
+                ...baseData,
+                name: data.university_user.name,
+                university_type_id: data.university_user.university_type?.id || "",
+                university_type_name: data.university_user.university_type?.name || "",
+                country: location?.country || "",
+                city: location?.city || "",
+                phone: contact?.phone || "",
+                website: contact?.website || "",
+            });
         }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setEditedData({
-        ...editedData,
-        [name]: value,
+            ...editedData,
+            [name]: value,
         });
     };
 
     const handleCountryChange = (option: OptionType | null) => {
         setSelectedCountry(option);
         setEditedData({
-        ...editedData,
-        country: option?.label || "",
-        city: "",
+            ...editedData,
+            country: option?.label || "",
+            city: "",
         });
         setSelectedCity(null);
     };
@@ -175,8 +175,8 @@ export const UniversityProfile: React.FC = () => {
     const handleCityChange = (option: OptionType | null) => {
         setSelectedCity(option);
         setEditedData({
-        ...editedData,
-        city: option?.label || "",
+            ...editedData,
+            city: option?.label || "",
         });
     };
 
@@ -270,61 +270,40 @@ export const UniversityProfile: React.FC = () => {
 
                 <div className="register__box">
                     <FaIdCard className="register__icon" />
+                    <label>Nombre:</label>
                     <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
                 </div>
 
                 {userData.university_user && (
                     <div className="register__box">
                         <FaUniversity className="register__icon" />
+                        <label>Tipo de Universidad:</label>
                         <Select placeholder="Tipo de Universidad *" value={selectedUniversityType} onChange={setSelectedUniversityType} options={universityTypeOptions} className="register__select" required/>
                     </div>
                 )}
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
-                    <Select
-                    placeholder="Selecciona un país"
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    options={countryOptions}
-                    className="register__select"
-                    />
+                    <label>País:</label>
+                    <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
                 </div>
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
-                    <Select
-                    placeholder="Selecciona una ciudad"
-                    value={selectedCity}
-                    onChange={handleCityChange}
-                    options={cityOptions}
-                    className="register__select"
-                    isDisabled={!selectedCountry}
-                    />
+                    <label>Ciudad:</label>
+                    <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
                 </div>
 
                 <div className="register__box">
                     <FaPhone className="register__icon" />
-                    <input
-                    type="text"
-                    name="phone"
-                    placeholder="Teléfono"
-                    className="register__input"
-                    value={editedData.phone}
-                    onChange={handleInputChange}
-                    />
+                    <label>Teléfono:</label>
+                    <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
                 </div>
 
                 <div className="register__box">
                     <FaLink className="register__icon" />
-                    <input
-                    type="text"
-                    name="website"
-                    placeholder="Sitio web"
-                    className="register__input"
-                    value={editedData.website}
-                    onChange={handleInputChange}
-                    />
+                    <label>Sitio web:</label>
+                    <input type="text" name="website" placeholder="Sitio web" className="register__input" value={editedData.website} onChange={handleInputChange} />
                 </div>
             </div>
         ) : (
@@ -332,6 +311,7 @@ export const UniversityProfile: React.FC = () => {
                 <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
                 <div className="register__box">
                     <FaEnvelope className="register__icon" />
+                    <label>:</label>
                     <span>{userData.email}</span>
                 </div>
 
@@ -339,26 +319,30 @@ export const UniversityProfile: React.FC = () => {
                     <div className="user-section">
                     {userData.university_user.university_type && (
                         <div className="register__box">
-                        <FaUniversity className="register__icon" />
-                        <span>{userData.university_user.university_type.name}</span>
+                            <FaUniversity className="register__icon" />
+                            <label>Tipo de universidad:</label>
+                            <span>{userData.university_user.university_type.name}</span>
                         </div>
                     )}
                     {userData.university_user.location && (
                         <div className="register__box">
-                        <FaMapMarkerAlt className="register__icon" />
-                        <span>{userData.university_user.location.city}, {userData.university_user.location.country}</span>
+                            <FaMapMarkerAlt className="register__icon" />
+                            <label>Ubicación:</label>
+                            <span>{userData.university_user.location.city}, {userData.university_user.location.country}</span>
                         </div>
                     )}
                     {userData.university_user.contact && (
                         <>
-                        <div className="register__box">
-                            <FaPhone className="register__icon" />
-                            <span>{userData.university_user.contact.phone || "No disponible"}</span>
-                        </div>
-                        <div className="register__box">
-                            <FaGlobe className="register__icon" />
-                            <span>{userData.university_user.contact.website || "No disponible"}</span>
-                        </div>
+                            <div className="register__box">
+                                <FaPhone className="register__icon" />
+                                <label>Teléfono:</label>
+                                <span>{userData.university_user.contact.phone || "No disponible"}</span>
+                            </div>
+                            <div className="register__box">
+                                <FaGlobe className="register__icon" />
+                                <label>Sitio web:</label>
+                                <span>{userData.university_user.contact.website || "No disponible"}</span>
+                            </div>
                         </>
                     )}
                     </div>

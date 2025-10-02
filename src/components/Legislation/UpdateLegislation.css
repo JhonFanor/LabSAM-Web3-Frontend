@@ -1,5 +1,3 @@
-/* UpdateLegislation.css */
-
 .update-legislation {
   position: relative;
   background: white;
@@ -10,7 +8,6 @@
   max-height: 90vh;
   min-height: 500px;
   overflow-y: auto;
-  text-align: center;
   box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
   animation: animate-legislation 0.4s ease-in-out;
   display: flex;
@@ -34,6 +31,7 @@
   margin-bottom: 1rem;
   font-weight: 600;
   color: #000;
+  text-align: center;
 }
 
 .update-legislation__form {
@@ -45,6 +43,20 @@
   padding-bottom: 1rem;
 }
 
+.update-legislation__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-legislation__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
 .update-legislation__form input,
 .update-legislation__form textarea {
   width: 100%;
@@ -53,60 +65,45 @@
   border-radius: 0.5rem;
   font-size: 1rem;
   background: #fff;
-  color: #333;
+  color: #818181;
   box-sizing: border-box;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.update-legislation__form input:focus,
-.update-legislation__form textarea:focus {
-  border-color: var(--first-color, #007bff);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+.jodit-container {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 8px;
 }
 
 .update-legislation__buttons {
   display: flex;
-  justify-content: space-between;
   gap: 1rem;
+  justify-content: center;
   margin-top: 1rem;
 }
 
 .update-legislation__buttons button {
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-  border: none;
+  background: var(--first-color);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-weight: 600;
+  text-align: center;
+  border: none;
+  transition: background 0.3s;
 }
 
-.update-legislation__buttons button[type="submit"] {
-  background-color: #007bff;
-  color: white;
+.update-legislation__buttons button:hover {
+    background: var(--color-red-button);
 }
 
-.update-legislation__buttons button[type="submit"]:hover {
-  background-color: #0056b3;
+.update-legislation__buttons button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
-.update-legislation__buttons button[type="button"] {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.update-legislation__buttons button[type="button"]:hover {
-  background-color: #c6c6c6;
-}
-
-.jodit-container {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/* Responsive */
 @media screen and (max-width: 768px) {
   .update-legislation {
     width: 100%;
@@ -119,7 +116,24 @@
     font-size: 1.5rem;
   }
 
+      .jodit-container {
+        min-height: 150px;
+        max-height: 250px;
+    }
+
   .update-legislation__buttons button {
     padding: 0.65rem 1rem;
   }
+}
+
+@media screen and (min-width: 1024px) {
+    .update-legislation {
+        max-width: 95%;
+        max-height: 90vh;
+    }
+
+    .jodit-container {
+        min-height: 500px;
+        max-height: 1000px;
+    }
 }

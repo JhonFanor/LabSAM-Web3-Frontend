@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetEducationalOffer } from "../../components";
-import { getAllEducationalOffersNotApproved, getEducationalOfferById } from "../../api/EducationalOfferApi";
+import { getAllEducationalOffersByUserID, getEducationalOfferById } from "../../api/EducationalOfferApi";
 import { EducationalOfferGetResponse } from "../../dtos/responses/EducationalOffer";
 import { ButtonReturn } from "../../components/Button/ButtonReturn";
 
@@ -36,12 +36,12 @@ const EducationalOfferByUserIDDetails: React.FC = () => {
 
     const handleBack = async () => {
         try {
-            const currentPageData = await getAllEducationalOffersNotApproved(page, 10);
+            const currentPageData = await getAllEducationalOffersByUserID(page, 10);
 
             if (currentPageData.data.length > 0) {
                 navigate(`/user/publications?educationalOffersPage=${page}`);
             } else if (page > 1) {
-                const prevPageData = await getAllEducationalOffersNotApproved(page - 1, 10);
+                const prevPageData = await getAllEducationalOffersByUserID(page - 1, 10);
                 if (prevPageData.data.length > 0) {
                     navigate(`/user/publications?educationalOffersPage=${page - 1}`);
                 } else {

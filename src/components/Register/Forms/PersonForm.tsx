@@ -153,36 +153,43 @@ export const PersonForm: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className="register__box">
                     <FaIdCard className="register__icon" />
+                    <label>Nombre:</label>
                     <input type="text" placeholder="Nombre*" className="register__input" value={name} onChange={(e) => setName(e.target.value)} required/>
                 </div>
 
                 <div className="register__box">
                     <FaEnvelope className="register__icon" />
+                    <label>Correo:</label>
                     <input type="email" placeholder="Correo*" className="register__input" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 </div>
 
                 <div className="register__box">
                     <FaLock className="register__icon" />
+                    <label>Contraseña:</label>
                     <input type="password" placeholder="Contraseña*" className="register__input" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </div>
 
                 <div className="register__box">
                     <FaCalendarAlt className="register__icon" />
+                    <label>Fecha de nacimiento:</label>
                     <input type="date" placeholder="Fecha de nacimiento" className="register__input" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
                 </div>
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
+                    <label>País:</label>
                     <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
                 </div>
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
+                    <label>Ciudad:</label>
                     <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
                 </div>
 
                 <div className="register__box">
                     <FaPhone className="register__icon" />
+                    <label>Teléfono:</label>
                     <input type="text" placeholder="Teléfono" className="register__input" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
 

@@ -179,7 +179,7 @@ export const CreateEducationalOffer: React.FC<CreateEducationalOfferProps> = ({ 
 				</div>
 				<div className="form-group">
 					<label>Enlace*</label>
-					<input type="url" name="link" placeholder="Enlace (opcional)" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} required/>
+					<input type="url" name="link" placeholder="Enlace" value={educationalOffer.link} onChange={(e) => setEducationalOffer({ ...educationalOffer, link: e.target.value })} required/>
 				</div>
 				{ subtopicError && (
                     <span className="form-error">Debes seleccionar al menos un subtema.</span>

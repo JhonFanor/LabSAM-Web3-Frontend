@@ -8,7 +8,6 @@
     max-height: 90vh;
     min-height: 500px;
     overflow-y: auto;
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-update-resume 0.4s ease-in-out;
     display: flex;
@@ -26,6 +25,7 @@
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
 .update-bank-of-resume__form {
@@ -35,6 +35,20 @@
     flex-grow: 1;
     overflow-y: auto;
     padding-bottom: 1rem;
+}
+
+.update-bank-of-resume .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-bank-of-resume label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
 }
 
 .update-bank-of-resume__form input,
@@ -63,29 +77,24 @@
 }
 
 .update-bank-of-resume__buttons button {
-    padding: 0.85rem 1.25rem;
-    border-radius: 0.5rem;
+    background: var(--first-color);
+    color: #fff;
     font-weight: 600;
+    padding: 0.85rem 1.5rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: background 0.3s;
+    text-align: center;
     border: none;
-    color: white;
+    transition: background 0.3s;
 }
 
-.update-bank-of-resume__buttons button[type="submit"] {
-    background: var(--first-color, #007bff);
+.update-bank-of-resume__buttons button:hover {
+    background: var(--color-red-button);
 }
 
-.update-bank-of-resume__buttons button[type="submit"]:hover {
-    background: var(--first-color-dark, #0056b3);
-}
-
-.update-bank-of-resume__buttons button[type="button"] {
-    background: #6c757d;
-}
-
-.update-bank-of-resume__buttons button[type="button"]:hover {
-    background: #495057;
+.update-bank-of-resume__buttons button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 @media screen and (max-width: 768px) {
@@ -106,7 +115,7 @@
     }
 
     .update-bank-of-resume__buttons button {
-        padding: 0.75rem;
+        padding: 0.75rem 1.2rem;
     }
 }
 

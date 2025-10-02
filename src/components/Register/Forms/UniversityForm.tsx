@@ -171,37 +171,45 @@ export const UniversityForm: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className="register__box">
                     <FaUniversity className="register__icon" />
+                    <label>Nombre:</label>
                     <input type="text" placeholder="Nombre de la Universidad*" className="register__input" value={name} onChange={(e) => setName(e.target.value)} required/>
                 </div>
                 <div className="register__box">
                     <FaEnvelope className="register__icon" />
+                    <label>Correo:</label>
                     <input type="email" placeholder="Correo Institucional*" className="register__input" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 </div>
                 <div className="register__box">
                     <FaLock className="register__icon" />
+                    <label>Contraseña:</label>
                     <input type="password" placeholder="Contraseña*" className="register__input" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </div>
                 <div className="register__box">
                     <FaUser className="register__icon" />
+                    <label>Tipo de universidad:</label>
                     <Select placeholder="Tipo de Universidad *" value={selectedUniversityType} onChange={setSelectedUniversityType} options={universityTypeOptions} className="register__select" required/>
                 </div>
 
                 <div className="register__box">
                     <FaGlobe className="register__icon" />
+                    <label>País:</label>
                     <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
                 </div>
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
+                    <label>Ciudad:</label>
                     <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} isDisabled={!selectedCountry} className="register__select" />
                 </div>
 
                 <div className="register__box">
                     <FaPhone className="register__icon" />
+                    <label>Teléfono:</label>
                     <input type="text" placeholder="Teléfono" className="register__input" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
                 <div className="register__box">
                     <FaLink className="register__icon" />
+                    <label>Sitio web:</label>
                     <input type="text" placeholder="Sitio Web" className="register__input" value={website} onChange={(e) => setWebsite(e.target.value)} />
                 </div>
 

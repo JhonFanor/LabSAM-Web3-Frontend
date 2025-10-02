@@ -36,7 +36,6 @@ import Unauthorized from './pages/Admin/Unauthorized';
 import AdminRoute from './components/Admin/AdminRoute';
 import NewsByUserIDDetails from './pages/News/NewsByUserIDDetails';
 import PublicationPage from './pages/User/Publication';
-import { useNotificationCount } from './hooks/UseNotificationCount';
 import Notification from './pages/Notification/Notification';
 import ReportPage from './pages/Report/Report';
 import HomePage from './pages/Home/Home';
@@ -45,6 +44,13 @@ import BankOfReusmeByUserIDDetails from './pages/BankOfResume/BankOfReusmeByUser
 import { ForgotPassword } from './components/Password/ForgotPasswordForm';
 import Password from './pages/Password/Password';
 import ProfilePage from './pages/Profile/ProfilePage';
+import EventByUserIDDetails from './pages/Event/EventByUserIDDetails';
+import InvestigationByUserIDDetails from './pages/Investigation/InvestigationByUserIDDetails';
+import JobBoardByUserIDDetails from './pages/JobBoard/JobBoardByUserIDDetails';
+import CompanyByUserIDDetails from './pages/Company/CompanyByUserIDDetails';
+import EducationalOfferByUserIDDetails from './pages/EducationalOffer/EducationalOfferByUserIDDetails';
+import LegislationByUserIDDetails from './pages/Legislation/LegislationByUserIDDetails';
+import DocumentationByUserIDDetails from './pages/Documentation/DocumentationByUserIDDetails';
 
 const App: React.FC = () => {
     const { user } = useAuth();
@@ -52,8 +58,6 @@ const App: React.FC = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
-    const unreadCount = useNotificationCount();
 
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);
@@ -86,7 +90,7 @@ const App: React.FC = () => {
     return (
         <Router>
             <div className="app">
-                <Header toggleMenu={toggleMenu} menuVisible={menuVisible} onLoginClick={handleLoginClick}  onRegisterClick={handleRegisterClick}  unreadCount={unreadCount} />
+                <Header toggleMenu={toggleMenu} menuVisible={menuVisible} onLoginClick={handleLoginClick}  onRegisterClick={handleRegisterClick} />
                 <Navbar menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
                 <div className="main">
                     <Routes>  
@@ -97,12 +101,15 @@ const App: React.FC = () => {
                         <Route path="/admin/news/:id" element={<AdminRoute><NewsNotApprovedDetail /></AdminRoute>} />
                         <Route path="/events" element={<Events />} /> 
                         <Route path="/event/:id" element={<EventsDetail />} />
+                        <Route path="/user/event/:id" element={<EventByUserIDDetails />} />
                         <Route path="/admin/event/:id" element={<AdminRoute><EventNotApprovedDetail /></AdminRoute>} />
                         <Route path="/investigations" element={<Investigation />} />
                         <Route path="/investigation/:id" element={<InvestigationDetail />} />
+                        <Route path="/user/investigation/:id" element={<InvestigationByUserIDDetails />} />
                         <Route path="/admin/investigation/:id" element={<AdminRoute><InvestigationNotApprovedDetail /></AdminRoute>} />
                         <Route path="/jobs-board" element={<JobBoard />} /> 
                         <Route path="/job-board/:id" element={<JobBoardDetail />} /> 
+                        <Route path="/user/job-board/:id" element={<JobBoardByUserIDDetails />} />
                         <Route path="/admin/job-board/:id" element={<AdminRoute><JobBoardNotApprovedDetail /></AdminRoute>} />
                         <Route path="/bank-of-resumes" element={<BankOfResume />} />  
                         <Route path="/bank-of-resume/:id" element={<BankOfResumeDetail />} />
@@ -110,15 +117,19 @@ const App: React.FC = () => {
                         <Route path="/admin/bank-of-resume/:id" element={<AdminRoute><BankOfResumeNotApprovedDetail /></AdminRoute>} />
                         <Route path="/companies" element={<Companies />} /> 
                         <Route path="/company/:id" element={<CompanyDetail />} />
+                        <Route path="/user/company/:id" element={<CompanyByUserIDDetails />} />
                         <Route path="/admin/company/:id" element={<AdminRoute><CompanyNotApprovedDetail /></AdminRoute>} />
                         <Route path="/educational-offers" element={<EducationalOffers />} /> 
                         <Route path="/educational-offer/:id" element={<EducationalOfferDetail />} />
+                        <Route path="/user/educational-offer/:id" element={<EducationalOfferByUserIDDetails />} />
                         <Route path="/admin/educational-offer/:id" element={<AdminRoute><EducationalOfferNotApprovedDetail /></AdminRoute>} />
                         <Route path="/legislations" element={<Legislations />} /> 
                         <Route path="/legislation/:id" element={<LegislationDetail />} />
+                        <Route path="/user/legislation/:id" element={<LegislationByUserIDDetails />} />
                         <Route path="/admin/legislation/:id" element={<AdminRoute><LegislationNotApprovedDetail /></AdminRoute>} />
                         <Route path="/documentations" element={<Documentation />} /> 
                         <Route path="/documentation/:id" element={<DocumentationDetail />} />
+                        <Route path="/user/documentation/:id" element={<DocumentationByUserIDDetails />} />
                         <Route path="/admin/documentation/:id" element={<AdminRoute><DocumentationNotApprovedDetail /></AdminRoute>} />
                         <Route path="/admin/pending-approvals" element={<AdminRoute><PendingApprovals /></AdminRoute>} />
                         <Route path="/admin/permissions" element={<AdminRoute><PermissionPage /></AdminRoute>} />

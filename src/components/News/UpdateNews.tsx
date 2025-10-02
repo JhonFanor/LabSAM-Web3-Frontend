@@ -119,7 +119,7 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
     return (
         <div className="update-news">
             <ButtonClose onClick={onClose}/>
-            <h2 className="update-news__title">Crear Noticia</h2>
+            <h2 className="update-news__title">Actualizar Noticia</h2>
 			{successMessage && (
                 <div className="success-message">
                 	{successMessage}
@@ -150,7 +150,7 @@ export const UpdateNews: React.FC<UpdateNewsProps> = ({ onClose, newsGetResponse
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
                 <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
 
-                <div className="update-bank-of-resume__buttons">
+                <div className="update-news__buttons">
                     <button type="submit">
                         {uploading ? "Actualizando..." : "Actualizar Noticia"}                     
                     </button>

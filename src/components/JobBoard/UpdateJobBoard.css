@@ -8,14 +8,13 @@
   max-height: 90vh;
   min-height: 500px;
   overflow-y: auto;
-  text-align: center;
   box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
-  animation: animate-news 0.4s ease-in-out;
+  animation: animate-job-board 0.4s ease-in-out;
   display: flex;
   flex-direction: column;
 }
 
-@keyframes animate-news {
+@keyframes animate-job-board {
   0% {
     transform: scale(1, 1);
   }
@@ -32,6 +31,7 @@
   margin-bottom: 1rem;
   font-weight: 600;
   color: #000;
+  text-align: center;
 }
 
 .update-job-board__form {
@@ -43,26 +43,38 @@
   padding-bottom: 1rem;
 }
 
+.update-job-board__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-job-board__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
+}
+
 .update-job-board__form input,
 .update-job-board__form textarea,
 .update-job-board__select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  background: #fff;
-  color: #333;
-  box-sizing: border-box;
-  transition: border-color 0.2s, box-shadow 0.2s;
+     width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #fff;
+    color: #818181;
+    box-sizing: border-box;
 }
 
-.update-job-board__form input:focus,
-.update-job-board__form textarea:focus,
-.update-job-board__select:focus {
-  border-color: var(--first-color, #007bff);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+.jodit-container {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
 }
 
 .update-job-board__select {
@@ -88,23 +100,24 @@
 }
 
 .update-job-board__buttons button {
-  background: var(--first-color, #007bff);
-  color: #fff;
-  font-weight: 600;
-  padding: 0.85rem 1.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  border: none;
-  transition: background 0.3s;
+    background: var(--first-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.85rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    transition: background 0.3s;
 }
 
 .update-job-board__buttons button:hover {
-  background: var(--first-color-dark, #0056b3);
+    background: var(--color-red-button);
 }
 
 .update-job-board__buttons button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 .error {
@@ -123,6 +136,11 @@
     padding: 1.5rem;
   }
 
+    .jodit-container {
+        min-height: 150px;
+        max-height: 250px;
+    }
+
   .update-job-board__title {
     font-size: 1.5rem;
   }
@@ -137,4 +155,9 @@
     max-width: 95%;
     max-height: 90vh;
   }
+
+    .jodit-container {
+        min-height: 500px;
+        max-height: 1000px;
+    }
 }

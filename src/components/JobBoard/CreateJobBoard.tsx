@@ -73,16 +73,17 @@ export const CreateJobBoard: React.FC<CreateJobBoardProps> = ({ onClose }) => {
         }
 
         const preparedJobBoard: JobBoardCreateRequest = {
-        ...jobBoard,
-        salary_range:
-            salaryType === "fixed"
-            ? salaryFixed
-            : salaryType === "range"
-            ? `${salaryMin} - ${salaryMax}`
-            : "",
+            ...jobBoard,
+            salary_range:
+                salaryType === "fixed"
+                ? salaryFixed
+                : salaryType === "range"
+                ? `${salaryMin} - ${salaryMax}`
+                : "",
         };
 
         try {
+            console.log(preparedJobBoard);
             await createJobBoard(preparedJobBoard);
 
             setSelectedTopic(null);

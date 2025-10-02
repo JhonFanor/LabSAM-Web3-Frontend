@@ -1,79 +1,93 @@
 .update-company {
-  background-color: #fff;
-  padding: 2rem;
-  max-width: 800px;
-  margin: auto;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   position: relative;
-  font-family: 'Segoe UI', sans-serif;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 95%;
+  max-width: 750px;
+  max-height: 90vh;
+  min-height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+  animation: animate-company 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes animate-company {
+    0% { transform: scale(1, 1); }
+    50% { transform: scale(1.05, 1.05); }
+    100% { transform: scale(1, 1); }
 }
 
 .update-company__title {
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #000;
   text-align: center;
 }
 
 .update-company__form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+}
+
+.update-company__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-company__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
 }
 
 .update-company__form input {
+  width: 100%;
   padding: 0.75rem;
-  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-}
-
-.update-company__form input:focus {
-  border-color: #007bff;
-  outline: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: #fff;
+  color: #818181;
+  box-sizing: border-box;
 }
 
 .update-company__buttons {
   display: flex;
-  justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .update-company__buttons button {
-  padding: 0.7rem 1.4rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  background: var(--first-color);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  text-align: center;
+  border: none;
+  transition: background 0.3s;
 }
 
-.update-company__buttons button[type="submit"] {
-  background-color: #007bff;
-  color: white;
+.update-company__buttons button:hover {
+  background: var(--color-red-button);
 }
 
-.update-company__buttons button[type="submit"]:disabled {
-  background-color: #a0c4ff;
-  cursor: not-allowed;
-}
-
-.update-company__buttons button[type="button"] {
-  background-color: #6c757d;
-  color: white;
-}
-
-.update-company__buttons button[type="button"]:disabled {
-  background-color: #adb5bd;
-  cursor: not-allowed;
-}
-
-.remove-localitation-button:hover {
-  background-color: #d32f2f;
+.update-company__buttons button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 .update-company__localitation {
@@ -90,4 +104,27 @@
 
 .update-company__localitation:hover {
     background: var(--color-red-button);
+}
+
+@media screen and (max-width: 768px) {
+  .update-company {
+      width: 100%;
+      max-width: 95%;
+      max-height: 95vh;
+      padding: 1.5rem;
+  }
+
+  .update-company__title {
+      font-size: 1.5rem;
+  }
+  .update-company__buttons button {
+      padding: 0.75rem 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .update-company {
+    max-width: 95%;
+    max-height: 90vh;
+  }
 }

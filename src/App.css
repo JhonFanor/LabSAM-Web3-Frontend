@@ -39,6 +39,9 @@
   --get-background: #c9cfdb;
   --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 
+  --profile-background: #c9cfdb;
+  --profile-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+
   --rejection-comments-sectio-background: #c9cfdb;
   --rejection-comments-section-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 }

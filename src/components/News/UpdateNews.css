@@ -8,7 +8,6 @@
     max-height: 90vh;
     min-height: 500px;
     overflow-y: auto;
-    text-align: center;
     box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
     animation: animate-news 0.4s ease-in-out;
     display: flex;
@@ -26,6 +25,7 @@
     margin-bottom: 1rem;
     font-weight: 600;
     color: #000;
+    text-align: center;
 }
 
 .update-news__form {
@@ -35,6 +35,20 @@
     flex-grow: 1;
     overflow-y: auto;
     padding-bottom: 1rem;
+}
+
+.update-news__form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.update-news__form label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #333;
+    font-size: 1rem;
+    display: block;
 }
 
 .update-news__form input,
@@ -56,29 +70,30 @@
     border-radius: 8px;
 }
 
-.update-bank-of-resume__buttons {
+.update-news__buttons {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-top: 1rem;
 }
 
-.update-bank-of-resume__buttons button {
-    background: var(--first-color, #007bff);
+.update-news__buttons button {
+    background: var(--first-color);
     color: #fff;
     font-weight: 600;
     padding: 0.85rem 1.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
+    text-align: center;
     border: none;
     transition: background 0.3s;
 }
 
-.update-bank-of-resume__buttons button:hover {
-    background: var(--first-color-dark, #0056b3);
+.update-news__buttons button:hover {
+    background: var(--color-red-button);
 }
 
-.update-bank-of-resume__buttons button:disabled {
+.update-news__buttons button:disabled {
     background: #ccc;
     cursor: not-allowed;
 }
@@ -100,7 +115,7 @@
         max-height: 250px;
     }
 
-    .update-bank-of-resume__buttons button {
+    .update-news__buttons button {
         padding: 0.75rem 1.2rem;
     }
 }

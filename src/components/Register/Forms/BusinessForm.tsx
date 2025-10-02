@@ -158,6 +158,7 @@ export const BusinessForm: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className="register__box">
                     <FaBuilding className="register__icon" />
+                    <label>Nombre:</label>
                     <input
                     type="text"
                     placeholder="Nombre de la Empresa* "
@@ -168,6 +169,7 @@ export const BusinessForm: React.FC = () => {
                 </div>
                 <div className="register__box">
                     <FaEnvelope className="register__icon" />
+                    <label>Correo:</label>
                     <input
                     type="email"
                     placeholder="Correo Corporativo *"
@@ -179,6 +181,7 @@ export const BusinessForm: React.FC = () => {
                 </div>
                 <div className="register__box">
                     <FaLock className="register__icon" />
+                    <label>Contraseña:</label>
                     <input
                     type="password"
                     placeholder="Contraseña *"
@@ -191,6 +194,7 @@ export const BusinessForm: React.FC = () => {
                 </div>
                 <div className="register__box">
                     <FaGlobe className="register__icon" />
+                    <label>Industria:</label>
                     <input
                     type="text"
                     placeholder="Industria"
@@ -202,6 +206,7 @@ export const BusinessForm: React.FC = () => {
 
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
+                    <label>País:</label>
                     <Select
                     placeholder="Selecciona un país"
                     value={selectedCountry}
@@ -212,6 +217,7 @@ export const BusinessForm: React.FC = () => {
                 </div>
                 <div className="register__box">
                     <FaMapMarkerAlt className="register__icon" />
+                    <label>Ciudad:</label>
                     <Select
                     placeholder="Selecciona una ciudad"
                     value={selectedCity}
@@ -224,6 +230,7 @@ export const BusinessForm: React.FC = () => {
 
                 <div className="register__box">
                     <FaPhone className="register__icon" />
+                    <label>Teléfono:</label>
                     <input
                     type="text"
                     placeholder="Teléfono"
@@ -234,6 +241,7 @@ export const BusinessForm: React.FC = () => {
                 </div>
                 <div className="register__box">
                     <FaLink className="register__icon" />
+                    <label>Sitio web:</label>
                     <input
                     type="text"
                     placeholder="Sitio Web"
