@@ -31,9 +31,12 @@ interface OptionType {
   label: string;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/auth/register/business`;
+
 const handleBusinessSubmit = async (data: any) => {
     try {
-        const response = await fetch('http://localhost:8080/api/auth/register/business', {
+        const response = await fetch(BASE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

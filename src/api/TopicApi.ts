@@ -1,8 +1,11 @@
 import { TopicGetAllResponse } from "../dtos/responses";
 
+const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/topic`;
+
 export const getAllTopics = async ( setTopics: React.Dispatch<React.SetStateAction<TopicGetAllResponse[]>> ): Promise<void> => {
     try {
-        const response = await fetch("http://localhost:8080/api/topic");
+        const response = await fetch(BASE_URL);
         const data = await response.json();
 
         const formattedTopics = data.map((topic: any) => ({

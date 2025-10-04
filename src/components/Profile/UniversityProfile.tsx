@@ -243,113 +243,115 @@ export const UniversityProfile: React.FC = () => {
         "Sin nombre";
 
     return (
-        <div className="user-profile">
-        <div className="profile-header">
-            {isEditing ? (
-            <div className="edit-actions">
-                <button onClick={handleSave} className="edit-button">
-                    <FaSave /> Guardar
-                </button>
-                <button onClick={() => { setIsEditing(false); setResetKey(Date.now()); }} className="edit-button cancel">
-                    <FaTimes /> Cancelar
-                </button>
-            </div>
-            ) : (
-                <>
-                    <h2>{userName}</h2>
-                    <button onClick={() => setIsEditing(true)} className="edit-button">
-                        <FaEdit /> Editar
-                    </button>
-                </>
-            )}
-        </div>
-
-        {isEditing ? (
-            <div className="edit-section">
-                <ImageInputSelector value={editedData.avatar || ""} onChange={(img) => setEditedData({ ...editedData, avatar: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL del imagen" fileLabel="🖼️ Subir el avatar" imageUploaderKey={resetKey} resetKey={resetKey}/>
-
-                <div className="register__box">
-                    <FaIdCard className="register__icon" />
-                    <label>Nombre:</label>
-                    <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
-                </div>
-
-                {userData.university_user && (
-                    <div className="register__box">
-                        <FaUniversity className="register__icon" />
-                        <label>Tipo de Universidad:</label>
-                        <Select placeholder="Tipo de Universidad *" value={selectedUniversityType} onChange={setSelectedUniversityType} options={universityTypeOptions} className="register__select" required/>
+        <>
+            <div className="user-profile">
+                <div className="profile-header">
+                    {isEditing ? (
+                    <div className="edit-actions">
+                        <button onClick={handleSave} className="edit-button">
+                            <FaSave /> Guardar
+                        </button>
+                        <button onClick={() => { setIsEditing(false); setResetKey(Date.now()); }} className="edit-button cancel">
+                            <FaTimes /> Cancelar
+                        </button>
                     </div>
-                )}
-
-                <div className="register__box">
-                    <FaMapMarkerAlt className="register__icon" />
-                    <label>País:</label>
-                    <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
-                </div>
-
-                <div className="register__box">
-                    <FaMapMarkerAlt className="register__icon" />
-                    <label>Ciudad:</label>
-                    <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
-                </div>
-
-                <div className="register__box">
-                    <FaPhone className="register__icon" />
-                    <label>Teléfono:</label>
-                    <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
-                </div>
-
-                <div className="register__box">
-                    <FaLink className="register__icon" />
-                    <label>Sitio web:</label>
-                    <input type="text" name="website" placeholder="Sitio web" className="register__input" value={editedData.website} onChange={handleInputChange} />
-                </div>
-            </div>
-        ) : (
-            <>
-                <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
-                <div className="register__box">
-                    <FaEnvelope className="register__icon" />
-                    <label>:</label>
-                    <span>{userData.email}</span>
-                </div>
-
-                {userData.university_user && (
-                    <div className="user-section">
-                    {userData.university_user.university_type && (
-                        <div className="register__box">
-                            <FaUniversity className="register__icon" />
-                            <label>Tipo de universidad:</label>
-                            <span>{userData.university_user.university_type.name}</span>
-                        </div>
-                    )}
-                    {userData.university_user.location && (
-                        <div className="register__box">
-                            <FaMapMarkerAlt className="register__icon" />
-                            <label>Ubicación:</label>
-                            <span>{userData.university_user.location.city}, {userData.university_user.location.country}</span>
-                        </div>
-                    )}
-                    {userData.university_user.contact && (
+                    ) : (
                         <>
-                            <div className="register__box">
-                                <FaPhone className="register__icon" />
-                                <label>Teléfono:</label>
-                                <span>{userData.university_user.contact.phone || "No disponible"}</span>
-                            </div>
-                            <div className="register__box">
-                                <FaGlobe className="register__icon" />
-                                <label>Sitio web:</label>
-                                <span>{userData.university_user.contact.website || "No disponible"}</span>
-                            </div>
+                            <h2>{userName}</h2>
+                            <button onClick={() => setIsEditing(true)} className="edit-button">
+                                <FaEdit /> Editar
+                            </button>
                         </>
                     )}
+                </div>
+
+                {isEditing ? (
+                    <div className="edit-section">
+                        <ImageInputSelector value={editedData.avatar || ""} onChange={(img) => setEditedData({ ...editedData, avatar: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL del imagen" fileLabel="🖼️ Subir el avatar" imageUploaderKey={resetKey} resetKey={resetKey}/>
+
+                        <div className="register__box">
+                            <FaIdCard className="register__icon" />
+                            <label>Nombre:</label>
+                            <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
+                        </div>
+
+                        {userData.university_user && (
+                            <div className="register__box">
+                                <FaUniversity className="register__icon" />
+                                <label>Tipo de Universidad:</label>
+                                <Select placeholder="Tipo de Universidad *" value={selectedUniversityType} onChange={setSelectedUniversityType} options={universityTypeOptions} className="register__select" required/>
+                            </div>
+                        )}
+
+                        <div className="register__box">
+                            <FaMapMarkerAlt className="register__icon" />
+                            <label>País:</label>
+                            <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
+                        </div>
+
+                        <div className="register__box">
+                            <FaMapMarkerAlt className="register__icon" />
+                            <label>Ciudad:</label>
+                            <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
+                        </div>
+
+                        <div className="register__box">
+                            <FaPhone className="register__icon" />
+                            <label>Teléfono:</label>
+                            <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
+                        </div>
+
+                        <div className="register__box">
+                            <FaLink className="register__icon" />
+                            <label>Sitio web:</label>
+                            <input type="text" name="website" placeholder="Sitio web" className="register__input" value={editedData.website} onChange={handleInputChange} />
+                        </div>
                     </div>
+                ) : (
+                    <>
+                        <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
+                        <div className="register__box">
+                            <FaEnvelope className="register__icon" />
+                            <label>:</label>
+                            <span>{userData.email}</span>
+                        </div>
+
+                        {userData.university_user && (
+                            <div className="user-section">
+                            {userData.university_user.university_type && (
+                                <div className="register__box">
+                                    <FaUniversity className="register__icon" />
+                                    <label>Tipo de universidad:</label>
+                                    <span>{userData.university_user.university_type.name}</span>
+                                </div>
+                            )}
+                            {userData.university_user.location && (
+                                <div className="register__box">
+                                    <FaMapMarkerAlt className="register__icon" />
+                                    <label>Ubicación:</label>
+                                    <span>{userData.university_user.location.city}, {userData.university_user.location.country}</span>
+                                </div>
+                            )}
+                            {userData.university_user.contact && (
+                                <>
+                                    <div className="register__box">
+                                        <FaPhone className="register__icon" />
+                                        <label>Teléfono:</label>
+                                        <span>{userData.university_user.contact.phone || "No disponible"}</span>
+                                    </div>
+                                    <div className="register__box">
+                                        <FaGlobe className="register__icon" />
+                                        <label>Sitio web:</label>
+                                        <span>{userData.university_user.contact.website || "No disponible"}</span>
+                                    </div>
+                                </>
+                            )}
+                            </div>
+                        )}
+                    </>
                 )}
-            </>
-        )}
-        </div>
+            </div>
+        </>    
     );
 };
 

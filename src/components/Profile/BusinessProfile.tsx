@@ -7,6 +7,7 @@ import { useAuth } from "../../providers/Auth";
 import { FetchWithAuth } from "../../utils/FetchWithAuth";
 import { ImageInputSelector } from "../Selector";
 import { uploadImageFile } from "../../api";
+import PasswordChangeButton from "../Button/PasswordChangeButton";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_BASE}/user`;
@@ -210,112 +211,115 @@ export const BusinessProfile: React.FC = () => {
         "Sin nombre";
 
     return (
-        <div className="user-profile">
-            <div className="profile-header">
+        <>
+            <div className="user-profile">
+                <div className="profile-header">
+                    {isEditing ? (
+                        <div className="edit-actions">
+                            <button onClick={handleSave} className="edit-button">
+                                <FaSave /> Guardar
+                            </button>
+                            <button onClick={() => { setIsEditing(false); setResetKey(Date.now()); }} className="edit-button cancel">
+                                <FaTimes /> Cancelar
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <h2>{userName}</h2>
+                            <button onClick={() => setIsEditing(true)} className="edit-button">
+                                <FaEdit /> Editar
+                            </button>
+                        </>
+                    )}
+                </div>
+
                 {isEditing ? (
-                    <div className="edit-actions">
-                        <button onClick={handleSave} className="edit-button">
-                            <FaSave /> Guardar
-                        </button>
-                        <button onClick={() => { setIsEditing(false); setResetKey(Date.now()); }} className="edit-button cancel">
-                            <FaTimes /> Cancelar
-                        </button>
+                    <div className="edit-section">
+                        <ImageInputSelector value={editedData.avatar || ""} onChange={(img) => setEditedData({ ...editedData, avatar: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL del imagen" fileLabel="🖼️ Subir el avatar" imageUploaderKey={resetKey} resetKey={resetKey}/>
+                        <div className="register__box">
+                            <FaIdCard className="register__icon" />
+                            <label>Nombres:</label>
+                            <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
+                        </div>
+
+                        {userData.business_user && (
+                            <div className="register__box">
+                                <FaBuilding className="register__icon" />
+                                <label>Industria:</label>
+                                <input type="text" name="industry" placeholder="Industria" className="register__input" value={editedData.industry} onChange={handleInputChange} />
+                            </div>
+                        )}
+
+                        <div className="register__box">
+                            <FaMapMarkerAlt className="register__icon" />
+                            <label>País:</label>
+                            <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
+                        </div>
+
+                        <div className="register__box">
+                            <FaMapMarkerAlt className="register__icon" />
+                            <label>Ciudad:</label>
+                            <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
+                        </div>
+
+                        <div className="register__box">
+                            <FaPhone className="register__icon" />
+                            <label>Teléfono:</label>
+                            <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
+                        </div>
+
+                        <div className="register__box">
+                            <FaLink className="register__icon" />
+                            <label>Sitio web:</label>
+                            <input type="text" name="website" placeholder="Sitio web" className="register__input" value={editedData.website} onChange={handleInputChange} />
+                        </div>
                     </div>
                 ) : (
                     <>
-                        <h2>{userName}</h2>
-                        <button onClick={() => setIsEditing(true)} className="edit-button">
-                            <FaEdit /> Editar
-                        </button>
+                        <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
+                        <div className="register__box">
+                            <FaEnvelope className="register__icon" />
+                            <label>Correo:</label>
+                            <span>{userData.email}</span>
+                        </div>
+
+                        {userData.business_user && (
+                            <div className="user-section">
+                                {userData.business_user.industry && (
+                                    <div className="register__box">
+                                        <FaBuilding className="register__icon" />
+                                        <label>Industria:</label>
+                                        <span>{userData.business_user.industry}</span>
+                                    </div>
+                                )}
+                                {userData.business_user.location && (
+                                    <div className="register__box">
+                                        <FaMapMarkerAlt className="register__icon" />
+                                        <label>Ubicación:</label>
+                                        <span>{userData.business_user.location.city}, {userData.business_user.location.country}</span>
+                                    </div>
+                                )}
+                                {userData.business_user.contact && (
+                                    <>
+                                        <div className="register__box">
+                                            <FaPhone className="register__icon" />
+                                            <label>Teléfono:</label>
+                                            <span>{userData.business_user.contact.phone || "No disponible"}</span>
+                                        </div>
+                                        <div className="register__box">
+                                            <FaGlobe className="register__icon" />
+                                            <label>Sitio web:</label>
+                                            <span>{userData.business_user.contact.website || "No disponible"}</span>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </>
                 )}
             </div>
-
-            {isEditing ? (
-                <div className="edit-section">
-                    <ImageInputSelector value={editedData.avatar || ""} onChange={(img) => setEditedData({ ...editedData, avatar: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL del imagen" fileLabel="🖼️ Subir el avatar" imageUploaderKey={resetKey} resetKey={resetKey}/>
-                    <div className="register__box">
-                        <FaIdCard className="register__icon" />
-                        <label>Nombres:</label>
-                        <input type="text" name="name" placeholder="Nombre" className="register__input" value={editedData.name} onChange={handleInputChange} />
-                    </div>
-
-                    {userData.business_user && (
-                        <div className="register__box">
-                            <FaBuilding className="register__icon" />
-                            <label>Industria:</label>
-                            <input type="text" name="industry" placeholder="Industria" className="register__input" value={editedData.industry} onChange={handleInputChange} />
-                        </div>
-                    )}
-
-                    <div className="register__box">
-                        <FaMapMarkerAlt className="register__icon" />
-                        <label>País:</label>
-                        <Select placeholder="Selecciona un país" value={selectedCountry} onChange={handleCountryChange} options={countryOptions} className="register__select" />
-                    </div>
-
-                    <div className="register__box">
-                        <FaMapMarkerAlt className="register__icon" />
-                        <label>Ciudad:</label>
-                        <Select placeholder="Selecciona una ciudad" value={selectedCity} onChange={handleCityChange} options={cityOptions} className="register__select" isDisabled={!selectedCountry} />
-                    </div>
-
-                    <div className="register__box">
-                        <FaPhone className="register__icon" />
-                        <label>Teléfono:</label>
-                        <input type="text" name="phone" placeholder="Teléfono" className="register__input" value={editedData.phone} onChange={handleInputChange} />
-                    </div>
-
-                    <div className="register__box">
-                        <FaLink className="register__icon" />
-                        <label>Sitio web:</label>
-                        <input type="text" name="website" placeholder="Sitio web" className="register__input" value={editedData.website} onChange={handleInputChange} />
-                    </div>
-                </div>
-            ) : (
-                <>
-                    <img src={userData.avatar || "/src/assets/img/avatar.png"} alt="Avatar" className="avatar" />
-                    <div className="register__box">
-                        <FaEnvelope className="register__icon" />
-                        <label>Correo:</label>
-                        <span>{userData.email}</span>
-                    </div>
-
-                    {userData.business_user && (
-                        <div className="user-section">
-                            {userData.business_user.industry && (
-                                <div className="register__box">
-                                    <FaBuilding className="register__icon" />
-                                    <label>Industria:</label>
-                                    <span>{userData.business_user.industry}</span>
-                                </div>
-                            )}
-                            {userData.business_user.location && (
-                                <div className="register__box">
-                                    <FaMapMarkerAlt className="register__icon" />
-                                    <label>Ubicación:</label>
-                                    <span>{userData.business_user.location.city}, {userData.business_user.location.country}</span>
-                                </div>
-                            )}
-                            {userData.business_user.contact && (
-                                <>
-                                    <div className="register__box">
-                                        <FaPhone className="register__icon" />
-                                        <label>Teléfono:</label>
-                                        <span>{userData.business_user.contact.phone || "No disponible"}</span>
-                                    </div>
-                                    <div className="register__box">
-                                        <FaGlobe className="register__icon" />
-                                        <label>Sitio web:</label>
-                                        <span>{userData.business_user.contact.website || "No disponible"}</span>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    )}
-                </>
-            )}
-        </div>
+            <PasswordChangeButton />
+        </>
     );
 };
 

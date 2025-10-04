@@ -4,6 +4,7 @@ import { useAuth } from "../../providers/Auth";
 import { RegularProfile } from "./RegularProfile";
 import { UniversityProfile } from "./UniversityProfile";
 import { BusinessProfile } from "./BusinessProfile";
+import { AdminProfile } from "./AdminProfile";
 
 export const UserProfile: React.FC = () => {
     const { user } = useAuth();
@@ -20,6 +21,9 @@ export const UserProfile: React.FC = () => {
             )}
             {user.role === "business" && (
                 <BusinessProfile />
+            )}
+            {user.role === "admin" && (
+                <AdminProfile />
             )}
         </>
     );

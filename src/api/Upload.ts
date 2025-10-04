@@ -1,3 +1,6 @@
+const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/upload/file`;
+
 export const uploadImageFile = async (file: File, folder: string): Promise<string> => {
     if (!file.type.startsWith("image/")) {
         throw new Error("Solo se permiten archivos de imagen.");
@@ -7,7 +10,7 @@ export const uploadImageFile = async (file: File, folder: string): Promise<strin
     formData.append("file", file);
     formData.append("folder", folder);
 
-    const response = await fetch("http://localhost:8080/api/upload/file", {
+    const response = await fetch(BASE_URL, {
         method: "POST",
         body: formData,
     });
@@ -31,9 +34,9 @@ export const uploadDocumentFile = async (file: File, folder: string): Promise<st
     formData.append("file", file);
     formData.append("folder", folder);
   
-    const response = await fetch("http://localhost:8080/api/upload/file", {
-      method: "POST",
-      body: formData,
+    const response = await fetch(BASE_URL, {
+        method: "POST",
+        body: formData,
     });
   
     const data = await response.json();

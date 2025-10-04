@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BankOfResumeGetAllByUserIDResponse } from "../../dtos/responses";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getAllBankOfResumesByUserID } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllBankOfResume.css";
@@ -32,7 +32,6 @@ export const GetAllBankOfResumesByUserID: React.FC = () => {
     const handlePageChange = (newPage: number) => {
         searchParams.set("bankOfResumesPage", newPage.toString());  
         setSearchParams(searchParams);
-        
     };
 
     return (

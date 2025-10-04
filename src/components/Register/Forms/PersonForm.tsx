@@ -3,8 +3,6 @@ import Select from 'react-select';
 import { Country, City } from 'country-state-city';
 import { FaEnvelope, FaLock, FaIdCard, FaPhone, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
 
-const API_BASE = import.meta.env.VITE_API_URL;
-
 interface LocationRequest {
     country: string;
     city: string;
@@ -28,9 +26,12 @@ interface OptionType {
     label: string;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/auth/register/regular`;
+
 const handlePersonSubmit = async (data: any) => {
     try {
-        const response = await fetch(`${API_BASE}/auth/register/regular`, {
+        const response = await fetch(BASE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

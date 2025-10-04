@@ -13,10 +13,11 @@ import {
 } from 'react-icons/fa';
 
 const API_BASE = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_BASE}/auth/register/university`;
 
 const handleUniversitySubmit = async (data: any) => {
     try {
-        const response = await fetch(`${API_BASE}/auth/register/university`, {
+        const response = await fetch(BASE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
