@@ -4,7 +4,7 @@
 
   --title-color: #19181B;
   --text-color-light: #A5A1AA;
-  --body-color: #ced9e076;
+  --body-color: white;
 
   --body-font: 'Poppins', sans-serif;
   --normal-font-size: .938rem;
@@ -36,7 +36,7 @@
   --home-background: #c9cfdb;
   --home-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 
-  --get-background: #c9cfdb;
+  --get-background: #eeeeee;
   --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
 
   --profile-background: #c9cfdb;
