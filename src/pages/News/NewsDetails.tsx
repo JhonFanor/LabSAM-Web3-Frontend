@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetNews } from "../../components";
 import { getNewsById } from "../../api/NewsApi";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const NewsDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = searchParams.get("page") || "1";
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [news, setNews] = useState<NewsGetResponse | null>(null);
     const [loading, setLoading] = useState(false);

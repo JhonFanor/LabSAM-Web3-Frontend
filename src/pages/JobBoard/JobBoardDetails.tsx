@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetJobBoard } from "../../components";
 import { getJobBoardById } from "../../api/JobBoardApi";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const JobBoardDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = searchParams.get("page") || "1";
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [job, setJob] = useState<JobBoardGetResponse | null>(null);
     const [loading, setLoading] = useState(false);

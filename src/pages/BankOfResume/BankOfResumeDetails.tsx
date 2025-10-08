@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetBankOfResume } from "../../components";
 import { getBankOfResumeById } from "../../api/BankOfResumeApi";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const BankOfResumeDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = searchParams.get("page") || "1";
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [resume, setResume] = useState<BankOfResumeGetResponse | null>(null);
     const [loading, setLoading] = useState(false);

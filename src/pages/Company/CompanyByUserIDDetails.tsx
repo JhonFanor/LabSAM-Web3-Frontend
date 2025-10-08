@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetCompany } from "../../components";
 import { getAllCompaniesByUserID, getCompanyById } from "../../api";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const CompanyByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = parseInt(searchParams.get("companiesPage") || "1");
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [company, setCompany] = useState<CompanyGetResponse | null>(null);
     const [loading, setLoading] = useState(false);

@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetEducationalOffer } from "../../components";
 import { getAllEducationalOffersNotApproved, getEducationalOfferById } from "../../api/EducationalOfferApi";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const EducationalOfferNotApprovedDetail: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = parseInt(searchParams.get("educationalOffersPage") || "1");
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [offer, setOffer] = useState<EducationalOfferGetResponse | null>(null);
     const [loading, setLoading] = useState(false);

@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetLegislation } from "../../components";
 import { getAllLegislationsByUserID, getLegislationById } from "../../api/LegislationApi";
@@ -8,8 +8,8 @@ import { ButtonReturn } from "../../components/Button/ButtonReturn";
 const LegislationByUserIDDetails: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const page = parseInt(searchParams.get("legislationsPage") || "1");
+    const location = useLocation();
+    const page = (location.state as { page?: number })?.page || 1;
 
     const [legislation, setLegislation] = useState<LegislationGetResponse | null>(null);
     const [loading, setLoading] = useState(false);
