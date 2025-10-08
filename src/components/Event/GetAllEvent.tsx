@@ -41,7 +41,7 @@ export const GetAllEvent: React.FC = () => {
                 {eventList.map((event) => (
                     <Link to={`/event/${event.id}`} key={event.id} className="get-all-event__list-item">
                         <p className="get-all-event__list-item-title">{event.title}</p>
-                        <img src={event.image} alt={event.title} className="get-all-event__list-item-image"/>
+                        <img src={event.image? event.image: event.poster? event.poster: "/src/assets/img/Logo.jpeg"} alt={event.title} className="get-all-event__list-item-image"/>
                         <p className="get-all-news__list-item-date">{new Date(event.date).toLocaleDateString()}</p>
                         <p className="get-all-event__list-item-user">
                             Subido por:{" "}{ event.user.regular_user?.name || event.user.university_user?.name || event.user.business_user?.name || "Anónimo" }

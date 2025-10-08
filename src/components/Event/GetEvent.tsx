@@ -89,7 +89,7 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 				<p className="news-meta">Subtemas: {currentEvent.subtopics.map((s) => s.name).join(", ")}</p>
 
 				<div className="event-content">
-					<img className="event-image" src={currentEvent.image || "default-image.jpg"} alt={currentEvent.title} />
+					<img className="event-image" src={event.poster? event.poster: event.image? event.image: "/src/assets/img/Logo.jpeg"} alt={currentEvent.title} />
 
 					<div
 						className="event-description"
@@ -97,32 +97,42 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 					/>
 				</div>
 
-					{currentEvent.link && (
-							<div className="event-link">
-									<a href={currentEvent.link} target="_blank" rel="noopener noreferrer">
-									➤ Ver evento completo
-									</a>
-							</div>
-					)}
+				{currentEvent.link && (
+					<div className="event-link">
+						<a href={currentEvent.link} target="_blank" rel="noopener noreferrer">
+						➤ Ver evento completo
+						</a>
+					</div>
+				)}
+
+				{currentEvent.registration_link && (
+					<div className="event-link">
+						<a href={currentEvent.registration_link} target="_blank" rel="noopener noreferrer">
+							➤ Registrarse en el evento
+						</a>
+					</div>
+				)}
 
 				{currentEvent.localitation && (
 					<div className="event-map-container">
 						<h3>Ubicación del evento</h3>
 						<p className="event-meta">{currentEvent.localitation.address}</p>
-						<MapContainer
-							center={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}
-							zoom={15}
-							scrollWheelZoom={false}
-							className="event-map"
-						>
-							<TileLayer
-								attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-							/>
-							<Marker position={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}>
-								<Popup>{currentEvent.localitation.address}</Popup>
-							</Marker>
-						</MapContainer>
+						{ currentEvent.localitation.latitude != null && currentEvent.localitation.longitude != null &&(
+							<MapContainer
+								center={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}
+								zoom={15}
+								scrollWheelZoom={false}
+								className="event-map"
+							>
+								<TileLayer
+									attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+									url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+								/>
+								<Marker position={[currentEvent.localitation.latitude, currentEvent.localitation.longitude]}>
+									<Popup>{currentEvent.localitation.address}</Popup>
+								</Marker>
+							</MapContainer>
+						)}
 					</div>
 				)}
 			</div>

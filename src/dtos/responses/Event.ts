@@ -5,7 +5,9 @@ import { SubtopicGetResponse } from "./Subtopic";
 export interface EventGetAllResponse {
     id: number;
     title: string;
-    image: string;
+    image?: string;
+    poster?: string;
+    description: string;
     date: string;
     localitation?: LocalitationResponse;
     user: UserMinimalResponse;
@@ -14,8 +16,10 @@ export interface EventGetAllResponse {
 export interface EventGetAllByUserIDResponse {
     id: number;
     title: string;
-    image: string;
+    image?: string;
+    poster?: string;
     date: string;
+    description: string;
     localitation?: LocalitationResponse;
     is_approved: boolean | null;
     user: UserMinimalResponse;
@@ -25,8 +29,8 @@ export interface EventGetAllByUserIDResponse {
 export interface EventGetResponse {
     id: number;
     title: string;
-    image: string;
-    poster: string;
+    image?: string;
+    poster?: string;
     description: string;
     link: string;
     registration_link: string;
