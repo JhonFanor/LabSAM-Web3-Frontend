@@ -9,6 +9,7 @@ type Props = {
 
 export const EventItem: React.FC<Props> = ({ event }) => (
     <Link to={`/event/${event.id}`} className="event-item__list-item">
+        <h1>Evento</h1>
         <p className="event-item__list-item-title">{event.title}</p>
         <img src={event.image} alt={event.title} className="event-item__list-item-image"/>
         <p className="event-item__list-item-date">{new Date(event.date).toLocaleDateString()}</p>

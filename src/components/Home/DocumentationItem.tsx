@@ -9,6 +9,7 @@ type Props = {
 
 export const DocumentationItem: React.FC<Props> = ({ documentation }) => (
   <Link to={`/documentation/${documentation.id}`} className="documentation-item__list-item">
+    <h1>Documentación</h1>
     <p className="documentation-item__list-item-title">{documentation.title}</p>
     <p className="documentation-item__list-item-user">
       Subido por: <img src={documentation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/> {documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo"}

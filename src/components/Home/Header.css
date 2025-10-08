@@ -6,7 +6,7 @@
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
-  background: var(--home-background);
+  background: #000C1A;
   overflow-x: hidden;
   box-shadow: var(--home-box-shadow);
   border-radius: 8px;

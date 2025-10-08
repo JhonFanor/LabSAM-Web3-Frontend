@@ -9,6 +9,7 @@ type Props = {
 
 export const EducationalOfferItem: React.FC<Props> = ({ educationalOffer }) => (
     <Link to={`/educational-offer/${educationalOffer.id}`} className="educational-offer-item__list-item">
+        <h1>Oferta educativa</h1>
         <p className="educational-offer-item__list-item-title">{educationalOffer.title}</p>
         <p className="educational-offer-item__list-item-dates">
             Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}

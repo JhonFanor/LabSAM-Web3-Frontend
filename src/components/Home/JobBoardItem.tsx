@@ -9,6 +9,7 @@ type Props = {
 
 export const JobBoardItem: React.FC<Props> = ({ job }) => (
     <Link to={`/job-board/${job.id}`} className="job-board-item__list-item">
+        <h1>Oferta de trabajo</h1>
         <p className="job-board-item__list-item-title">{job.title}</p>
         <p className="job-board-item__list-item-company">Empresa: {job.company}</p>
         <p className="job-board-item__list-item-user">

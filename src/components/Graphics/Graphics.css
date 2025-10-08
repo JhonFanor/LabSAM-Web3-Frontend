@@ -1,8 +1,8 @@
 .graphics__container {
-  background: white;
+  background: #eeeeee;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow:  2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.345);
   margin: 15px auto;
   width: 100%;
   max-width: 100%;

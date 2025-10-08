@@ -31,19 +31,19 @@
 
   --light-gray: #F5F7FA;
 
-  --register-login: #c9cfdb;
+  --register-login: #eeeeee;
 
-  --home-background: #c9cfdb;
-  --home-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+  --home-background: #eeeeee;
+  --home-box-shadow:  2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.345);
 
   --get-background: #eeeeee;
-  --get-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+  --get-box-shadow:  2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.345);
 
-  --profile-background: #c9cfdb;
-  --profile-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+  --profile-background: #eeeeee;
+  --profile-box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.345);
 
-  --rejection-comments-sectio-background: #c9cfdb;
-  --rejection-comments-section-box-shadow:  10px 10px 10px 10px rgba(0, 0, 0, 0.345);
+  --rejection-comments-sectio-background: #eeeeee;
+  --rejection-comments-section-box-shadow:  2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.345);
 }
 
 @media screen and (min-width: 1024px) {

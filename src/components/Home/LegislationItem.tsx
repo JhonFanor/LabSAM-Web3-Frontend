@@ -9,6 +9,7 @@ type Props = {
 
 export const LegislationItem: React.FC<Props> = ({ legislation }) => (
     <Link to={`/legislation/${legislation.id}`} className="legislation-item__list-item">
+        <h1>Legislación</h1>
         <p className="legislation-item__list-item-title">{legislation.title}</p>
         <p className="legislation-item__list-item-user">
             Subido por: <img src={legislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/> {legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo"}
