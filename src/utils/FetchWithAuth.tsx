@@ -81,28 +81,28 @@ export const FetchWithOptionalAuth = async (
         ...(init.headers as Record<string, string> || {}),
         };
         if (!(init.body instanceof FormData)) {
-        headers["Content-Type"] = "application/json";
+            headers["Content-Type"] = "application/json";
         }
         if (t) {
-        headers["Authorization"] = `Bearer ${t}`;
+            headers["Authorization"] = `Bearer ${t}`;
         }
         return headers;
     };
 
     const doRequest = (t: string | null) =>
         fetch(input, {
-        ...init,
-        headers: buildHeaders(t),
-        credentials: "include",
+            ...init,
+            headers: buildHeaders(t),
+            credentials: "include",
         });
 
     let response = await doRequest(token);
 
     if (response.status === 401 && retry && token) {
-        const newToken = await refreshToken();
+            const newToken = await refreshToken();
         if (!newToken) {
-        localStorage.removeItem("access_token");
-        return doRequest(null);
+            localStorage.removeItem("access_token");
+            return doRequest(null);
         }
         return doRequest(newToken);
     }

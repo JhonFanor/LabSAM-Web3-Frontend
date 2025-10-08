@@ -12,14 +12,14 @@ interface Location {
 }
 
 interface LocalitationProps {
-  value: Location;
+  value?: Location;
   onChange: (location: Location) => void;
 }
 
 export const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) => {
   const [markerPosition, setMarkerPosition] = useState<[number, number]>([
-    value.latitude || 4.5709, 
-    value.longitude || -74.2973,
+    value?.latitude ?? 4.5709, 
+    value?.longitude ?? -74.2973,
   ]);
 
   const MapClickHandler = () => {
@@ -47,7 +47,9 @@ export const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) =
   };
 
   useEffect(() => {
-    setMarkerPosition([value.latitude, value.longitude]);
+    if (value) {
+      setMarkerPosition([value.latitude, value.longitude]);
+    }
   }, [value]);
 
   return (
@@ -64,7 +66,7 @@ export const Localitation: React.FC<LocalitationProps> = ({ value, onChange }) =
       </div>
 
       <div className="address-container">
-        <p><strong>Dirección:</strong> {value.address || "Haz clic en el mapa para seleccionar una ubicación."}</p>
+        <p><strong>Dirección:</strong> {value?.address || "Haz clic en el mapa para seleccionar una ubicación."}</p>
       </div>
     </div>
   );

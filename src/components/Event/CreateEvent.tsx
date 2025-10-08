@@ -15,10 +15,12 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+	const [selectedPosterFile, setSelectedPosterFile] = useState<File | null>(null);
 	const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
-	const [imageError, setImageError] = useState<boolean>(false);
 	const [descriptionError, setDescriptionError] = useState<boolean>(false);
 	const [subtopicError, setSubtopicError] = useState<boolean>(false);
+	const [localitationError, setLocalitationcError] = useState<boolean>(false);
+	const [mode, setMode] = useState<"none" | "address" | "location">("none");
 
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -28,11 +30,15 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 		description: "",
 		link: "",
 		date: "",
-		localitation: undefined,
+		localitation: {
+			address: "",
+			latitude: undefined,
+			longitude: undefined,
+		},
 		subtopic_ids: [],
 	});
 
-	const [localitation, setLocalitation] = useState< { address: string; latitude: number; longitude: number } | undefined >(undefined);
+	const [localitation, setLocalitation] = useState< { address: string; latitude?: number | null ; longitude?: number | null } | undefined >(undefined);
 
 	useEffect(() => {
 		getAllTopics(setTopics);
@@ -43,15 +49,8 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setUploading(true);
-		setImageError(false);
 		setDescriptionError(false);
 		setSubtopicError(false);
-
-		if (!event.image && !selectedImageFile) {
-            setImageError(true);
-            setUploading(false);
-            return;
-        }
 
 		if (!event.description || event.description.trim() === "" || event.description === "<p></p>") {
             setDescriptionError(true);
@@ -64,6 +63,12 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
             setSubtopicError(true);
             return;
         }
+
+		 if (localitation?.address === "" || localitation?.address === null) {
+			setUploading(false);
+			setLocalitationcError(true);
+			return;
+		}
 
 		try {
 
@@ -79,9 +84,22 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				}
 			}
 
+			let posterPath = event.poster;
+
+			if (selectedPosterFile) {
+				try {
+					posterPath = await uploadImageFile(selectedPosterFile, "event");
+				} catch (uploadError) {
+					setUploading(false);
+					setSuccessMessage("Error al subir imagen:"+uploadError);
+					return;
+				}
+			}
+
 			const eventToSend: EventCreateRequest = {
 				...event,
 				image: imagePath,
+				poster: posterPath,
 				...(localitation && { localitation }),
 				date: event.date ? new Date(event.date).toISOString() : "",
 			};
@@ -91,6 +109,7 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 			setSelectedTopic(null);
 			setUploading(false);
 			setSelectedImageFile(null);
+			setSelectedPosterFile(null);
 			setImageUploaderKey(Date.now());
 
 			setEvent({ 
@@ -98,7 +117,11 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				description: "", 
 				link: "", date: "", 
 				image: "", 
-				localitation: undefined, 
+				localitation: {
+					address: "",
+					latitude: undefined,
+					longitude: undefined,
+				},
 				subtopic_ids: [], 
 			});
 			setLocalitation(undefined);
@@ -134,11 +157,12 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 					<input type="text" name="title" placeholder="Título" value={event.title} onChange={(e) => setEvent({ ...event, title: e.target.value })} required/>
 				</div>
 				<div className="form-group">
-					<label>Imagen*</label>
-					{imageError && (
-                        <span className="form-error">La imagen es obligatoria.</span>
-                    )}
-					<ImageInputSelector value={event.image} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
+					<label>Logo</label>
+					<ImageInputSelector value={event.image ?? ""} onChange={(img) => setEvent({ ...event, image: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
+				</div>
+				<div className="form-group">
+					<label>Afiche</label>
+					<ImageInputSelector value={event.poster ?? ""} onChange={(img) => setEvent({ ...event, poster: img })} onFileSelected={setSelectedPosterFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
 				</div>
 				<div className="form-group">	
 					<label>Descripción*</label>
@@ -148,8 +172,12 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 					<JoditEditor value={event.description} onChange={(content) => setEvent({ ...event, description: content })} className="jodit-container" />
 				</div>
 				<div className="form-group">
-					<label>Enlace*</label>
-					<input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} required />
+					<label>Enlace</label>
+					<input type="text" name="link" placeholder="Enlace" value={event.link} onChange={(e) => setEvent({ ...event, link: e.target.value })} />
+				</div>
+				<div className="form-group">
+					<label>Enlace de registro</label>
+					<input type="text" name="link_register" placeholder="Enlace de registro" value={event.registration_link} onChange={(e) => setEvent({ ...event, registration_link: e.target.value })} />
 				</div>
 				<div className="form-group">
 					<label>Fecha*</label>
@@ -161,16 +189,38 @@ export const CreateEvent: React.FC<CreateEventProps> = ({ onClose }) => {
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
 				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={event} setData={setEvent} subtopicsKey="subtopic_ids"/>
 				<SelectedSubtopics data={event} setData={setEvent} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics}/>
-					
-				{!localitation ? (
-					<button className="create-event__localitation" type="button" onClick={() => setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973,})} >
-						Añadir localización
-					</button>
+				
+				{localitationError && <span className="form-error">Debes colocar una ubicacion o dirección.</span>}
+
+				{mode === "none" ? (
+					<>
+						<button className="create-event__localitation" type="button" onClick={() => { setMode("address"); setLocalitation({ address: "", latitude: null, longitude: null }); }}>
+							Añadir dirección
+						</button>
+
+						<button className="create-event__localitation" type="button" onClick={() => { setMode("location"); setLocalitation({ address: "", latitude: 4.5709, longitude: -74.2973 }); }}>
+							Añadir ubicación
+						</button>
+					</>
+				) : mode === "address" ? (
+					<div>
+						<input type="text" placeholder="Ingrese dirección" value={localitation?.address || ""} onChange={(e) => setLocalitation({ address: e.target.value, latitude: null, longitude: null })} />
+						<button className="remove-localitation-button" type="button" onClick={() => { setMode("none"); setLocalitation(undefined); }}>
+							Quitar dirección
+						</button>
+					</div>
 				) : (
 					<div>
-						<Localitation value={localitation} onChange={setLocalitation} />
-						<button type="button" className="remove-localitation-button" onClick={() => setLocalitation(undefined)} style={{ marginTop: "0.5rem", backgroundColor: "#f44336", color: "#fff", border: "none", padding: "0.5rem", borderRadius: "4px", }} >
-							Quitar localización
+						<Localitation
+							value={
+								localitation && typeof localitation.latitude === "number" && typeof localitation.longitude === "number"
+									? { address: localitation.address, latitude: localitation.latitude, longitude: localitation.longitude }
+									: undefined
+							}
+							onChange={setLocalitation}
+						/>
+						<button className="remove-localitation-button" type="button" onClick={() => { setMode("none"); setLocalitation(undefined); }}>
+							Quitar ubicación
 						</button>
 					</div>
 				)}

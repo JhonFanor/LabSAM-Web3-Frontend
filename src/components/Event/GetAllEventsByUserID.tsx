@@ -47,7 +47,7 @@ export const GetAllEventsByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return(
-                        <Link to={`/user/event/${event.id}`} key={event.id} className="get-all-event__list-item">
+                        <Link to={`/user/event/${event.id}`} state={{ page: page }} key={event.id} className="get-all-event__list-item">
                             <p className="get-all-event__list-item-title">{event.title}</p>
                             <img src={event.image} alt={event.title} className="get-all-event__list-item-image"/>
                             <p className="get-all-news__list-item-date">{new Date(event.date).toLocaleDateString()}</p>

@@ -97,6 +97,15 @@
     cursor: not-allowed;
 }
 
+.remove-localitation-button {
+    margin-top: 0.5rem;
+    background-color: rgb(244, 67, 54);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
 @media screen and (max-width: 768px) {
     .update-event {
         width: 100%;

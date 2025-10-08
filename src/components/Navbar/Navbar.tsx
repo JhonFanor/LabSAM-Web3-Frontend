@@ -82,7 +82,10 @@ export const Navbar: React.FC<NavbarProps> = ({ menuVisible, setMenuVisible }) =
                                         <div className="nav__dropdown-collapse">
                                             <div className="nav__dropdown-content">
                                             {item.children
-                                                .filter(child => child.label !== 'Publicaciones') 
+                                                .filter((item) => {
+                                                    if (item.label === 'Publicaciones' && user?.role === 'admin') return false;
+                                                    return true;
+                                                }) 
                                                 .map((child) => (
                                                     <Link key={child.route} to={child.route} className="nav__dropdown-item">
                                                         {child.label}

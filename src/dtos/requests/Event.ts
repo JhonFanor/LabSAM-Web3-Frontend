@@ -1,27 +1,30 @@
 export interface EventCreateRequest {
     title: string;
-    image: string;
+    image?: string;
+    poster?: string;
     description: string;
-    link: string;
+    link?: string;
+    registration_link?: string;
     date: string;
-    localitation?: {
+    localitation: {
         address: string;
-        latitude: number;
-        longitude: number;
+        latitude?: number | null;
+        longitude?: number | null;
     };
     subtopic_ids: number[];
 }
 
 export interface EventUpdateRequest {
-    title?: string;
+    title: string;
     image?: string;
-    description?: string;
+    poster?: string;
+    description: string;
     link?: string;
-    date?: string;
-    localitation?: {
+    registration_link?: string;
+    date: string;
+    localitation: {
         address: string;
-        latitude: number;
-        longitude: number;
-    };
+        latitude?: number | null;
+        longitude?: number | null;
+    } | null;
 }
-
