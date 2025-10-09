@@ -46,7 +46,7 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return(
-                        <Link to={`/user/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
+                        <Link to={`/user/documentation/${documentation.id}`} state={{ page: page }} key={documentation.id} className="get-all-documentation__list-item">
                             <p className="get-all-documentation__list-item-title">{documentation.title}</p>
                             <p className="get-all-documentation__list-item-user">
                                 Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }

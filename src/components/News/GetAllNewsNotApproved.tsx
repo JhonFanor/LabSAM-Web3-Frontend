@@ -40,7 +40,7 @@ export const GetAllNewsNotApproved: React.FC = () => {
 
             <div className="get-all-news__list">
                 {newsList.map((news) => (
-                    <Link to={`/admin/news/${news.id}`} key={news.id} className="get-all-news__list-item">
+                    <Link to={`/admin/news/${news.id}`} state={{ page: page }} key={news.id} className="get-all-news__list-item">
                         <h3 className="get-all-news__list-item-title">{news.title}</h3>
                         <img src={news.image} alt={news.title} className="get-all-news__list-item-image" />
                         <p className="get-all-news__list-item-date">{new Date(news.date).toLocaleDateString()}</p>

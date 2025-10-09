@@ -39,7 +39,7 @@ export const GetAllCompany: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-company__list">
                 {companyList.map((company) => (
-                    <Link to={`/company/${company.id}`} key={company.id} className="get-all-company__list-item">
+                    <Link to={`/company/${company.id}`} state={{ page: page }} key={company.id} className="get-all-company__list-item">
                         <p className="get-all-company__list-item-name">{company.name}</p>
                         <p className="get-all-company__list-item-user">
                             Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }

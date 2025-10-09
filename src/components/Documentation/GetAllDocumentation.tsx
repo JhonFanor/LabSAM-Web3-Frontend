@@ -39,7 +39,7 @@ export const GetAllDocumentation: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-documentation__list">
                 {documentationList.map((documentation) => (
-                    <Link to={`/documentation/${documentation.id}`} key={documentation.id} className="get-all-documentation__list-item">
+                    <Link to={`/documentation/${documentation.id}`} state={{ page: page }} key={documentation.id} className="get-all-documentation__list-item">
                         <p className="get-all-documentation__list-item-title">{documentation.title}</p>
                         <p className="get-all-documentation__list-item-user">
                             Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }

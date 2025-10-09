@@ -39,7 +39,7 @@ export const GetAllBankOfResumesNotApproved: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-bank-of-resume__list">
                 {bankOfResumeList.map((BankOfResume) => (
-                    <Link to={`/admin/bank-of-resume/${BankOfResume.id}`} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
+                    <Link to={`/admin/bank-of-resume/${BankOfResume.id}`} state={{ page: page }} key={BankOfResume.id} className="get-all-bank-of-resume__list-item">
                         <img src={BankOfResume.photo} alt={BankOfResume.user.regular_user?.name} className="get-all-bank-of-resume__list-item-photo"/>
                         <p className="get-all-bank-of-resume__list-item-title">{BankOfResume.title}</p>
                         <p className="get-all-bank-of-resume__list-item-user">{BankOfResume.user.regular_user?.name || "Anónimo"}</p>

@@ -46,7 +46,7 @@ export const GetAllLegislationsByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return(
-                        <Link to={`/user/legislation/${legislation.id}`} key={legislation.id} className="get-all-legislation__list-item">
+                        <Link to={`/user/legislation/${legislation.id}`} state={{ page: page }} key={legislation.id} className="get-all-legislation__list-item">
                             <p className="get-all-legislation__list-item-title">{legislation.title}</p>
                             <p className="get-all-legislation__list-item-user">
                                 Subido por:{" "}{ legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo" }

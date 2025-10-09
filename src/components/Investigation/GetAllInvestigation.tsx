@@ -39,7 +39,7 @@ export const GetAllInvestigation: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-investigation__list">
                 {investigationList.map((investigation) => (
-                    <Link to={`/investigation/${investigation.id}`} key={investigation.id} className="get-all-investigation__list-item">
+                    <Link to={`/investigation/${investigation.id}`} state={{ page: page }} key={investigation.id} className="get-all-investigation__list-item">
                         <p className="get-all-investigation__list-item-title">{investigation.title}</p>
                         <p className="get-all-investigation__list-item-user">
                             Subido por:{" "}{ investigation.user.regular_user?.name || investigation.user.university_user?.name || investigation.user.business_user?.name || "Anónimo" }

@@ -45,7 +45,7 @@ export const GetAllJobsBoardByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return(
-                        <Link to={`/user/job-board/${jobBoard.id}`} key={jobBoard.id} className="get-all-job-board__list-item">
+                        <Link to={`/user/job-board/${jobBoard.id}`} state={{ page: page }} key={jobBoard.id} className="get-all-job-board__list-item">
                             <p className="get-all-job-board__list-item-title">{jobBoard.title}</p>
                             <p className="get-all-job-board__list-item-company">Empresa: {jobBoard.company}</p>
                             <p className="get-all-job-board__list-item-user">

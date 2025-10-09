@@ -46,7 +46,7 @@ export const GetAllInvestigationsByUserID: React.FC = () => {
                         statusLabel = <span className="status-label pending">En espera de aprobación</span>;
                     }
                     return(
-                        <Link to={`/user/investigation/${investigation.id}`} key={investigation.id} className="get-all-investigation__list-item">
+                        <Link to={`/user/investigation/${investigation.id}`} state={{ page: page }} key={investigation.id} className="get-all-investigation__list-item">
                             <p className="get-all-investigation__list-item-title">{investigation.title}</p>
                             <p className="get-all-investigation__list-item-user">
                                 Subido por:{" "}{ investigation.user.regular_user?.name || investigation.user.university_user?.name || investigation.user.business_user?.name || "Anónimo" }

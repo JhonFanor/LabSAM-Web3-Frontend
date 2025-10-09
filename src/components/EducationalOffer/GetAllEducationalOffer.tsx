@@ -39,7 +39,7 @@ export const GetAllEducationalOffer: React.FC = () => {
             <GetAllError message={error}/>
             <div className="get-all-educational-offer__list">
                 {educationalOfferList.map((educationalOffer) => (
-                    <Link to={`/educational-offer/${educationalOffer.id}`} key={educationalOffer.id} className="get-all-educational-offer__list-item">
+                    <Link to={`/educational-offer/${educationalOffer.id}`} state={{ page: page }} key={educationalOffer.id} className="get-all-educational-offer__list-item">
                         <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
                         <p className="get-all-educational-offer__list-item-dates">
                             Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}
