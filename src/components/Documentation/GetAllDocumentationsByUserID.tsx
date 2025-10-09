@@ -48,9 +48,23 @@ export const GetAllDocumentationsByUserID: React.FC = () => {
                     return(
                         <Link to={`/user/documentation/${documentation.id}`} state={{ page: page }} key={documentation.id} className="get-all-documentation__list-item">
                             <p className="get-all-documentation__list-item-title">{documentation.title}</p>
+                            
+                            <p className="get-all-documentation__list-item-author">
+                                Autor: {documentation.author || "No especificado"}
+                            </p>
+                            
                             <p className="get-all-documentation__list-item-user">
                                 Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }
                             </p>
+                            
+                            <div 
+                                className="get-all-documentation__list-item-description" 
+                                dangerouslySetInnerHTML={{
+                                    __html: documentation.description.length > 150 
+                                        ? documentation.description.substring(0, 150) + "..." 
+                                        : documentation.description,
+                                }} 
+                            />
                             {statusLabel && (
                                 <div className="get-all-bank-of-resume__status">{statusLabel}</div>
                             )}

@@ -73,6 +73,9 @@ export const GetDocumentation: React.FC<GetDocumentationProps> = ({ documentatio
 
 				<div className="doc-meta-container">
 					<p className="doc-meta">
+						Autor: {documentation.author || "No especificado"}
+					</p>
+					<p className="doc-meta">
 						Subido por:{" "}
 						<img src={currentDocumentation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
 						{

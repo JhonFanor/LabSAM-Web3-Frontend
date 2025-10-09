@@ -20,7 +20,7 @@ export const GetAllDocumentation: React.FC = () => {
                 const data = await getAllDocumentation(page, limit);
                 setDocumentationList(data.data);
                 setTotalPages(data.total_page);
-                setError(data.data.length ? null : "No hay Documentacón disponibles.");
+                setError(data.data.length ? null : "No hay Documentación disponibles.");
             } catch (err) {
                 setError("No se pudieron cargar las documentaciones.");
             }
@@ -41,9 +41,23 @@ export const GetAllDocumentation: React.FC = () => {
                 {documentationList.map((documentation) => (
                     <Link to={`/documentation/${documentation.id}`} state={{ page: page }} key={documentation.id} className="get-all-documentation__list-item">
                         <p className="get-all-documentation__list-item-title">{documentation.title}</p>
+                        
+                        <p className="get-all-documentation__list-item-author">
+                            Autor: {documentation.author || "No especificado"}
+                        </p>
+                        
                         <p className="get-all-documentation__list-item-user">
                             Subido por:{" "}{ documentation.user.regular_user?.name || documentation.user.university_user?.name || documentation.user.business_user?.name || "Anónimo" }
                         </p>
+                        
+                        <div 
+                            className="get-all-documentation__list-item-description" 
+                            dangerouslySetInnerHTML={{
+                                __html: documentation.description.length > 150 
+                                    ? documentation.description.substring(0, 150) + "..." 
+                                    : documentation.description,
+                            }} 
+                        />
                     </Link>
                 ))}
             </div>

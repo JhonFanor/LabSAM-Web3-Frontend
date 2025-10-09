@@ -24,6 +24,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 
 	const [documentation, setDocumentation] = useState<DocumentationCreateRequest>({
 		title: "",
+		author: "",
 		description: "",
 		link: "",
 		subtopic_ids: [] as number[],
@@ -86,6 +87,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 
 			setDocumentation({
 				title: "",
+				author: "",
 				description: "",
 				link: "",
 				subtopic_ids: [],
@@ -119,8 +121,28 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
 			<form className="create-documentation__form" onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label>Título*</label>
-					<input type="text" name="title" placeholder="Título" value={documentation.title} onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} required />
+					<input 
+						type="text" 
+						name="title" 
+						placeholder="Título" 
+						value={documentation.title} 
+						onChange={(e) => setDocumentation({ ...documentation, title: e.target.value })} 
+						required 
+					/>
 				</div>
+				
+				<div className="form-group">
+					<label>Autor*</label>
+					<input 
+						type="text" 
+						name="author" 
+						placeholder="Autor" 
+						value={documentation.author} 
+						onChange={(e) => setDocumentation({ ...documentation, author: e.target.value })} 
+						required 
+					/>
+				</div>
+				
 				<div className="form-group">
 					<label>Descripción*</label>
 					{descriptionError && (
@@ -128,6 +150,7 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
                     )}
 					<JoditEditor value={documentation.description} onChange={(content) => setDocumentation({ ...documentation, description: content })} className="jodit-container"/>
 				</div>
+				
 				<div className="form-group">
 					<label>Documento de la documentación*</label>	
 					{documentError && (
@@ -135,13 +158,26 @@ export const CreateDocumentation: React.FC<CreateDocumentationProps> = ({ onClos
                     )}
 					<DocumentInputSelector value={documentation.link} onChange={(document) => setDocumentation({...documentation, link: document})} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la documentacion" fileLabel="📄 Subir la documentación" documentUploaderKey={documentUploaderKey} />
 				</div>
+				
 				{ subtopicError && (
                     <span className="form-error">Debes seleccionar al menos un subtema.</span>
                 )}
 				
 				<TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
-				<SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" />
-				<SelectedSubtopics data={documentation} setData={setDocumentation} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
+				<SubtopicSelector 
+					topics={topics} 
+					selectedTopic={selectedTopic} 
+					data={documentation} 
+					setData={setDocumentation} 
+					subtopicsKey="subtopic_ids" 
+				/>
+				<SelectedSubtopics 
+					data={documentation} 
+					setData={setDocumentation} 
+					subtopicsKey="subtopic_ids" 
+					subtopicsList={allSubtopics} 
+				/>
+				
 				<button className="create-documentation__submit" type="submit" disabled={uploading} >
 					{uploading ? "Guardando..." : "Guardar Documentación"}
 				</button>
