@@ -9,8 +9,8 @@ export interface JobBoardCreateRequest {
     salary_range?: string;
     link: string;
     start_date: string;
-    end_date?: string;
-    currency_type?: CurrencyTypeRequest;
+    end_date?: string | null;
+    currency_type?: CurrencyTypeRequest | null;
     subtopic_ids: number[];
 }
 
@@ -23,6 +23,6 @@ export interface JobBoardUpdateRequest {
     salary_range?: string;
     link: string;
     start_date: string;
-    end_date?: string;
-    currency_type?: CurrencyTypeRequest;
+    end_date?: string | null;
+    currency_type?: CurrencyTypeRequest | null;
 }

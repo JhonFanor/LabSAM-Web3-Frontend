@@ -11,10 +11,20 @@ import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
+import JobBoard from "../../pages/JobBoard/JobBoard";
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
 }
+
+const formatDate = (dateString: string) => {
+	const date = new Date(dateString);
+	return date.toLocaleDateString("es-ES", { 
+		year: "numeric", 
+		month: "long", day: 
+		"numeric" 
+	});
+};
 
 export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
@@ -61,7 +71,9 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 				<div className="job-meta-container">
 					{currentJob.company && <p className="job-meta">Empresa: {currentJob.company}</p>}
 					{currentJob.type && <p className="job-meta">Tipo de contrato: {currentJob.type}</p>}
-					{currentJob.salary_range && <p className="job-meta">Rango salarial: {currentJob.salary_range}</p>}
+					{currentJob.salary_range && <p className="job-meta">Rango salarial:{currentJob.currency_type.code} {currentJob.currency_type.symbol} {currentJob.salary_range}</p>}
+					{currentJob.start_date &&  <p className="job-meta">Fecha de inicio: {formatDate(currentJob.start_date)}</p>}
+					{currentJob.end_date &&  <p className="job-meta">Fecha de finalización: {formatDate(currentJob.end_date)}</p>}
 					<p className="job-meta">
 					Subido por:{" "}
 					<img src={currentJob.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
@@ -76,8 +88,13 @@ export const GetJobBoard: React.FC<GetJobBoardProps> = ({ job }) => {
 
 				<p className="job-meta">Subtemas: {currentJob.subtopics.map((s) => s.name).join(", ")}</p>
 
-				<div className="job-description">
-					<div dangerouslySetInnerHTML={{ __html: currentJob.description }} />
+				<div className="job-content">
+					<img className="job-image" src={currentJob.logo? currentJob.logo: "/src/assets/img/Logo.jpeg"} alt={currentJob.title} />
+
+					<div
+						className="job-description"
+						dangerouslySetInnerHTML={{ __html: currentJob.description }}
+					/>
 				</div>
 
 				<div className="job-link">

@@ -40,11 +40,25 @@ export const GetAllJobsBoardNotApproved: React.FC = () => {
             <div className="get-all-job-board__list">
                 {jobBoardList.map((jobBoard) => (
                     <Link to={`/admin/job-board/${jobBoard.id}`} state={{ page: page }} key={jobBoard.id} className="get-all-job-board__list-item">
-                        <p className="get-all-job-board__list-item-title">{jobBoard.title}</p>
-                        <p className="get-all-job-board__list-item-company">Empresa: {jobBoard.company}</p>
-                        <p className="get-all-job-board__list-item-user">
-                            Subido por:{" "}{ jobBoard.user.regular_user?.name || jobBoard.user.university_user?.name || jobBoard.user.business_user?.name || "Anónimo" }
-                        </p>
+                        <div className="get-all-job-board__image-container">
+                            <img src={jobBoard.logo? jobBoard.logo: "/src/assets/img/Logo.jpeg"} alt={jobBoard.title} className="get-all-job-board__list-item-image" />
+                        </div>
+                        <div className="get-all-job-board__content">
+                            <h3 className="get-all-job-board__list-item-title">{jobBoard.title}</h3>
+                            <p className="get-all-job-board__list-item-company">
+                                Empresa: {jobBoard.company}
+                            </p>
+
+                            <div className="get-all-job-board__list-item-description" dangerouslySetInnerHTML={{__html:jobBoard.description.length > 250 ? jobBoard.description.substring(0, 250) + "..." : jobBoard.description,}} />
+
+                            <p className="get-all-job-board__list-item-user">
+                                Subido por:<img src={jobBoard.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+                                {jobBoard.user.regular_user?.name ||
+                                    jobBoard.user.university_user?.name ||
+                                    jobBoard.user.business_user?.name ||
+                                    "Anónimo"}
+                            </p>
+                        </div>
                     </Link>
                 ))}
             </div>

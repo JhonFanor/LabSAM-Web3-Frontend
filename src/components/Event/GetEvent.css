@@ -28,12 +28,6 @@
   margin-bottom: 5px;
 }
 
-.news-meta {
-  font-size: 14px;
-  color: gray;
-  margin: 10px 0;
-}
-
 .event-content {
   display: flex;
   flex-direction: row;
@@ -95,7 +89,6 @@
   z-index: 0;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .event-content {
     flex-direction: column;

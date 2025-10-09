@@ -7,6 +7,7 @@ export interface JobBoardGetAllResponse {
     title: string;
     logo: string;
     company: string;
+    description: string;
     user: UserMinimalResponse;
 }
 
@@ -15,6 +16,7 @@ export interface JobBoardGetAllByUserIDResponse {
     title: string;
     logo: string;
     company: string;
+    description: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
 }
