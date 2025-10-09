@@ -32,7 +32,7 @@ export const publicationItems: PublicationItem[] = [
     },
     {
         name: "jobsBoard",
-        label: "Bola de empleos",
+        label: "Bolsa de empleos",
         component: GetAllJobsBoardByUserID,
     },
     {

@@ -1,9 +1,13 @@
 import { UserMinimalResponse } from "./User";
 import { SubtopicGetResponse } from "./Subtopic";
+import { TypeEducationResponse } from "./TypeEducation";
+import { CurrencyTypeRequest } from "../requests/CurrencyType";
 
 export interface EducationalOfferGetAllResponse {
     id: number;
     title: string;
+    institution: string;
+    logo: string;
     start_date: string;
     end_date: string;
     cost: number;
@@ -13,6 +17,8 @@ export interface EducationalOfferGetAllResponse {
 export interface EducationalOfferGetAllByUserIDResponse {
     id: number;
     title: string;
+    institution: string;
+    logo: string;
     start_date: string;
     end_date: string;
     cost: number;
@@ -24,6 +30,7 @@ export interface EducationalOfferGetResponse {
     id: number;
     title: string;
     institution: string;
+    logo: string;
     start_date: string;
     end_date: string;
     cost: number;
@@ -31,5 +38,7 @@ export interface EducationalOfferGetResponse {
     link: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
+    type_education: TypeEducationResponse;
+    currency_type: CurrencyTypeRequest;
     subtopics: SubtopicGetResponse[];
 }

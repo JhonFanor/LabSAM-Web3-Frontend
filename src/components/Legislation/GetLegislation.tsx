@@ -32,13 +32,8 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 		const approvalData: ApprovalRequest = { approved };
 		await setLegislationApproval(currentLegislation.id, approvalData);
 		setIsApproved(approved);
-		
 		if (!approved && comment) {
-			await createRejectionComment({
-				resource_type: "legislation",
-				resource_id: currentLegislation.id,
-				comment,
-			});
+			await createRejectionComment({ resource_type: "legislation", resource_id: currentLegislation.id, comment });
 		}
 	};
 
@@ -52,13 +47,10 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 					<div className="buttons-update-delete">
 						<ButtonUpdate>
 							{(onClose) => (
-								<UpdateLegislation onClose={onClose} legislationGetResponse={legislation}  onUpdated={(updateLegislation) => setCurrentLegislation(updateLegislation)}/>
+								<UpdateLegislation onClose={onClose} legislationGetResponse={legislation} onUpdated={(updateLegislation) => setCurrentLegislation(updateLegislation)}/>
 							)}
 						</ButtonUpdate>
-						<ButtonDelete
-							onDelete={() => deleteLegislation(currentLegislation.id)}
-							message="¿Estás seguro de que deseas eliminar esta legislación?"
-						/>
+						<ButtonDelete onDelete={() => deleteLegislation(currentLegislation.id)} message="¿Estás seguro de que deseas eliminar esta legislación?" />
 					</div>
 				)}
 				{user?.role === "admin" && isApproved == null && (
@@ -68,38 +60,19 @@ export const GetLegislation: React.FC<GetLegislationProps> = ({ legislation }) =
 					</div>
 				)}
 				<h1 className="legislation-title">{currentLegislation.title}</h1>
-
+				<p className="legislation-date">{new Date(currentLegislation.date).toLocaleDateString("es-CO",{year:"numeric",month:"long",day:"numeric"})}</p>
+				<p className="legislation-type">Tipo de ley: {currentLegislation.type_of_law?.name || "No especificado"}</p>
 				<div className="legislation-meta-container">
-					<p className="legislation-meta">
-						Subido por:{" "}
-						<img src={currentLegislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
-						{
-							currentLegislation.user.regular_user?.name ||
-							currentLegislation.user.university_user?.name ||
-							currentLegislation.user.business_user?.name ||
-							"Anónimo"
-						}
-					</p>
+					<p className="legislation-meta">Subido por: <img src={currentLegislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+					{currentLegislation.user.regular_user?.name || currentLegislation.user.university_user?.name || currentLegislation.user.business_user?.name || "Anónimo"}</p>
 				</div>
-
-				<p className="legislation-meta">
-					Subtemas: {currentLegislation.subtopics.map((s) => s.name).join(", ")}
-				</p>
-
-				<div className="legislation-description">
-					<div dangerouslySetInnerHTML={{ __html: currentLegislation.description }} />
-				</div>
-
+				<p className="legislation-meta">Subtemas: {currentLegislation.subtopics.map((s) => s.name).join(", ")}</p>
+				<div className="legislation-content">
+					<img src={currentLegislation.logo  || "/src/assets/img/Logo.jpeg"} alt={currentLegislation.title} className="legislation-logo" />
+					<div className="legislation-description"><div dangerouslySetInnerHTML={{ __html: currentLegislation.description }}/></div>
+				</div>	
 				<div className="legislation-link">
-					{isDownload ? (
-						<a href={url} download>
-							📥 Descargar documento
-						</a>
-					) : (
-						<a href={url} target="_blank" rel="noopener noreferrer">
-							🌐 Ver legislación
-						</a>
-					)}
+					{isDownload ? (<a href={url} download>📥 Descargar documento</a>) : (<a href={url} target="_blank" rel="noopener noreferrer">🌐 Ver legislación</a>)}
 				</div>
 			</div>
 			{isAuthenticated && !isLoading && (user.id === currentLegislation.user.id || user.role === "admin") && (

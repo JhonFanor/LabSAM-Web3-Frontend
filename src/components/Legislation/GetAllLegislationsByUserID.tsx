@@ -47,9 +47,16 @@ export const GetAllLegislationsByUserID: React.FC = () => {
                     }
                     return(
                         <Link to={`/user/legislation/${legislation.id}`} state={{ page: page }} key={legislation.id} className="get-all-legislation__list-item">
+                            <img src={legislation.logo  || "/src/assets/img/Logo.jpeg"} alt={legislation.title} className="get-all-legislation__list-item-logo" />
+
                             <p className="get-all-legislation__list-item-title">{legislation.title}</p>
+
+                            <p className="get-all-legislation__list-item-date">
+                                {new Date(legislation.date).toLocaleDateString("es-CO",{year:"numeric",month:"long",day:"numeric"})}
+                            </p>
+
                             <p className="get-all-legislation__list-item-user">
-                                Subido por:{" "}{ legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo" }
+                                Subido por:<img src={legislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/> { legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo" }
                             </p>
                             {statusLabel && (
                                 <div className="get-all-legislation__status">{statusLabel}</div>

@@ -37,7 +37,7 @@ export const approvalItems: ApprovalItem[] = [
     },
     {
         name: "jobsBoard",
-        label: "Bola de empleos",
+        label: "Bolsa de empleos",
         fetchFn: countJobsBoardNotApproved,
         component: GetAllJobsBoardNotApproved,
     },

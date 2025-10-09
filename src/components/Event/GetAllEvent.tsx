@@ -51,7 +51,7 @@ export const GetAllEvent: React.FC = () => {
                             <div className="get-all-event__list-item-description" dangerouslySetInnerHTML={{__html:event.description.length > 250 ? event.description.substring(0, 250) + "..." : event.description,}} />
 
                             <p className="get-all-event__list-item-user">
-                                Subido por:{" "} <img src={event.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+                                Subido por:<img src={event.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
                                 {event.user.regular_user?.name ||
                                     event.user.university_user?.name ||
                                     event.user.business_user?.name ||

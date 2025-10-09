@@ -24,6 +24,10 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
     const [uploading, setUploading] = useState(false);
     const [uploaderKey, setUploaderKey] = useState<number>(Date.now());
     const [resetKey, setResetKey] = useState<number>(Date.now());
+    const [photoError, setPhotoError] = useState<boolean>(false);
+    const [summaryError, setSummaryError] = useState<boolean>(false);
+    const [documentError, setDocumentError] = useState<boolean>(false);
+    const [subtopicError, setSubtopicError] = useState<boolean>(false);
 
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -58,6 +62,34 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         setUploading(true);
+        setPhotoError(false);
+        setSummaryError(false);
+        setDocumentError(false);
+        setSubtopicError(false);
+        
+        if (!bankOfResume.photo && !selectedImageFile) {
+            setPhotoError(true);
+            setUploading(false);
+            return;
+        }
+
+        if (!bankOfResume.summary || bankOfResume.summary.trim() === "" || bankOfResume.summary === "<p></p>") {
+            setSummaryError(true);
+            setUploading(false);
+            return;
+        }
+        
+        if (!bankOfResume.link && !selectedDocumentFile) {
+            setDocumentError(true);
+            setUploading(false);
+            return;
+        }
+
+        if (subtopicIds.subtopic_ids.length === 0) {
+            setUploading(false);
+            setSubtopicError(true);
+            return;
+        }
 
         try {
             let photoPath = bankOfResume.photo;
@@ -133,21 +165,33 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
             )}
             <form className="update-bank-of-resume__form" onSubmit={handleUpdate}>
                 <div className="form-group">
-                    <label>Foto</label>
+                    <label>Foto*</label>
+                    {photoError && (
+                        <span className="form-error">La foto es obligatoria.</span>
+                    )}
                     <ImageInputSelector value={bankOfResume.photo || ""} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" imageUploaderKey={uploaderKey} resetKey={resetKey} />
                 </div>
                 <div className="form-group">
-                    <label>Título</label>
+                    <label>Título*</label>
                     <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
                 </div>
                 <div className="form-group">
-                    <label>Resumen</label>
+                    <label>Resumen*</label>
+                    {summaryError && (
+                        <span className="form-error">El resumen es obligatorio.</span>
+                    )}
                     <JoditEditor value={bankOfResume.summary} onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} className="jodit-container" />
                 </div>
                 <div className="form-group">
-                    <label>Hoja de vida</label>
+                    <label>Hoja de vida*</label>
+                    {documentError && (
+                        <span className="form-error">El documento de la hoja de vida es obligatoria.</span>
+                    )}
                     <DocumentInputSelector value={bankOfResume.link || ""} onChange={(doc) => setBankOfResume({ ...bankOfResume, link: doc })} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" documentUploaderKey={uploaderKey}  resetKey={resetKey} />
                 </div>
+                { subtopicError && (
+                    <span className="form-error">Debes seleccionar al menos un subtema.</span>
+                )}
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
                 <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
                 <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
