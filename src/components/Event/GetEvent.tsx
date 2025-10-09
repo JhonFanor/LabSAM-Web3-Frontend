@@ -86,7 +86,7 @@ export const GetEvent: React.FC<GetEventProps> = ({ event }) => {
 					</p>
 				</div>
 
-				<p className="news-meta">Subtemas: {currentEvent.subtopics.map((s) => s.name).join(", ")}</p>
+				<p className="event-meta">Subtemas: {currentEvent.subtopics.map((s) => s.name).join(", ")}</p>
 
 				<div className="event-content">
 					<img className="event-image" src={event.poster? event.poster: event.image? event.image: "/src/assets/img/Logo.jpeg"} alt={currentEvent.title} />

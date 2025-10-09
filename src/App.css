@@ -104,3 +104,10 @@ body {
   font-weight: bold;
   animation: fade-in 0.5s ease-in-out;
 }
+
+.form-error {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}

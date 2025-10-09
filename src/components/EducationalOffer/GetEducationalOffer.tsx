@@ -5,7 +5,7 @@ import { ApprovalRequest } from "../../dtos/responses/Approval";
 import { deleteEducationalOffer, setEducationalOfferApproval } from "../../api";
 import { ApprovalButton } from "../Button/ApprovalButton";
 import { useAuth } from "../../providers/Auth";
-import { UpdpateEducationalOffer } from "./UpdateEducationalOffer";
+import { UpdateEducationalOffer } from "./UpdateEducationalOffer";
 import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
@@ -24,13 +24,6 @@ const formatDate = (dateString: string) => {
 		day: "numeric",
 	});
 };
-
-const formatCurrency = (value: number) =>
-	value.toLocaleString("es-CO", {
-		style: "currency",
-		currency: "COP",
-		minimumFractionDigits: 0,
-	});
 
 export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer }) => {
 	const { isAuthenticated, isLoading, user } = useAuth(); 
@@ -58,7 +51,7 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 					<div className="buttons-update-delete">
 						<ButtonUpdate>
 							{(onClose) => (
-								<UpdpateEducationalOffer onClose={onClose} educationalOfferGetResponse={currentOffer}  onUpdated={(updateOffer) => setCurrentOffer(updateOffer)}  />
+								<UpdateEducationalOffer onClose={onClose} educationalOfferGetResponse={currentOffer}  onUpdated={(updateOffer) => setCurrentOffer(updateOffer)}  />
 							)}
 						</ButtonUpdate>
 						<ButtonDelete
@@ -79,16 +72,15 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 				<h3 className="offer-subtitle">Institución: {currentOffer.institution}</h3>
 
 
-				<div className="offer-meta">
-					
-
-					<div className="offer-dates">
+				<div className="offer-meta-container">
+					<div className="offer-meta">
 						<p>Inicio: {formatDate(currentOffer.start_date)}</p>
 						<p>Fin: {formatDate(currentOffer.end_date)}</p>
 					</div>
 
-					<p>Costo: {formatCurrency(currentOffer.cost)}</p>
-					<p>
+					<p className="offer-meta">Costo: {currentOffer.currency_type.symbol}{currentOffer.cost} {currentOffer.currency_type.code}</p>
+					<p className="offer-meta">Tipo de educación: {currentOffer.type_education.name}</p>
+					<p className="offer-meta">
 						Subido por:{" "}
 						<img src={currentOffer.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
 						{
@@ -98,11 +90,17 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 							"Anónimo"
 						}
 					</p>
-					<p>Subtemas: {currentOffer.subtopics.map((s) => s.name).join(", ")}</p>
 				</div>
 
-				<div className="offer-description">
-					<div dangerouslySetInnerHTML={{ __html: currentOffer.description }} />
+				<p className="offer-meta">Subtemas: {currentOffer.subtopics.map((s) => s.name).join(", ")}</p>
+
+				<div className="offer-content">
+					<img className="offer-image" src={currentOffer.logo? currentOffer.logo: "/src/assets/img/Logo.jpeg"} alt={currentOffer.title} />
+
+					<div
+						className="offer-description"
+						dangerouslySetInnerHTML={{ __html: currentOffer.description }}
+					/>
 				</div>
 
 				{currentOffer.link && (

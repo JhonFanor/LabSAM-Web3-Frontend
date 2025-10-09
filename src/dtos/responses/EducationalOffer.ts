@@ -7,10 +7,13 @@ export interface EducationalOfferGetAllResponse {
     id: number;
     title: string;
     institution: string;
-    logo: string;
+    logo?: string;
     start_date: string;
     end_date: string;
+    currency_type: CurrencyTypeRequest;
     cost: number;
+    description: string;
+    type_education: TypeEducationResponse;
     user: UserMinimalResponse;
 }
 
@@ -18,10 +21,12 @@ export interface EducationalOfferGetAllByUserIDResponse {
     id: number;
     title: string;
     institution: string;
-    logo: string;
+    logo?: string;
     start_date: string;
     end_date: string;
     cost: number;
+    description: string;
+    type_education: TypeEducationResponse;
     is_approved: boolean | null;
     user: UserMinimalResponse;
 }

@@ -10,7 +10,7 @@ export interface EducationalOfferCreateRequest {
     description: string;
     link: string;
     type_education_id: number;
-    currency_type?: CurrencyTypeRequest;
+    currency_type?: CurrencyTypeRequest | null;
     subtopic_ids: number[];
 }
 
@@ -24,5 +24,5 @@ export interface EducationalOfferUpdateRequest {
     description: string;
     link: string;
     type_education_id: number;
-    currency_type?: CurrencyTypeRequest;
+    currency_type?: CurrencyTypeRequest | null;
 }
