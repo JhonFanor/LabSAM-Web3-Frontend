@@ -6,6 +6,7 @@ export interface LegislationGetAllResponse {
     id: number;
     title: string;
     logo: string;
+    description: string;
     date: string;
     user: UserMinimalResponse;
 }
@@ -14,6 +15,7 @@ export interface LegislationGetAllByUserIDResponse {
     id: number;
     title: string;
     logo: string;
+    description: string;
     date: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;

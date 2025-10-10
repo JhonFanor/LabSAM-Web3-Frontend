@@ -43,6 +43,14 @@
   margin: 0;
 }
 
+.get-all-documentation__list-item-date {
+	font-size: 14px;
+	color: #555;
+	margin-top: 6px;
+	margin-bottom: 10px;
+	font-weight: 500;
+}
+
 .get-all-documentation__list-item-user {
   font-size: 14px;
   color: gray;

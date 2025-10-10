@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { TopicGetAllResponse } from "../../dtos/responses";
 import JoditEditor from "jodit-react";
 import { InvestigationCreateRequest } from "../../dtos/requests/Investigation";
-import { createInvestigation, getAllTopics, uploadDocumentFile } from "../../api";
-import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector } from "../../components";
+import { createInvestigation, getAllTopics, uploadDocumentFile, uploadImageFile } from "../../api";
+import { ButtonClose, TopicSelector, SubtopicSelector, SelectedSubtopics, DocumentInputSelector, ImageInputSelector } from "../../components";
 import "./CreateInvestigation.css";
 
 interface CreateInvestigationProps {
@@ -14,6 +14,8 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 	const [topics, setTopics] = useState<TopicGetAllResponse[]>([]);
 	const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
+	const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+	const [imageUploaderKey, setImageUploaderKey] = useState<number>(Date.now());
 	const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 	const [documentUploaderKey, setDocumentUploaderKey] = useState<number>(Date.now());
 	const [descriptionError, setDescriptionError] = useState<boolean>(false);
@@ -24,7 +26,9 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 
 	const [investigation, setInvestigation] = useState<InvestigationCreateRequest>({
 		title: "",
+		author: "",
 		description: "",
+		logo: "",
 		date: "",
 		link: "",
 		subtopic_ids: [] as number[],
@@ -62,6 +66,18 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
         }
 
 		try {
+			let imagePath = investigation.logo;
+						
+			if (selectedImageFile) {
+				try {
+					imagePath = await uploadImageFile(selectedImageFile, "investigation");
+				} catch (uploadError) {
+					setUploading(false);
+					setSuccessMessage("Error al subir imagen:"+uploadError);
+					return;
+				}
+			}
+
 			let documentPath = investigation.link;
 
 			if (selectedDocumentFile) {
@@ -76,6 +92,7 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 
 			const investigationToSend: InvestigationCreateRequest = {
 				...investigation,
+				logo: imagePath,
 				link: documentPath,
 				date: investigation ? new Date(investigation.date).toISOString() : "",
 			};
@@ -87,11 +104,14 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 			setSelectedTopic(null);
 			setUploading(false);
 			setSelectedDocumentFile(null);
+			setImageUploaderKey(Date.now());
 			setDocumentUploaderKey(Date.now());
 
 			setInvestigation({
 				title: "",
+				author: "",
 				description: "",
+				logo: "",
 				date: "",
 				link: "",
 				subtopic_ids: [],
@@ -126,6 +146,21 @@ export const CreateInvestigation: React.FC<CreateInvestigationProps> = ({ onClos
 				<div className="form-group">
 					<label>Título*</label>
 					<input type="text" name="title" placeholder="Título" value={investigation.title} onChange={(e) => setInvestigation({ ...investigation, title: e.target.value })} required />
+				</div>
+				<div className="form-group">
+					<label>Autor*</label>
+					<input 
+						type="text" 
+						name="author" 
+						placeholder="Autor" 
+						value={investigation.author} 
+						onChange={(e) => setInvestigation({ ...investigation, author: e.target.value })} 
+						required 
+					/>
+				</div>
+				<div className="form-group">
+					<label>Logo</label>
+					<ImageInputSelector value={investigation.logo ?? ""} onChange={(img) => setInvestigation({ ...investigation, logo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la imagen" fileLabel="🖼️ Subir la imagen" imageUploaderKey={imageUploaderKey} />
 				</div>
 				<div className="form-group">
 					<label>Descripción*</label>

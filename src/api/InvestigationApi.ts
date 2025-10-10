@@ -104,6 +104,20 @@ export const getInvestigationById = async (id: number): Promise<InvestigationGet
     return data as InvestigationGetResponse;
 };
 
+export const getYearsWithInvestigations = async () => {
+    const response = await FetchWithAuth(`${BASE_URL}/years`, {
+        method: "GET",
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al obtener los años con investigaciones");
+    }
+
+    const data = await response.json();
+    return data;
+};
+
 export const updateInvestigation = async (id: number, investigation: InvestigationUpdateRequest) => {
     const response = await FetchWithAuth(`${BASE_URL}/${id}`, {
         method: "PUT",

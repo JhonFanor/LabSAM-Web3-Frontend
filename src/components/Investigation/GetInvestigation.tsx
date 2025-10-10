@@ -79,6 +79,7 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 
 				<div className="investigation-meta-container">
 					<p className="investigation-meta">{formatDate(currentInvestigation.date)}</p>
+					<p className="investigation-meta">Author: {currentInvestigation.author}</p>
 					<p className="investigation-meta">
 						Subido por:{" "}
 						<img src={currentInvestigation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
@@ -95,8 +96,13 @@ export const GetInvestigation: React.FC<GetInvestigationProps> = ({ investigatio
 					Subtemas: {currentInvestigation.subtopics.map((s) => s.name).join(", ")}
 				</p>
 
-				<div className="investigation-description">
-					<div dangerouslySetInnerHTML={{ __html: currentInvestigation.description }} />
+				<div className="investigation-content">
+					<img className="investigation-image" src={currentInvestigation.logo? currentInvestigation.logo:"/src/assets/img/Logo.jpeg"} alt={currentInvestigation.title} />
+
+					<div
+						className="investigation-description"
+						dangerouslySetInnerHTML={{ __html: currentInvestigation.description }}
+					/>
 				</div>
 
 				<div className="investigation-link">

@@ -5,7 +5,9 @@ export interface InvestigationGetAllResponse {
     id: number;
     title: string;
     author: string;
+    description: string;
     logo: string;
+    date: string;
     user: UserMinimalResponse;
 }
 
@@ -13,7 +15,9 @@ export interface InvestigationGetAllByUserIDResponse {
     id: number;
     title: string;
     author: string;
+    description: string;
     logo: string;
+    date: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
 }

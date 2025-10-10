@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BankOfResumeUpdateRequest } from "../../dtos/requests";
 import { BankOfResumeGetResponse, TopicGetAllResponse } from "../../dtos/responses";
 import { ButtonClose } from "../Button";
@@ -50,13 +50,22 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
     }, []);
 
     const handleReset = () => {
-        setBankOfResume(resume);
+        setBankOfResume({
+            photo: resume.photo,
+            title: resume.title,
+            summary: resume.summary,
+            link: resume.link,
+        });
         setSubtopicIds({ subtopic_ids: originalSubtopicIds });
         setSelectedImageFile(null);
         setSelectedDocumentFile(null);
         setSelectedTopic(null);
         setUploaderKey(Date.now());
         setResetKey(Date.now());
+        setPhotoError(false);
+        setSummaryError(false);
+        setDocumentError(false);
+        setSubtopicError(false);
     };
 
     const handleUpdate = async (e: React.FormEvent) => {
@@ -94,12 +103,24 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
         try {
             let photoPath = bankOfResume.photo;
             if (selectedImageFile) {
-                photoPath = await uploadImageFile(selectedImageFile, "bank of resume");
+                try {
+                    photoPath = await uploadImageFile(selectedImageFile, "bank of resume");
+                } catch (uploadError) {
+                    setUploading(false);
+                    setSuccessMessage("Error al subir foto:" + uploadError);
+                    return;
+                }
             }
 
             let documentPath = bankOfResume.link;
             if (selectedDocumentFile) {
-                documentPath = await uploadDocumentFile(selectedDocumentFile, "bank of resume");
+                try {
+                    documentPath = await uploadDocumentFile(selectedDocumentFile, "bank of resume");
+                } catch (uploadError) {
+                    setUploading(false);
+                    setSuccessMessage("Error al subir hoja de vida:" + uploadError);
+                    return;
+                }
             }
 
             const updatedBank: BankOfResumeUpdateRequest = {
@@ -135,13 +156,12 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
                 const refreshedResume = await getBankOfResumeById(resume.id);
                 if (onUpdated) {
                     onUpdated(refreshedResume);
-                    resume = refreshedResume;
                 }
             }
 
             setSuccessMessage("Hoja de vida actualizada con éxito.");
         } catch (error) {
-            setSuccessMessage("Error al actualizar la hoja de vida. Por favor, inténtalo de nuevo.");
+            setSuccessMessage("Error al actualizar la hoja de vida: " + error);
         } finally {
             setUploading(false);
         }
@@ -157,10 +177,10 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
     return (
         <div className="update-bank-of-resume">
             <ButtonClose onClick={onClose} />
-            <h2 className="update-bank-of-resume__title">Actualizar Hoja de vida</h2>
+            <h2 className="update-bank-of-resume__title">Actualizar Hoja de Vida</h2>
             {successMessage && (
                 <div className="success-message">
-                	{successMessage}
+                    {successMessage}
                 </div>
             )}
             <form className="update-bank-of-resume__form" onSubmit={handleUpdate}>
@@ -169,35 +189,73 @@ export const UpdateBankOfResume: React.FC<UpdateBankOfResumeProps> = ({ onClose,
                     {photoError && (
                         <span className="form-error">La foto es obligatoria.</span>
                     )}
-                    <ImageInputSelector value={bankOfResume.photo || ""} onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} onFileSelected={setSelectedImageFile} urlLabel="📎 URL de la foto" fileLabel="🖼️ Subir foto" imageUploaderKey={uploaderKey} resetKey={resetKey} />
+                    <ImageInputSelector 
+                        value={bankOfResume.photo || ""} 
+                        onChange={(img) => setBankOfResume({ ...bankOfResume, photo: img })} 
+                        onFileSelected={setSelectedImageFile} 
+                        urlLabel="📎 URL de la foto" 
+                        fileLabel="🖼️ Subir foto" 
+                        imageUploaderKey={uploaderKey} 
+                        resetKey={resetKey} 
+                    />
                 </div>
                 <div className="form-group">
                     <label>Título*</label>
-                    <input type="text" name="title" placeholder="Título" value={bankOfResume.title} onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} required />
+                    <input 
+                        type="text" 
+                        name="title" 
+                        placeholder="Título" 
+                        value={bankOfResume.title} 
+                        onChange={(e) => setBankOfResume({ ...bankOfResume, title: e.target.value })} 
+                        required 
+                    />
                 </div>
                 <div className="form-group">
                     <label>Resumen*</label>
                     {summaryError && (
                         <span className="form-error">El resumen es obligatorio.</span>
                     )}
-                    <JoditEditor value={bankOfResume.summary} onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} className="jodit-container" />
+                    <JoditEditor 
+                        value={bankOfResume.summary} 
+                        onChange={(content) => setBankOfResume({ ...bankOfResume, summary: content })} 
+                        className="jodit-container" 
+                    />
                 </div>
                 <div className="form-group">
-                    <label>Hoja de vida*</label>
+                    <label>Hoja de Vida*</label>
                     {documentError && (
-                        <span className="form-error">El documento de la hoja de vida es obligatoria.</span>
+                        <span className="form-error">El documento de la hoja de vida es obligatorio.</span>
                     )}
-                    <DocumentInputSelector value={bankOfResume.link || ""} onChange={(doc) => setBankOfResume({ ...bankOfResume, link: doc })} onFileSelected={setSelectedDocumentFile} urlLabel="📎 URL de la hoja de vida" fileLabel="📄 Subir la hoja de vida" documentUploaderKey={uploaderKey}  resetKey={resetKey} />
+                    <DocumentInputSelector 
+                        value={bankOfResume.link || ""} 
+                        onChange={(doc) => setBankOfResume({ ...bankOfResume, link: doc })} 
+                        onFileSelected={setSelectedDocumentFile} 
+                        urlLabel="📎 URL de la hoja de vida" 
+                        fileLabel="📄 Subir la hoja de vida" 
+                        documentUploaderKey={uploaderKey}  
+                        resetKey={resetKey} 
+                    />
                 </div>
                 { subtopicError && (
                     <span className="form-error">Debes seleccionar al menos un subtema.</span>
                 )}
                 <TopicSelector topics={topics} selectedTopic={selectedTopic} setSelectedTopic={setSelectedTopic} />
-                <SubtopicSelector topics={topics} selectedTopic={selectedTopic} data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" />
-                <SelectedSubtopics data={subtopicIds} setData={setSubtopicIds} subtopicsKey="subtopic_ids" subtopicsList={allSubtopics} />
+                <SubtopicSelector 
+                    topics={topics} 
+                    selectedTopic={selectedTopic} 
+                    data={subtopicIds} 
+                    setData={setSubtopicIds} 
+                    subtopicsKey="subtopic_ids" 
+                />
+                <SelectedSubtopics 
+                    data={subtopicIds} 
+                    setData={setSubtopicIds} 
+                    subtopicsKey="subtopic_ids" 
+                    subtopicsList={allSubtopics} 
+                />
 
                 <div className="update-bank-of-resume__buttons">
-                    <button type="submit">
+                    <button type="submit" disabled={uploading}>
                         {uploading ? "Actualizando..." : "Actualizar Hoja de Vida"}
                     </button>
                     <button type="button" onClick={handleReset} disabled={uploading}>

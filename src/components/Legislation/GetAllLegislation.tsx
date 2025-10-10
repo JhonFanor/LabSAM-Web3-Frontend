@@ -40,21 +40,21 @@ export const GetAllLegislation: React.FC = () => {
             <div className="get-all-legislation__list">
                 {legislationList.map((legislation) => (
                     <Link to={`/legislation/${legislation.id}`} state={{ page: page }} key={legislation.id}className="get-all-legislation__list-item" >
-                        <img src={legislation.logo  || "/src/assets/img/Logo.jpeg"} alt={legislation.title} className="get-all-legislation__list-item-logo" />
+                        <div className="get-all-legislation__image-container">
+                            <img src={legislation.logo  || "/src/assets/img/Logo.jpeg"} alt={legislation.title} className="get-all-legislation__list-item-logo" />
+                        </div>
+                        <div className="get-all-legislation__content">
+                            <h3 className="get-all-legislation__list-item-title">{legislation.title}</h3>
+                            <p className="get-all-legislation__list-item-date">
+                                📅 {new Date(legislation.date).toLocaleDateString()}
+                            </p>
 
-                        <p className="get-all-legislation__list-item-title">{legislation.title}</p>
+                            <div className="get-all-legislation__list-item-description" dangerouslySetInnerHTML={{__html:legislation.description.length > 250 ? legislation.description.substring(0, 250) + "..." : legislation.description,}} />
 
-                        <p className="get-all-legislation__list-item-date">
-                            {new Date(legislation.date).toLocaleDateString("es-CO", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
-                        </p>
-
-                        <p className="get-all-legislation__list-item-user">
-                            Subido por:<img src={legislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/> { legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo" }
-                        </p>
+                            <p className="get-all-legislation__list-item-user">
+                                Subido por:<img src={legislation.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/> { legislation.user.regular_user?.name || legislation.user.university_user?.name || legislation.user.business_user?.name || "Anónimo" }
+                            </p>
+						</div>
                     </Link>
                 ))}
             </div>

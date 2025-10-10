@@ -7,6 +7,8 @@
   box-shadow: var(--home-box-shadow);
   border-radius: 8px;
   margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .publications-section {
@@ -19,12 +21,13 @@
   scroll-behavior: smooth;
   white-space: nowrap;
   scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .publications-section > * {
   flex: 0 0 auto;
-  min-width: 300px;
-  max-width: 320px;
+  min-width: 400px;
+  max-width: 500px;
   scroll-snap-align: start;
   white-space: normal;
   word-wrap: break-word;
@@ -43,4 +46,99 @@
 
 .publications-section::-webkit-scrollbar-track {
   background: #edf2f7;
+}
+
+@media (max-width: 1024px) {
+  .publications__container {
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .publications-section > * {
+    min-width: 350px;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .publications__container {
+    padding: 16px;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  .publications-section {
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .publications-section > * {
+    min-width: 300px;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .publications__container {
+    padding: 12px;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  
+  .publications-section {
+    gap: 8px;
+    padding: 8px 0;
+  }
+  
+  .publications-section > * {
+    min-width: 280px;
+    max-width: 320px;
+  }
+  
+  .publications-section::-webkit-scrollbar {
+    height: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .publications-section > * {
+    min-width: 250px;
+    max-width: 280px;
+  }
+}
+
+@supports not (scroll-snap-type: x mandatory) {
+  .publications-section {
+    scroll-snap-type: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .publications-section {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .publications-section::-webkit-scrollbar-thumb {
+    background: #4a5568;
+  }
+  
+  .publications-section::-webkit-scrollbar-track {
+    background: #2d3748;
+  }
+}
+
+.publications__container {
+  overflow: hidden;
+}
+
+@supports not (gap: 16px) {
+  .publications-section > * {
+    margin-right: 16px;
+  }
+  
+  .publications-section > *:last-child {
+    margin-right: 0;
+  }
 }
