@@ -47,16 +47,31 @@ export const GetAllEducationalOffersByUserID: React.FC = () => {
                     }
                     return(
                         <Link to={`/user/educational-offer/${educationalOffer.id}`} state={{ page: page }} key={educationalOffer.id} className="get-all-educational-offer__list-item">
-                            <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
-                            <p className="get-all-educational-offer__list-item-dates">
-                                Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}
-                            </p>
-                            <p className="get-all-educational-offer__list-item-cost">
-                                Costo: {educationalOffer.cost}
-                            </p>
-                            <p className="get-all-educational-offer__list-item-user">
-                                Subido por:{" "}{ educationalOffer.user.regular_user?.name || educationalOffer.user.university_user?.name || educationalOffer.user.business_user?.name || "Anónimo" }
-                            </p>
+                            <div className="get-all-educational-offer__image-container">
+                                <img src={educationalOffer.logo? educationalOffer.logo: "/src/assets/img/Logo.jpeg"} alt={educationalOffer.title} className="get-all-educational-offer__list-item-image" />
+                            </div>
+                            <div className="get-all-educational-offer__content">
+                                <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>
+                                <p className="get-all-educational-offer__list-item-dates">
+                                    Duración: {new Date(educationalOffer.start_date).toLocaleDateString()} - {new Date(educationalOffer.end_date).toLocaleDateString()}
+                                </p>
+                                <p className="get-all-educational-offer__list-item-cost">
+                                    Costo: {educationalOffer.currency_type.symbol}{educationalOffer.cost} {educationalOffer.currency_type.code}
+                                </p>
+                                <p className="get-all-educational-offer__list-item-dates">
+                                    Tipo de educación: {educationalOffer.type_education.name}
+                                </p>
+
+                                <div className="get-all-educational-offer__list-item-description" dangerouslySetInnerHTML={{__html:educationalOffer.description.length > 250 ? educationalOffer.description.substring(0, 250) + "..." : educationalOffer.description,}} />
+
+                                <p className="get-all-educational-offer__list-item-user">
+                                    Subido por:<img src={educationalOffer.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
+                                    {educationalOffer.user.regular_user?.name ||
+                                        educationalOffer.user.university_user?.name ||
+                                        educationalOffer.user.business_user?.name ||
+                                        "Anónimo"}
+                                </p>
+                            </div>
                             {statusLabel && (
                                 <div className="get-all-educational-offer__status">{statusLabel}</div>
                             )}

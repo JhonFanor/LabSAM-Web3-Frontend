@@ -9,6 +9,7 @@ import {
   PieLabelRenderProps,
 } from "recharts";
 import { SubtopicCountResponse } from "../../dtos/responses/SubtopicCount";
+import { useAuth } from "../../providers/Auth"; // Ajusta la ruta según tu estructura
 import "./Graphics.css"
 
 type Props = {
@@ -22,6 +23,14 @@ const COLORS = [
 ];
 
 export const Graphics: React.FC<Props> = ({ data }) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
+  
+  const isAdmin = React.useMemo(() => {
+    if (!isAuthenticated || !user) return false;
+    
+    return user.role === "admin";
+  }, [isAuthenticated, user]);
+
   const filteredData = data.filter(item => item.count > 0);
 
   if (filteredData.length === 0) {
@@ -33,6 +42,63 @@ export const Graphics: React.FC<Props> = ({ data }) => {
   }
 
   const total = filteredData.reduce((sum, item) => sum + item.count, 0);
+
+  // Ordenar datos por cantidad (descendente)
+  const sortedData = [...filteredData].sort((a, b) => b.count - a.count);
+
+  // Mostrar loading mientras se verifica la autenticación
+  if (isLoading) {
+    return (
+      <div className="graphics-nodata__container">
+        <p className="graphics__nodata">Cargando...</p>
+      </div>
+    );
+  }
+
+  // Si es administrador, mostrar tabla
+  if (isAdmin) {
+    return (
+      <div className="graphics__container">
+        <div className="graphics__content">
+          <div className="graphics__table-wrapper">
+            <table className="graphics__table">
+              <thead>
+                <tr>
+                  <th className="graphics__table-header">Subtema</th>
+                  <th className="graphics__table-header">Cantidad</th>
+                  <th className="graphics__table-header">Porcentaje</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedData.map((item, index) => {
+                  const percentage = ((item.count / total) * 100).toFixed(1);
+                  return (
+                    <tr key={item.subtopic_name} className="graphics__table-row">
+                      <td className="graphics__table-cell graphics__table-cell--name">
+                        <div className="graphics__table-color" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+                        {item.subtopic_name}
+                      </td>
+                      <td className="graphics__table-cell graphics__table-cell--count">
+                        {item.count}
+                      </td>
+                      <td className="graphics__table-cell graphics__table-cell--percentage">
+                        {percentage}%
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="graphics__table-total">
+                  <td className="graphics__table-cell graphics__table-cell--total">Total</td>
+                  <td className="graphics__table-cell graphics__table-cell--total">{total}</td>
+                  <td className="graphics__table-cell graphics__table-cell--total">100%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="graphics__container">

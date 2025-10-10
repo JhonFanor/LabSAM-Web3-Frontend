@@ -24,6 +24,7 @@ export interface EducationalOfferGetAllByUserIDResponse {
     logo?: string;
     start_date: string;
     end_date: string;
+    currency_type: CurrencyTypeRequest;
     cost: number;
     description: string;
     type_education: TypeEducationResponse;
