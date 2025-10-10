@@ -47,6 +47,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
                     return(
                         <Link to={`/user/company/${company.id}`} state={{ page: page }} key={company.id} className="get-all-company__list-item">
                             <p className="get-all-company__list-item-name">{company.name}</p>
+                             <img src={company.logo? company.logo:"/src/assets/img/Logo.jpeg"} alt={company.name} className="get-all-company__list-item-photo"/>
                             <p className="get-all-company__list-item-user">
                                 Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }
                             </p>

@@ -37,6 +37,11 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 		}
 	};
 
+	// Convertir proyectos de string a array
+	const projectsArray = currentCompany.projects 
+		? currentCompany.projects.split(';').filter(project => project.trim() !== '')
+		: [];
+
 	return (
 		<>
 			<div className="company-container">
@@ -61,11 +66,19 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 					</div>
 				)}
 				
-			
-				<h1 className="company-title">{currentCompany.name}</h1>
+				<div className="company-header">
+					<img 
+						src={currentCompany.logo || "/src/assets/img/Logo.jpeg"} 
+						alt={`Logo de ${currentCompany.name}`}
+						className="company-logo"
+					/>
+					<div className="company-header-info">
+						<h1 className="company-title">{currentCompany.name}</h1>
+						<p className="company-industry">{currentCompany.industry}</p>
+					</div>
+				</div>
 
 				<div className="company-meta-container">
-					<p className="company-meta">Industria: {currentCompany.industry}</p>
 					{currentCompany.website && (
 					<p className="company-meta">
 						🌐 Sitio web:{" "}
@@ -74,10 +87,10 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 						</a>
 					</p>
 					)}
-					{currentCompany.email && <p className="company-meta">Correo: {currentCompany.email}</p>}
+					{currentCompany.email && <p className="company-meta">📧 {currentCompany.email}</p>}
 
 					<p className="company-meta">
-					Subido por:{" "}
+					👤 Subido por:{" "}
 					<img src={currentCompany.user.avatar || "/src/assets/img/avatar.png"} alt="icono" className="avatar_img"/>
 					{
 						currentCompany.user.regular_user?.name ||
@@ -88,9 +101,27 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 					</p>
 				</div>
 
-				<p className="company-meta">Subtemas: {currentCompany.subtopics.map((s) => s.name).join(", ")}</p>
+				<p className="company-subtopics">
+					🏷️ Subtemas: {currentCompany.subtopics.map((s) => s.name).join(", ")}
+				</p>
 
-				{currentCompany.localitation && (
+				{projectsArray.length > 0 && (
+					<div className="company-projects">
+						<h3>🚀 Proyectos ({projectsArray.length})</h3>
+						<div className="projects-list">
+							{projectsArray.map((project, index) => (
+								<div key={index} className="project-item">
+									<span className="project-number">{index + 1}</span>
+									<span className="project-name">{project}</span>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				{currentCompany.localitation &&
+					typeof currentCompany.localitation.latitude === "number" &&
+					typeof currentCompany.localitation.longitude === "number" && (
 					<div className="company-map-container">
 					<h3>📍 Ubicación</h3>
 					<p className="company-meta">{currentCompany.localitation.address}</p>

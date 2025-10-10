@@ -1,8 +1,10 @@
 export interface CompanyCreateRequest {
     name: string;
+    logo: string;
     industry: string;
     website?: string;
     email?: string;
+    projects: string;
     localitation?: {
         address: string;
         latitude: number;
@@ -12,13 +14,15 @@ export interface CompanyCreateRequest {
 }
 
 export interface CompanyUpdateRequest {
-    name?: string;
-    industry?: string;
+    name: string;
+    logo: string;
+    industry: string;
     website?: string;
     email?: string;
+    projects: string;
     localitation?: {
         address: string;
         latitude: number;
         longitude: number;
-    };
+    } | null;
 }

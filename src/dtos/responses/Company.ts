@@ -5,12 +5,14 @@ import { SubtopicGetResponse } from "./Subtopic";
 export interface CompanyGetAllResponse {
     id: number;
     name: string;
+    logo?: string;
     user: UserMinimalResponse;
 }
 
 export interface CompanyGetAllByUserIDResponse {
     id: number;
     name: string;
+    logo?: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
 }
@@ -18,9 +20,11 @@ export interface CompanyGetAllByUserIDResponse {
 export interface CompanyGetResponse {
     id: number;
     name: string;
+    logo?: string;
     industry: string;
     website?: string;
     email?: string;
+    projects: string;
     is_approved: boolean | null;
     user: UserMinimalResponse;
     localitation?: LocalitationResponse;
