@@ -3,6 +3,7 @@ import { CompanyGetAllByUserIDResponse } from "../../dtos/responses";
 import { Link, useSearchParams } from "react-router-dom";
 import { getAllCompaniesByUserID } from "../../api";
 import { Pagination, GetAllError } from "..";
+import imagePage from "../../assets/img/Logo.jpeg"
 import "./GetAllCompany.css";
 
 export const GetAllCompaniesByUserID: React.FC = () => {
@@ -22,7 +23,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay empresas disponibles.");
             } catch (err) {
-                setError("No se pudieron cargar las comapñias");            }
+                setError("No se pudieron cargar las comapñias"+err);            }
         }
 
         getCompany();
@@ -47,7 +48,7 @@ export const GetAllCompaniesByUserID: React.FC = () => {
                     return(
                         <Link to={`/user/company/${company.id}`} state={{ page: page }} key={company.id} className="get-all-company__list-item">
                             <p className="get-all-company__list-item-name">{company.name}</p>
-                             <img src={company.logo? company.logo:"/src/assets/img/Logo.jpeg"} alt={company.name} className="get-all-company__list-item-photo"/>
+                             <img src={company.logo? company.logo:imagePage} alt={company.name} className="get-all-company__list-item-photo"/>
                             <p className="get-all-company__list-item-user">
                                 Subido por:{" "}{ company.user.regular_user?.name || company.user.university_user?.name || company.user.business_user?.name || "Anónimo" }
                             </p>

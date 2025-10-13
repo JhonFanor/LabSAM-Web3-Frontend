@@ -3,6 +3,7 @@ import { EventGetAllResponse } from "../../dtos/responses";
 import { Link, useSearchParams } from "react-router-dom";
 import { getAllEvent } from "../../api";
 import { Pagination, GetAllError } from "../../components";
+import imagePage from "../../assets/img/Logo.jpeg"
 import "./GetAllEvent.css";
 
 export const GetAllEvent: React.FC = () => {
@@ -40,7 +41,7 @@ export const GetAllEvent: React.FC = () => {
                 {eventList.map((event) => (
                     <Link to={`/event/${event.id}`} state={{ page: page }} key={event.id} className="get-all-event__list-item">
                         <div className="get-all-event__image-container">
-                            <img src={event.image? event.image: event.poster? event.poster: "/src/assets/img/Logo.jpeg"} alt={event.title} className="get-all-event__list-item-image" />
+                            <img src={event.image? event.image: event.poster? event.poster: imagePage} alt={event.title} className="get-all-event__list-item-image" />
                         </div>
                         <div className="get-all-event__content">
                             <h3 className="get-all-event__list-item-title">{event.title}</h3>

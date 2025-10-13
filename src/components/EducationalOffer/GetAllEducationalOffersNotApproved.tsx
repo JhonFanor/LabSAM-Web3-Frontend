@@ -4,6 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { getAllEducationalOffersNotApproved } from "../../api";
 import { Pagination, GetAllError } from "../../components";
 import "./GetAllEducationalOffer.css";
+import imagePage from "../../assets/img/Logo.jpeg"
 
 export const GetAllEducationalOffersNotApproved: React.FC = () => {
     const [educationalOfferList, setEducationalOfferList] = useState<EducationalOfferGetAllResponse[]>([]);
@@ -41,7 +42,7 @@ export const GetAllEducationalOffersNotApproved: React.FC = () => {
                 {educationalOfferList.map((educationalOffer) => (
                     <Link to={`/admin/educational-offer/${educationalOffer.id}`} state={{ page: page }} key={educationalOffer.id} className="get-all-educational-offer__list-item">
                         <div className="get-all-educational-offer__image-container">
-                            <img src={educationalOffer.logo? educationalOffer.logo: "/src/assets/img/Logo.jpeg"} alt={educationalOffer.title} className="get-all-educational-offer__list-item-image" />
+                            <img src={educationalOffer.logo? educationalOffer.logo: imagePage} alt={educationalOffer.title} className="get-all-educational-offer__list-item-image" />
                         </div>
                         <div className="get-all-educational-offer__content">
                             <p className="get-all-educational-offer__list-item-title">{educationalOffer.title}</p>

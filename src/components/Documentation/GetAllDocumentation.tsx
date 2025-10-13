@@ -21,7 +21,7 @@ export const GetAllDocumentation: React.FC = () => {
                 setDocumentationList(data.data);
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay Documentación disponibles.");
-            } catch (err) {
+            } catch {
                 setError("No se pudieron cargar las documentaciones.");
             }
         }

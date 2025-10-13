@@ -22,7 +22,7 @@ export const GetAllBankOfResume: React.FC = () => {
                 setTotalPages(data.total_page);
                 setError(data.data.length ? null : "No hay hojas de vida disponibles.");
             } catch (err) {
-                setError("No se pudieron cargar los currículos");
+                setError("No se pudieron cargar los currículos"+ err);
             }
         }
 

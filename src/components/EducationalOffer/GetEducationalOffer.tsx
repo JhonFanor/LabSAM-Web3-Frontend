@@ -10,7 +10,8 @@ import { ButtonUpdate } from "../Button/ButtonUpdate";
 import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
-import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
+import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment"
+import imagePage from "../../assets/img/Logo.jpeg";
 
 interface GetEducationalOfferProps {
 	offer: EducationalOfferGetResponse;
@@ -95,7 +96,7 @@ export const GetEducationalOffer: React.FC<GetEducationalOfferProps> = ({ offer 
 				<p className="offer-meta">Subtemas: {currentOffer.subtopics.map((s) => s.name).join(", ")}</p>
 
 				<div className="offer-content">
-					<img className="offer-image" src={currentOffer.logo? currentOffer.logo: "/src/assets/img/Logo.jpeg"} alt={currentOffer.title} />
+					<img className="offer-image" src={currentOffer.logo? currentOffer.logo: imagePage} alt={currentOffer.title} />
 
 					<div
 						className="offer-description"

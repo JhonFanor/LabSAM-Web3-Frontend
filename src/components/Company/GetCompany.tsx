@@ -13,6 +13,7 @@ import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
+import imagePage from "../../assets/img/Logo.jpeg"
 
 interface GetCompanyProps {
   company: CompanyGetResponse;
@@ -68,7 +69,7 @@ export const GetCompany: React.FC<GetCompanyProps> = ({ company }) => {
 				
 				<div className="company-header">
 					<img 
-						src={currentCompany.logo || "/src/assets/img/Logo.jpeg"} 
+						src={currentCompany.logo || imagePage} 
 						alt={`Logo de ${currentCompany.name}`}
 						className="company-logo"
 					/>

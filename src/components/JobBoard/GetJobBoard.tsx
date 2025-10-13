@@ -11,7 +11,6 @@ import { ButtonDelete } from "../Button/ButtonDelete";
 import "../Button/ButtonsUpdateDelete.css";
 import { createRejectionComment } from "../../api/RejectionCommentApi";
 import { GetAllRejectComment } from "../RejectionComment/GetAllRejectComment";
-import JobBoard from "../../pages/JobBoard/JobBoard";
 
 interface GetJobBoardProps {
   job: JobBoardGetResponse;
